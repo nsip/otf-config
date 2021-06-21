@@ -215,6 +215,8 @@ Name = "All-In-One OTF Configuration"
   Path = "~/Desktop/OTF/otf-weighting/otf-weighting"
   FailOnErr = true
   [Weight.Service]
+    Name = ""
+    ID = ""
     Port = 1329
     API = "/weight"
   [Weight.Weighting]
