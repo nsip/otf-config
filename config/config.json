@@ -1,0 +1,48 @@
+{
+    "Name": "All-In-One OTF Configuration",
+    "Reader": {
+        "Path": "/home/qmiao/Desktop/otf-config/config/TBD"
+    },
+    "Align": {
+        "Path": "/home/qmiao/Desktop/otf-config/config/TBD",
+        "Name": "",
+        "ID": "",
+        "Host": "",
+        "Port": 1234,
+        "NiasHost": "",
+        "NiasPort": 1323,
+        "NiasToken": "",
+        "TcHost": "",
+        "TcPort": 1576
+    },
+    "TxtClassifier": {
+        "Path": "/home/qmiao/Desktop/otf-config/config/TBD"
+    },
+    "Level": {
+        "Path": "/home/qmiao/Desktop/otf-config/config/TBD",
+        "Name": "",
+        "ID": "",
+        "Host": "",
+        "Port": 1234,
+        "NiasHost": "",
+        "NiasPort": 1323,
+        "NiasToken": ""
+    },
+    "Weight": {
+        "Path": "/home/qmiao/Desktop/otf-config/otf-weight/weight",
+        "FailWhenErr": false,
+        "Service": {
+            "Port": 1329,
+            "API": "/weight"
+        },
+        "Weighting": {
+            "StudentIDPath": "otf.id.studentID",
+            "DomainPath": "meta.capability",
+            "TimePath": "meta.readTimestampUTC",
+            "ScorePath": "otf.level.calculatedScore.scaledScore"
+        }
+    },
+    "Hub": {
+        "Path": "/home/qmiao/Desktop/otf-config/config/TBD"
+    }
+}
