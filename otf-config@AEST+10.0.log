@@ -1,0 +1,3 @@
+2021/06/22 14:31:40 	FAIL 	"/home/qingmiao/Desktop/OTF/otf-config/config/TBD doesn't exist"
+/home/qingmiao/Desktop/OTF/otf-config/config/config.go:148
+github.com/nsip/otf-config/config.(*Config).dirProc

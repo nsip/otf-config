@@ -3,9 +3,7 @@ package config
 import (
 	"encoding/json"
 	"fmt"
-	"os"
 	"path/filepath"
-	"strconv"
 	"strings"
 
 	"github.com/BurntSushi/toml"
@@ -14,30 +12,37 @@ import (
 	lk "github.com/digisan/logkit"
 )
 
+var (
+	OtfCfg = GetConfig("../config.toml", "./config.toml")
+)
+
 func init() {
-	lk.Log2F(true, "./otf-config.log")
+	lk.Log2F(true, "../otf-config.log")
 }
 
 // Config :
 type Config struct {
-	Name string
+	Name       string
+	Port       int
+	API        string
+	PageFolder string
 
-	NatsStreaming struct {
+	NatsStreamings []struct {
 		CfgName string
 		Path    string
 	}
 
-	Nias3 struct {
+	Nias3s []struct {
 		CfgName string
 		Path    string
 	}
 
-	Benthos struct {
+	Benthoses []struct {
 		CfgName string
 		Path    string
 	}
 
-	Reader struct {
+	Readers []struct {
 		CfgName       string
 		Path          string
 		Name          string `json:"name"`
@@ -60,7 +65,7 @@ type Config struct {
 		ConcurrFiles  int    `json:"concurrFiles"`
 	}
 
-	Align struct {
+	Aligns []struct {
 		CfgName   string
 		Path      string
 		Name      string `json:"name"`
@@ -74,12 +79,12 @@ type Config struct {
 		TcPort    int    `json:"tcPort"`
 	}
 
-	TxtClassifier struct {
+	TxtClassifiers []struct {
 		CfgName string
 		Path    string
 	}
 
-	Level struct {
+	Levels []struct {
 		CfgName   string
 		Path      string
 		Name      string `json:"name"`
@@ -91,7 +96,7 @@ type Config struct {
 		NiasToken string `json:"niasToken"`
 	}
 
-	Weight struct {
+	Weights []struct {
 		CfgName     string
 		Path        string
 		FailWhenErr bool `json:"failWhenErr"`
@@ -109,7 +114,7 @@ type Config struct {
 		}
 	}
 
-	Hub struct {
+	Hubs []struct {
 		CfgName string
 		Path    string
 	}
@@ -120,40 +125,67 @@ func (cfg *Config) dirProc(check bool) {
 	var err error
 
 	// natsstreaming
-	cfg.NatsStreaming.Path, err = fd.AbsPath(cfg.NatsStreaming.Path, check)
-	lk.FailOnErr("%v", err)
+	for i := 0; i < len(cfg.NatsStreamings); i++ {
+		sub := &cfg.NatsStreamings[i]
+		sub.Path, err = fd.AbsPath(sub.Path, check)
+		lk.FailOnErr("%v", err)
+	}
 
 	// nias3
-	cfg.Nias3.Path, err = fd.AbsPath(cfg.Nias3.Path, check)
-	lk.FailOnErr("%v", err)
+	for i := 0; i < len(cfg.Nias3s); i++ {
+		sub := &cfg.Nias3s[i]
+		sub.Path, err = fd.AbsPath(sub.Path, check)
+		lk.FailOnErr("%v", err)
+	}
 
 	// benthos
-	cfg.Benthos.Path, err = fd.AbsPath(cfg.Benthos.Path, check)
-	lk.FailOnErr("%v", err)
+	for i := 0; i < len(cfg.Benthoses); i++ {
+		sub := &cfg.Benthoses[i]
+		sub.Path, err = fd.AbsPath(sub.Path, check)
+		lk.FailOnErr("%v", err)
+	}
 
 	// reader
-	cfg.Reader.Path, err = fd.AbsPath(cfg.Reader.Path, check)
-	lk.FailOnErr("%v", err)
+	for i := 0; i < len(cfg.Readers); i++ {
+		sub := &cfg.Readers[i]
+		sub.Path, err = fd.AbsPath(sub.Path, check)
+		lk.FailOnErr("%v", err)
+	}
 
 	// align
-	cfg.Align.Path, err = fd.AbsPath(cfg.Align.Path, check)
-	lk.FailOnErr("%v", err)
+	for i := 0; i < len(cfg.Aligns); i++ {
+		sub := &cfg.Aligns[i]
+		sub.Path, err = fd.AbsPath(sub.Path, check)
+		lk.FailOnErr("%v", err)
+	}
 
 	// text classifier
-	cfg.TxtClassifier.Path, err = fd.AbsPath(cfg.TxtClassifier.Path, check)
-	lk.FailOnErr("%v", err)
+	for i := 0; i < len(cfg.TxtClassifiers); i++ {
+		sub := &cfg.TxtClassifiers[i]
+		sub.Path, err = fd.AbsPath(sub.Path, check)
+		lk.FailOnErr("%v", err)
+	}
 
 	// level
-	cfg.Level.Path, err = fd.AbsPath(cfg.Level.Path, check)
-	lk.FailOnErr("%v", err)
+	for i := 0; i < len(cfg.Levels); i++ {
+		sub := &cfg.Levels[i]
+		sub.Path, err = fd.AbsPath(sub.Path, check)
+		lk.FailOnErr("%v", err)
+	}
 
 	// weight
-	cfg.Weight.Path, err = fd.AbsPath(cfg.Weight.Path, check)
-	lk.FailOnErr("%v", err)
+	for i := 0; i < len(cfg.Weights); i++ {
+		sub := &cfg.Weights[i]
+		sub.Path, err = fd.AbsPath(sub.Path, check)
+		lk.FailOnErr("%v", err)
+	}
 
 	// hub
-	cfg.Hub.Path, err = fd.AbsPath(cfg.Hub.Path, check)
-	lk.FailOnErr("%v", err)
+	for i := 0; i < len(cfg.Hubs); i++ {
+		sub := &cfg.Hubs[i]
+		sub.Path, err = fd.AbsPath(sub.Path, check)
+		lk.FailOnErr("%v", err)
+	}
 }
 
 func (cfg *Config) apiPathProc() {
@@ -177,32 +209,35 @@ func (cfg *Config) apiPathProc() {
 	// level
 
 	// weight
-	cfg.Weight.Service.API = withSlash(cfg.Weight.Service.API)
+	for i := 0; i < len(cfg.Weights); i++ {
+		sub := &cfg.Weights[i]
+		sub.Service.API = withSlash(sub.Service.API)
+	}
 
 	// hub
 }
 
-func (cfg *Config) envProc() {
+// func (cfg *Config) envProc() {
 
-	// natsstreaming
+// 	// natsstreaming
 
-	// nias3
+// 	// nias3
 
-	// benthos
+// 	// benthos
 
-	// reader
+// 	// reader
 
-	// align
+// 	// align
 
-	// text classifier
+// 	// text classifier
 
-	// level
+// 	// level
 
-	// weight
-	os.Setenv("OTF_WEIGHT_FAILWHENERR", strconv.FormatBool(cfg.Weight.FailWhenErr))
+// 	// weight
+// 	// os.Setenv("OTF_WEIGHT_FAILWHENERR", strconv.FormatBool(cfg.Weight.FailWhenErr))
 
-	// hub
-}
+// 	// hub
+// }
 
 // GetConfig :
 func GetConfig(configs ...string) *Config {
@@ -214,7 +249,7 @@ func GetConfig(configs ...string) *Config {
 		}
 		cfg.dirProc(true)
 		cfg.apiPathProc()
-		cfg.envProc()
+		// cfg.envProc()
 		return cfg
 	}
 	lk.FailOnErr("%v", fmt.Errorf("otf root config file is missing or error"))
@@ -223,33 +258,47 @@ func GetConfig(configs ...string) *Config {
 
 func (cfg *Config) Dispense() {
 
+	dir := filepath.Dir
+
 	// reader
-	cr, err := json.Marshal(cfg.Reader)
-	lk.FailOnErr("%v", err)
-	io.MustWriteFile(filepath.Dir(cfg.Reader.Path)+"/"+cfg.Reader.CfgName+".json", cr)
+	for _, reader := range cfg.Readers {
+		cr, err := json.Marshal(reader)
+		lk.FailOnErr("%v", err)
+		io.MustWriteFile(dir(reader.Path)+"/"+reader.CfgName+".json", cr)
+	}
 
 	// align
-	ca, err := json.Marshal(cfg.Align)
-	lk.FailOnErr("%v", err)
-	io.MustWriteFile(filepath.Dir(cfg.Align.Path)+"/"+cfg.Align.CfgName+".json", ca)
+	for _, align := range cfg.Aligns {
+		ca, err := json.Marshal(align)
+		lk.FailOnErr("%v", err)
+		io.MustWriteFile(dir(align.Path)+"/"+align.CfgName+".json", ca)
+	}
 
 	// text classifier
-	ct, err := json.Marshal(cfg.TxtClassifier)
-	lk.FailOnErr("%v", err)
-	io.MustWriteFile(filepath.Dir(cfg.TxtClassifier.Path)+"/"+cfg.TxtClassifier.CfgName+".json", ct)
+	for _, textclassifier := range cfg.TxtClassifiers {
+		ct, err := json.Marshal(textclassifier)
+		lk.FailOnErr("%v", err)
+		io.MustWriteFile(dir(textclassifier.Path)+"/"+textclassifier.CfgName+".json", ct)
+	}
 
 	// level
-	cl, err := json.Marshal(cfg.Level)
-	lk.FailOnErr("%v", err)
-	io.MustWriteFile(filepath.Dir(cfg.Level.Path)+"/"+cfg.Level.CfgName+".json", cl)
+	for _, level := range cfg.Levels {
+		cl, err := json.Marshal(level)
+		lk.FailOnErr("%v", err)
+		io.MustWriteFile(dir(level.Path)+"/"+level.CfgName+".json", cl)
+	}
 
 	// weight
-	cw, err := json.Marshal(cfg.Weight)
-	lk.FailOnErr("%v", err)
-	io.MustWriteFile(filepath.Dir(cfg.Weight.Path)+"/"+cfg.Weight.CfgName+".json", cw)
+	for _, weight := range cfg.Weights {
+		cw, err := json.Marshal(weight)
+		lk.FailOnErr("%v", err)
+		io.MustWriteFile(dir(weight.Path)+"/"+weight.CfgName+".json", cw)
+	}
 
 	// hub
-	ch, err := json.Marshal(cfg.Hub)
-	lk.FailOnErr("%v", err)
-	io.MustWriteFile(filepath.Dir(cfg.Hub.Path)+"/"+cfg.Hub.CfgName+".json", ch)
+	for _, hub := range cfg.Hubs {
+		ch, err := json.Marshal(hub)
+		lk.FailOnErr("%v", err)
+		io.MustWriteFile(dir(hub.Path)+"/"+hub.CfgName+".json", ch)
+	}
 }

@@ -1,0 +1,242 @@
+Name = "All-In-One OTF Configuration"
+Port = 1555
+API = "/otf-config"
+PageFolder = "public"
+
+[[NatsStreamings]]
+  CfgName = ""
+  Path = "~/Desktop/OTF/nats-streaming-server-v0.22.0-linux-amd64/nats-streaming-server"
+
+[[Nias3s]]
+  CfgName = ""
+  Path = "~/Desktop/OTF/n3-web/server/n3w/n3w"
+
+[[Benthoses]]
+  CfgName = ""
+  Path = "~/Desktop/OTF/benthos3470/benthos"
+
+[[Readers]]
+  CfgName = "spa_prescribed_config"
+  Path = "~/Desktop/OTF/otf-reader/cmd/otf-reader/otf-reader"
+  Name = ""
+  ID = ""
+  Provider = "SPA"
+  InputFmt = "csv"
+  AlignMethod = "prescribed"
+  LevelMethod = "prescribed"
+  GenCapability = "literacy"
+  NatsHost = ""
+  natsPort = 4222
+  NatsCluster = ""
+  Topic = "otf.ingest"
+  Folder = ""
+  FileSuffix = ".prescribed.csv"
+  Interval = "500ms"
+  Recursive = true
+  DotFiles = false
+  Ignore = ""
+  ConcurrFiles = 10
+
+[[Readers]]
+  CfgName = "spa_mapped_config"
+  Path = "~/Desktop/OTF/otf-reader/cmd/otf-reader/otf-reader"
+  Name = ""
+  ID = ""
+  Provider = "SPA"
+  InputFmt = "csv"
+  AlignMethod = "mapped"
+  LevelMethod = "prescribed"
+  GenCapability = "literacy"
+  NatsHost = ""
+  natsPort = 4222
+  NatsCluster = ""
+  Topic = "otf.ingest"
+  Folder = ""
+  FileSuffix = ".mapped.csv"
+  Interval = "500ms"
+  Recursive = true
+  DotFiles = false
+  Ignore = ""
+  ConcurrFiles = 10
+
+[[Readers]]
+  CfgName = "mp_config"
+  Path = "~/Desktop/OTF/otf-reader/cmd/otf-reader/otf-reader"
+  Name = ""
+  ID = ""
+  Provider = "MathsPathway"
+  InputFmt = "csv"
+  AlignMethod = "mapped"
+  LevelMethod = "prescribed"
+  GenCapability = "numeracy"
+  NatsHost = ""
+  natsPort = 4222
+  NatsCluster = ""
+  Topic = "otf.ingest"
+  Folder = ""
+  FileSuffix = ".csv"
+  Interval = "500ms"
+  Recursive = true
+  DotFiles = false
+  Ignore = ""
+  ConcurrFiles = 10
+
+[[Readers]]
+  CfgName = "lpofa_numeracy_config"
+  Path = "~/Desktop/OTF/otf-reader/cmd/otf-reader/otf-reader"
+  Name = ""
+  ID = ""
+  Provider = "LPOFA"
+  InputFmt = "json"
+  AlignMethod = "inferred"
+  LevelMethod = "prescribed"
+  GenCapability = "numeracy"
+  NatsHost = ""
+  natsPort = 4222
+  NatsCluster = ""
+  Topic = "otf.ingest"
+  Folder = ""
+  FileSuffix = ".numeracy.json"
+  Interval = "500ms"
+  Recursive = true
+  DotFiles = false
+  Ignore = ""
+  ConcurrFiles = 10
+
+[[Readers]]
+  CfgName = "lpofa_literacy_config"
+  Path = "~/Desktop/OTF/otf-reader/cmd/otf-reader/otf-reader"
+  Name = ""
+  ID = ""
+  Provider = "LPOFA"
+  InputFmt = "json"
+  AlignMethod = "inferred"
+  LevelMethod = "prescribed"
+  GenCapability = "literacy"
+  NatsHost = ""
+  natsPort = 4222
+  NatsCluster = ""
+  Topic = "otf.ingest"
+  Folder = ""
+  FileSuffix = ".literacy.json"
+  Interval = "500ms"
+  Recursive = true
+  DotFiles = false
+  Ignore = ""
+  ConcurrFiles = 10
+
+[[Readers]]
+  CfgName = "bp_config"
+  Path = "~/Desktop/OTF/otf-reader/cmd/otf-reader/otf-reader"
+  Name = ""
+  ID = ""
+  Provider = "BrightPath"
+  InputFmt = "json"
+  AlignMethod = "mapped"
+  LevelMethod = "mapped"
+  GenCapability = "literacy"
+  NatsHost = ""
+  natsPort = 4222
+  NatsCluster = ""
+  Topic = "otf.ingest"
+  Folder = ""
+  FileSuffix = ".brightpath"
+  Interval = "500ms"
+  Recursive = true
+  DotFiles = false
+  Ignore = ""
+  ConcurrFiles = 10
+
+[[Readers]]
+  CfgName = "levelMaps_config"
+  Path = "~/Desktop/OTF/otf-reader/cmd/otf-reader/otf-reader"
+  Name = ""
+  ID = ""
+  Provider = "nsip"
+  InputFmt = "csv"
+  AlignMethod = "mapped"
+  LevelMethod = "mapped"
+  GenCapability = "literacy"
+  NatsHost = ""
+  natsPort = 4222
+  NatsCluster = ""
+  Topic = "otf.maps.level"
+  Folder = ""
+  FileSuffix = ".csv"
+  Interval = "500ms"
+  Recursive = true
+  DotFiles = false
+  Ignore = ""
+  ConcurrFiles = 10
+
+[[Readers]]
+  CfgName = "alignMaps_config"
+  Path = "~/Desktop/OTF/otf-reader/cmd/otf-reader/otf-reader"
+  Name = ""
+  ID = ""
+  Provider = "nsip"
+  InputFmt = "csv"
+  AlignMethod = "mapped"
+  LevelMethod = "mapped"
+  GenCapability = "literacy"
+  NatsHost = ""
+  natsPort = 4222
+  NatsCluster = ""
+  Topic = "otf.maps.align"
+  Folder = ""
+  FileSuffix = ".csv"
+  Interval = "500ms"
+  Recursive = true
+  DotFiles = false
+  Ignore = ""
+  ConcurrFiles = 10
+  
+[[Aligns]]
+  CfgName = "config"
+  Path = "~/Desktop/OTF/otf-align/cmd/otf-align/otf-align"
+  Name = ""
+  ID = ""
+  Host = ""
+  Port = 1234
+  NiasHost = ""
+  NiasPort = 1323
+  NiasToken = ""
+  TcHost = ""
+  TcPort = 1576
+
+[[TxtClassifiers]]
+  CfgName = "config"
+  Path = "~/Desktop/OTF/otf-classifier/build/Linux64/otf-classifier/otf-classifier"
+  Port = 1576
+
+[[Levels]]
+  CfgName = "config"
+  Path = "~/Desktop/OTF/otf-level/cmd/otf-level/otf-level"
+  Name = ""
+  ID = ""
+  Host = ""
+  Port = 1234
+  NiasHost = ""
+  NiasPort = 1323
+  NiasToken = ""
+
+[[Weights]]
+  CfgName = "config"
+  Path = "~/Desktop/OTF/otf-weighting/otf-weighting"
+  FailOnErr = true
+  [Weights.Service]
+    Name = ""
+    ID = ""
+    Port = 1329
+    API = "/weight"
+  [Weights.Weighting]
+    StudentIDPath = "otf.id.studentID"
+    DomainPath = "meta.capability"
+    TimePath="meta.readTimestampUTC"
+    ScorePath = "otf.level.calculatedScore.scaledScore"
+
+[[Hubs]]
+  CfgName = "config"
+  Path = "~/Desktop/OTF/otf-hub/hub"
+  PdmRoot = ""
+  OtfRoot = ""
