@@ -4,15 +4,15 @@ API = "/otf-config"
 PageFolder = "public"
 
 [[NatsStreamings]]
-  CfgName = ""
+  CfgName = "ns_config"
   Path = "~/Desktop/OTF/nats-streaming-server-v0.22.0-linux-amd64/nats-streaming-server"
 
 [[Nias3s]]
-  CfgName = ""
+  CfgName = "n3_config"
   Path = "~/Desktop/OTF/n3-web/server/n3w/n3w"
 
 [[Benthoses]]
-  CfgName = ""
+  CfgName = "benthos_config"
   Path = "~/Desktop/OTF/benthos3470/benthos"
 
 [[Readers]]
@@ -192,7 +192,7 @@ PageFolder = "public"
   ConcurrFiles = 10
   
 [[Aligns]]
-  CfgName = "config"
+  CfgName = "align_config"
   Path = "~/Desktop/OTF/otf-align/cmd/otf-align/otf-align"
   Name = ""
   ID = ""
@@ -205,12 +205,12 @@ PageFolder = "public"
   TcPort = 1576
 
 [[TxtClassifiers]]
-  CfgName = "config"
+  CfgName = "tc_config"
   Path = "~/Desktop/OTF/otf-classifier/build/Linux64/otf-classifier/otf-classifier"
   Port = 1576
 
 [[Levels]]
-  CfgName = "config"
+  CfgName = "level_config"
   Path = "~/Desktop/OTF/otf-level/cmd/otf-level/otf-level"
   Name = ""
   ID = ""
@@ -221,7 +221,7 @@ PageFolder = "public"
   NiasToken = ""
 
 [[Weights]]
-  CfgName = "config"
+  CfgName = "weight_config"
   Path = "~/Desktop/OTF/otf-weighting/otf-weighting"
   FailOnErr = true
   [Weights.Service]
@@ -236,7 +236,7 @@ PageFolder = "public"
     ScorePath = "otf.level.calculatedScore.scaledScore"
 
 [[Hubs]]
-  CfgName = "config"
+  CfgName = "hub_config"
   Path = "~/Desktop/OTF/otf-hub/hub"
   PdmRoot = ""
   OtfRoot = ""

@@ -33,6 +33,9 @@ func hostPage() func() {
 			HTML5:  true,
 		}))
 
+		e.GET("/allgrp", api.AllCfgGrp)
+		e.GET("/allitems", api.AllCfgItems)
+
 		grp := e.Group("/otf-config")
 		// grp.Use(middleware.JWT("demoSecret"))
 

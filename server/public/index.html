@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -8,21 +7,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://unpkg.com/vue@next"></script>
-
+    <link rel="stylesheet" href="./css/style.css">
 </head>
 
 <body>
-    <div id="app">
-        <input v-model="message" placeholder="hello" />
-        <p>{{ message }}</p>
-    </div>
-    <script src="./js/input.js"></script>
 
-    <div id="app1">
-        <p>{{ state }}</p>
-        <button v-on:click="toggle">toggle</button>
+    <div id="app">
+
+        <div id="nav" class="sidenav">
+            <a href="#" v-for="grp in grps" @click="this.show(grp)">{{grp}}</a>
+        </div>
+
+        <div id="main" class="main">
+            <h2>{{title}}</h2>
+            <!-- <form v-if="nfVisible" action="">
+                <label class="lb">config name:</label>
+                <input id="incfgname" type="text"><br>
+                <label class="lb">path:</label>
+                <input type="text"><br>
+                <br>
+                <input type="button" value="new">
+            </form> -->
+            <br>
+            <div v-html="content" id="content">
+            </div> 
+            <form v-for="cn in cfgname">
+                <!-- <label class="lb">config name:</label>
+                <input :placeholder="cn" id="incfgname" type="text"><br>
+                <label class="lb">path:</label>
+                <input type="text"><br>
+                <br>
+                <input type="button" value="update"> -->   
+                <div v-html="content" id="content">
+                </div>             
+            </form>
+
+        </div>
+
     </div>
-    <script>
+
+    <script src="./js/nav.js"></script>
+
+
+
+
+    <!-- <div id="app">
+            <input v-model="message" placeholder="hello" />
+            <p>{{ message }}</p>
+        </div>
+        <script src="./js/input.js"></script> -->
+
+    <!-- <div id="app1">
+            <p>{{ state }}</p>
+            <button v-on:click="toggle">toggle</button>
+        </div> -->
+    <!-- <script>
         const app1 = {
             data() {
                 return {
@@ -37,11 +76,10 @@
         };
         Vue.createApp(app1).mount("#app1");
     </script>
-
-    <div id="app2">
-        <div v-bind:title="message">{{message}}</div>
-    </div>
-    <script>
+        <div id="app2">
+            <div v-bind:title="message">{{message}}</div>
+        </div>
+        <script>
         const app2 = {
             data() {
                 return {
@@ -50,8 +88,7 @@
             }
         };
         Vue.createApp(app2).mount("#app2");
-    </script>
-
+    </script> -->
     <!-- <p1>OTF-Config</p1>
     <p>msg的值：{{ msg }}</p>
     <p>绑定对象：{{ userinfo.username }}</p>
@@ -69,6 +106,7 @@
             },
         };
     </script> -->
+
 </body>
 
 </html>
