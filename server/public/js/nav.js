@@ -1,29 +1,4 @@
-// port 1555 is set in config.toml
-
-function url(api) {
-  return `http://127.0.0.1:1555/` + api;
-}
-
-let urlAllGrp = url("allgrp");
-let urlAllItems = url("allitems");
-let urlReader = url("otf-config/reader?cfgName=spa_prescribed_config");
-
-function test(url) {
-  const data = fetch(url)
-    .then((resp) => resp.json())
-    .then((data) => {
-      // console.log(data);
-      return data;
-    });
-
-  //   const data = async () => {
-  //     const a = await prom;
-  //     console.log(a);
-  //     return a;
-  //   };
-
-  return data;
-}
+import { getEmitter } from './js/mitt.js'
 
 const allGrp = [
   "NatsStreaming",
@@ -37,46 +12,38 @@ const allGrp = [
   "Hub",
 ];
 
-const app = Vue.createApp({
-  data() {
+function reset_nav() {
+  allGrp.forEach(e => {
+    document.getElementById(e).innerText = e;
+  })
+}
+
+const emitter = getEmitter();
+
+export default {
+  // name: 'nav',
+
+  setup() {
+
+    function sel2form(str) {
+
+      // mark nav selected item
+      reset_nav();
+      document.getElementById(str).innerText = str + " *";
+
+      // send to main form
+      emitter.emit("selected", str);
+    }
+
     return {
       grps: allGrp,
-      title: "OTF All-In-One Config",
-      cfgname: "",
-      nfVisible: false,
-      content: "",
+      sel2form,
     };
   },
-  methods: {
-    show(str) {
-      this.nfVisible = true;
 
-      // console.log(str);
-      // alert(str);
-
-      switch (str) {
-        case "NatsStreaming":
-          str += "s";
-          content = '<label class="lb">config name:</label>'
-          break;
-        case "Nias3":
-          str += "s";
-          break;
-        case "Benthos":
-          str += "es";
-          break;
-        case "Reader":
-          str += "s";
-          break;
-        default:
-          str += "s";
-      }
-
-      (async () => {
-        data = await test(urlAllItems);
-        console.log(data[str]);
-        this.cfgname = data[str];
-      })();
-    },
-  },
-}).mount("#app");
+  template: `
+  <div id="nav" class="sidenav">
+  <a href="#" v-for="grp in grps" :id="grp" @click="this.sel2form(grp)">{{grp}}</a>
+  </div>
+  `,
+}

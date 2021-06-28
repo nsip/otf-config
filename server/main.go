@@ -64,6 +64,9 @@ func hostPage() func() {
 		grp.DELETE("/hub", api.DelHubCfg)
 
 		// Search Config
+		grp.GET("/natsstreaming", api.NatsStreamingCfg)
+		grp.GET("/nias3", api.Nias3Cfg)
+		grp.GET("/benthos", api.BenthosCfg)
 		grp.GET("/reader", api.ReaderCfg)
 		grp.GET("/align", api.AlignCfg)
 		grp.GET("/textclassifier", api.TextclassifierCfg)

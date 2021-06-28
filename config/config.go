@@ -28,25 +28,25 @@ type Config struct {
 	PageFolder string
 
 	NatsStreamings []struct {
-		CfgName string
-		Path    string
+		CfgName string `json:"name"`
+		Path    string `json:"path"`
 	}
 
 	Nias3s []struct {
-		CfgName string
-		Path    string
+		CfgName string `json:"name"`
+		Path    string `json:"path"`
 	}
 
 	Benthoses []struct {
-		CfgName string
-		Path    string
+		CfgName string `json:"name"`
+		Path    string `json:"path"`
 	}
 
 	Readers []struct {
-		CfgName       string
-		Path          string
-		Name          string `json:"name"`
-		ID            string `json:"id"`
+		CfgName       string `json:"name"`
+		Path          string `json:"path"`
+		Name          string `json:"svrname"`
+		ID            string `json:"svrid"`
 		Provider      string `json:"provider"`
 		InputFmt      string `json:"inputFormat"`
 		AlignMethod   string `json:"alignMethod"`
@@ -66,10 +66,10 @@ type Config struct {
 	}
 
 	Aligns []struct {
-		CfgName   string
-		Path      string
-		Name      string `json:"name"`
-		ID        string `json:"id"`
+		CfgName   string `json:"name"`
+		Path      string `json:"path"`
+		Name      string `json:"svrname"`
+		ID        string `json:"svrid"`
 		Host      string `json:"host"`
 		Port      int    `json:"port"`
 		NiasHost  string `json:"niasHost"`
@@ -80,15 +80,15 @@ type Config struct {
 	}
 
 	TxtClassifiers []struct {
-		CfgName string
-		Path    string
+		CfgName string `json:"name"`
+		Path    string `json:"path"`
 	}
 
 	Levels []struct {
-		CfgName   string
-		Path      string
-		Name      string `json:"name"`
-		ID        string `json:"id"`
+		CfgName   string `json:"name"`
+		Path      string `json:"path"`
+		Name      string `json:"svrname"`
+		ID        string `json:"svrid"`
 		Host      string `json:"host"`
 		Port      int    `json:"port"`
 		NiasHost  string `json:"niasHost"`
@@ -97,12 +97,12 @@ type Config struct {
 	}
 
 	Weights []struct {
-		CfgName     string
-		Path        string
-		FailWhenErr bool `json:"failWhenErr"`
+		CfgName     string `json:"name"`
+		Path        string `json:"path"`
+		FailWhenErr bool   `json:"failWhenErr"`
 		Service     struct {
-			Name string `json:"name"`
-			ID   string `json:"id"`
+			Name string `json:"svrname"`
+			ID   string `json:"svrid"`
 			Port int    `json:"port"`
 			API  string `json:"api"`
 		}
@@ -115,8 +115,8 @@ type Config struct {
 	}
 
 	Hubs []struct {
-		CfgName string
-		Path    string
+		CfgName string `json:"name"`
+		Path    string `json:"path"`
 	}
 }
 

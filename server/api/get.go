@@ -53,6 +53,38 @@ func AllCfgItems(c echo.Context) error {
 	return c.JSON(http.StatusOK, m)
 }
 
+func NatsStreamingCfg(c echo.Context) error {
+	cname := c.QueryParam(cfgNameQuery)
+	for _, cr := range cfg.NatsStreamings {
+		if cr.CfgName == cname {
+			return c.JSON(http.StatusOK, cr)
+		}
+	}
+	return nil
+}
+
+func Nias3Cfg(c echo.Context) error {
+	cname := c.QueryParam(cfgNameQuery)
+	for _, cr := range cfg.Nias3s {
+		if cr.CfgName == cname {
+			return c.JSON(http.StatusOK, cr)
+		}
+	}
+	return nil
+}
+
+func BenthosCfg(c echo.Context) error {
+	cname := c.QueryParam(cfgNameQuery)
+	for _, cr := range cfg.Benthoses {
+		if cr.CfgName == cname {
+			return c.JSON(http.StatusOK, cr)
+		}
+	}
+	return nil
+}
+
+///
+
 func ReaderCfg(c echo.Context) error {
 	cname := c.QueryParam(cfgNameQuery)
 	for _, cr := range cfg.Readers {
@@ -64,21 +96,51 @@ func ReaderCfg(c echo.Context) error {
 }
 
 func AlignCfg(c echo.Context) error {
+	cname := c.QueryParam(cfgNameQuery)
+	for _, cr := range cfg.Aligns {
+		if cr.CfgName == cname {
+			return c.JSON(http.StatusOK, cr)
+		}
+	}
 	return nil
 }
 
 func TextclassifierCfg(c echo.Context) error {
+	cname := c.QueryParam(cfgNameQuery)
+	for _, cr := range cfg.TxtClassifiers {
+		if cr.CfgName == cname {
+			return c.JSON(http.StatusOK, cr)
+		}
+	}
 	return nil
 }
 
 func LevelCfg(c echo.Context) error {
+	cname := c.QueryParam(cfgNameQuery)
+	for _, cr := range cfg.Levels {
+		if cr.CfgName == cname {
+			return c.JSON(http.StatusOK, cr)
+		}
+	}
 	return nil
 }
 
 func WeightCfg(c echo.Context) error {
+	cname := c.QueryParam(cfgNameQuery)
+	for _, cr := range cfg.Weights {
+		if cr.CfgName == cname {
+			return c.JSON(http.StatusOK, cr)
+		}
+	}
 	return nil
 }
 
 func HubCfg(c echo.Context) error {
+	cname := c.QueryParam(cfgNameQuery)
+	for _, cr := range cfg.Hubs {
+		if cr.CfgName == cname {
+			return c.JSON(http.StatusOK, cr)
+		}
+	}
 	return nil
 }

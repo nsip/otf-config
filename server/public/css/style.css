@@ -30,25 +30,47 @@ body {
   margin-left: 200px; /* Same as the width of the sidenav */
 }
 
-.main h2 {
-  text-align: center;
-}
-
-@media screen and (max-height: 450px) {
+/* @media screen and (max-height: 450px) {
   .sidenav {
     padding-top: 15px;
   }
   .sidenav a {
     font-size: 18px;
   }
+} */
+
+#mainform {
+  position: absolute;  
+  left: 35%;
 }
 
-#incfgname {
+.cfgform {
+  border-radius: 5px;
+  background-color: #cac7c7;
+  padding: 10px; 
+}
+
+#projtitle {
   color: #c70101;  
 }
 
 .lb {
-  color: rgb(2, 20, 20);
+  color: rgb(3, 104, 104);
   width: 200px;
   display: inline-block;
+  left: 250px;
+  padding: 1%;
+}
+
+.cfgform input[type="text"] {
+  padding-top: 1%;
+  padding-bottom: 1%;
+  padding-left: 1%;
+  color: #ce0f0f; 
+  width: 380px;
+  border-radius: 4px;
+}
+
+.cfgform input[type="button"] {
+  padding: 1%;
 }
