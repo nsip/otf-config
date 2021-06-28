@@ -1,6 +1,6 @@
 import { getEmitter } from './js/mitt.js'
 import { get_allitem, get_cfg } from './js/fetch.js'
-import { getForm } from './js/templates.js'
+import { getForm } from './js/template.js'
 
 const emitter = getEmitter();
 
@@ -12,6 +12,8 @@ function viform(proj, vi) {
     vi.svrid = false;
     vi.provider = false;
     vi.inputfmt = false;
+    vi.alignmethod = false;
+    vi.levelmethod = false;
 
     switch (proj) {
         case "NatsStreaming":
@@ -25,6 +27,8 @@ function viform(proj, vi) {
             vi.svrid = true;
             vi.provider = true;
             vi.inputfmt = true;
+            vi.alignmethod = true;
+            vi.levelmethod = true;
     }
 }
 
@@ -42,6 +46,8 @@ export default {
             svrid: "",
             provider: "",
             inputfmt: "",
+            alignmethod: "",
+            levelmethod: "",
         });
 
         let vi = Vue.reactive({
@@ -51,16 +57,9 @@ export default {
             svrid: true,
             provider: true,
             inputfmt: true,
+            alignmethod: true,
+            levelmethod: true,
         })
-
-        // let in_cfg = Vue.reactive({
-        //     name: Vue.ref([]),
-        //     path: Vue.ref([]),
-        //     svrname: Vue.ref([]),
-        //     svrid: Vue.ref([]),
-        //     provider: Vue.ref([]),
-        //     inputfmt: Vue.ref([]),
-        // })
 
         let names_in = Vue.ref([]);
         let paths_in = Vue.ref([]);
@@ -68,6 +67,8 @@ export default {
         let svrids_in = Vue.ref([]);
         let providers_in = Vue.ref([]);
         let inputfmts_in = Vue.ref([]);
+        let alignmethods_in = Vue.ref([]);
+        let levelmethods_in = Vue.ref([]);
 
         // listen to an event
         emitter.on('selected', e => {
@@ -100,8 +101,6 @@ export default {
                 providers_in.value = [];
                 inputfmts_in.value = [];
 
-                // in_cfg.name.value = [];
-
                 // console.log(a);
                 // console.log(a[arg]);               
 
@@ -117,8 +116,8 @@ export default {
                         svrids_in.value.push(b.svrid);
                         providers_in.value.push(b.provider);
                         inputfmts_in.value.push(b.inputFormat);
-
-                        // in_cfg.name.value.push(b.name);
+                        alignmethods_in.value.push(b.alignMethod);
+                        levelmethods_in.value.push(b.levelMethod);
 
                     })();
                 })
@@ -131,7 +130,6 @@ export default {
             title,
             new_cfg,
             vi,
-            // in_cfg,
 
             names_in,
             paths_in,
@@ -139,6 +137,8 @@ export default {
             svrids_in,
             providers_in,
             inputfmts_in,
+            alignmethods_in,
+            levelmethods_in,
         };
     },
 
