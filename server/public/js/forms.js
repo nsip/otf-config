@@ -18,7 +18,6 @@ function viform(proj, vi) {
   switch (proj) {
     case "NatsStreaming":
       vi.natsstreaming = true;
-      // console.log("here");
       break;
     case "Nias3":
       vi.nias3 = true;
@@ -64,27 +63,15 @@ export default {
       hub: false,
     });
 
-    let new_cfg = Vue.reactive({
-      name: "",
-      path: "",
-      svrname: "",
-      svrid: "",
-      provider: "",
-      inputfmt: "",
-      alignmethod: "",
-      levelmethod: "",
-      gencapability: "",
-    });
-
-    let names_in = Vue.ref([]);
-    let paths_in = Vue.ref([]);
-    let svrnames_in = Vue.ref([]);
-    let svrids_in = Vue.ref([]);
-    let providers_in = Vue.ref([]);
-    let inputfmts_in = Vue.ref([]);
-    let alignmethods_in = Vue.ref([]);
-    let levelmethods_in = Vue.ref([]);
-    let gencapabilities_in = Vue.ref([]);
+    let names_in = Vue.ref([""]); // init an empty one for the first new form
+    let paths_in = Vue.ref([""]);
+    let svrnames_in = Vue.ref([""]);
+    let svrids_in = Vue.ref([""]);
+    let providers_in = Vue.ref([""]);
+    let inputfmts_in = Vue.ref([""]);
+    let alignmethods_in = Vue.ref([""]);
+    let levelmethods_in = Vue.ref([""]);
+    let gencapabilities_in = Vue.ref([""]);
 
     // listen to an event
     emitter.on("selected", (e) => {
@@ -109,15 +96,15 @@ export default {
         const all = await get_allitem();
 
         // clear ***_in for inflating again
-        names_in.value = [];
-        paths_in.value = [];
-        svrnames_in.value = [];
-        svrids_in.value = [];
-        providers_in.value = [];
-        inputfmts_in.value = [];
-        alignmethods_in.value = [];
-        levelmethods_in.value = [];
-        gencapabilities_in.value = [];
+        names_in.value = [""]; // init an empty one for the first new form
+        paths_in.value = [""];
+        svrnames_in.value = [""];
+        svrids_in.value = [""];
+        providers_in.value = [""];
+        inputfmts_in.value = [""];
+        alignmethods_in.value = [""];
+        levelmethods_in.value = [""];
+        gencapabilities_in.value = [""];
 
         // console.log(a);
         // console.log(a[arg]);
@@ -145,7 +132,6 @@ export default {
     return {
       selected,
       title,
-      new_cfg,
       vi,
       names_in,
       paths_in,
