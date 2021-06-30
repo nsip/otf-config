@@ -1,24 +1,14 @@
 // port 1555 is set in config.toml
 
-// const allGrp = [
-//     "NatsStreaming",
-//     "Nias3",
-//     "Benthos",
-//     "Reader",
-//     "Align",
-//     "TxtClassifier",
-//     "Level",
-//     "Weight",
-//     "Hub",
-//   ];
+const HOST_PORT = `http://127.0.0.1:1555/`
 
 function fetch_get(path) {
 
-    let url = `http://127.0.0.1:1555/` + path;
+    let url = HOST_PORT + path;
 
-    const data = fetch(url)
-        .then((resp) => resp.json())
-        .then((data) => {
+    const rest = fetch(url)
+        .then(resp => resp.json())
+        .then(data => {
             // console.log(data);
             return data;
         });
@@ -29,9 +19,8 @@ function fetch_get(path) {
     //     return a;
     //   };
 
-    return data;
+    return rest;
 }
-
 
 export function get_allgrp() {
     return fetch_get("allgrp")
@@ -41,9 +30,8 @@ export function get_allitem() {
     return fetch_get("allitems")
 }
 
-export function get_cfg(prject, cfgname) {
-    switch (prject) {
-
+export function get_cfg(project, cfgname) {
+    switch (project) {
         case "NatsStreaming":
             return fetch_get(`otf-config/natsstreaming?cfgName=${cfgname}`)
         case "Nias3":
@@ -65,3 +53,48 @@ export function get_cfg(prject, cfgname) {
     }
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
+function fetch_post(path, data) {
+
+    let url = HOST_PORT + path;
+
+    console.log(data);
+
+    const rest = fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', },
+        body: JSON.stringify(data),
+    })
+        .then(resp => resp.json())
+        .then(data => {
+            console.log(data);
+            return data
+        })
+        .catch(error => console.error('Error:', error));
+
+    return rest;
+}
+
+export function post_cfg(project, data) {
+    switch (project) {
+        case "NatsStreaming":
+            return fetch_post(`otf-config/natsstreaming`, data)
+        case "Nias3":
+            return fetch_post(`otf-config/nias3`, data)
+        case "Benthos":
+            return fetch_post(`otf-config/benthos`, data)
+        case "Reader":
+            return fetch_post(`otf-config/reader`, data)
+        case "Align":
+            return fetch_post(`otf-config/align`, data)
+        case "TxtClassifier":
+            return fetch_post(`otf-config/textclassifier`, data)
+        case "Level":
+            return fetch_post(`otf-config/level`, data)
+        case "Weight":
+            return fetch_post(`otf-config/weight`, data)
+        case "Hub":
+            return fetch_post(`otf-config/hub`, data)
+    }
+}

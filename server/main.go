@@ -39,30 +39,6 @@ func hostPage() func() {
 		grp := e.Group("/otf-config")
 		// grp.Use(middleware.JWT("demoSecret"))
 
-		// New Config
-		grp.POST("/reader", api.NewReaderCfg)
-		grp.POST("/align", api.NewAlignCfg)
-		grp.POST("/textclassifier", api.NewTextclassifierCfg)
-		grp.POST("/level", api.NewLevelCfg)
-		grp.POST("/weight", api.NewWeightCfg)
-		grp.POST("/hub", api.NewHubCfg)
-
-		// Update Config
-		grp.PUT("/reader", api.UpdateReaderCfg)
-		grp.PUT("/align", api.UpdateAlignCfg)
-		grp.PUT("/textclassifier", api.UpdateTextclassifierCfg)
-		grp.PUT("/level", api.UpdateLevelCfg)
-		grp.PUT("/weight", api.UpdateWeightCfg)
-		grp.PUT("/hub", api.UpdateHubCfg)
-
-		// Delete Config
-		grp.DELETE("/reader", api.DelReaderCfg)
-		grp.DELETE("/align", api.DelAlignCfg)
-		grp.DELETE("/textclassifier", api.DelTextclassifierCfg)
-		grp.DELETE("/level", api.DelLevelCfg)
-		grp.DELETE("/weight", api.DelWeightCfg)
-		grp.DELETE("/hub", api.DelHubCfg)
-
 		// Search Config
 		grp.GET("/natsstreaming", api.NatsStreamingCfg)
 		grp.GET("/nias3", api.Nias3Cfg)
@@ -73,6 +49,39 @@ func hostPage() func() {
 		grp.GET("/level", api.LevelCfg)
 		grp.GET("/weight", api.WeightCfg)
 		grp.GET("/hub", api.HubCfg)
+
+		// New Config
+		grp.POST("/natsstreaming", api.NewNatsStreamingCfg)
+		grp.POST("/nias3", api.NewNias3Cfg)
+		grp.POST("/benthos", api.NewBenthosCfg)
+		grp.POST("/reader", api.NewReaderCfg)
+		grp.POST("/align", api.NewAlignCfg)
+		grp.POST("/textclassifier", api.NewTextclassifierCfg)
+		grp.POST("/level", api.NewLevelCfg)
+		grp.POST("/weight", api.NewWeightCfg)
+		grp.POST("/hub", api.NewHubCfg)
+
+		// Update Config
+		grp.PUT("/natsstreaming", api.UpdateNatsStreamingCfg)
+		grp.PUT("/nias3", api.UpdateNias3Cfg)
+		grp.PUT("/benthos", api.UpdateBenthosCfg)
+		grp.PUT("/reader", api.UpdateReaderCfg)
+		grp.PUT("/align", api.UpdateAlignCfg)
+		grp.PUT("/textclassifier", api.UpdateTextclassifierCfg)
+		grp.PUT("/level", api.UpdateLevelCfg)
+		grp.PUT("/weight", api.UpdateWeightCfg)
+		grp.PUT("/hub", api.UpdateHubCfg)
+
+		// Delete Config
+		grp.DELETE("/natsstreaming", api.DelNatsStreamingCfg)
+		grp.DELETE("/nias3", api.DelNias3Cfg)
+		grp.DELETE("/benthos", api.DelBenthosCfg)
+		grp.DELETE("/reader", api.DelReaderCfg)
+		grp.DELETE("/align", api.DelAlignCfg)
+		grp.DELETE("/textclassifier", api.DelTextclassifierCfg)
+		grp.DELETE("/level", api.DelLevelCfg)
+		grp.DELETE("/weight", api.DelWeightCfg)
+		grp.DELETE("/hub", api.DelHubCfg)
 
 		if err := e.Start(fmt.Sprintf(":%d", cfg.Port)); err != nil {
 			e.Logger.Info("shutting down the server: " + cfg.PageFolder)

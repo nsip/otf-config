@@ -1,5 +1,5 @@
 import { getEmitter } from "./js/mitt.js";
-import { get_allitem, get_cfg } from "./js/fetch.js";
+import { get_allitem, get_cfg, post_cfg } from "./js/fetch.js";
 import { getForm } from "./form/all.js";
 
 const emitter = getEmitter();
@@ -197,24 +197,32 @@ function inflateform(input, data) {
   });
 }
 
-function clrform(input) {
+function clr_form(input) {
   input.value = [InitInput];
+}
+
+function clr_new_form(input) {
+  input.value[0].name = "";
+  input.value[0].path = "";
 }
 
 export default {
   setup() {
+
     let selected = Vue.ref(false);
+
+    let selproj = Vue.ref("");
+
     let title = Vue.ref("OTF project (select from left)");
 
     let vi = Vue.reactive(VisForm);
-
-    const label = InitLabel;
 
     // init an empty one for the first new form
     let input = Vue.ref([InitInput]);
 
     // listen to an event
     emitter.on("selected", (e) => {
+
       // test
       console.log("forms received:", e);
 
@@ -223,6 +231,9 @@ export default {
 
       // change title
       title.value = `OTF - ${e}`;
+
+      // select project
+      selproj.value = e;
 
       // set visibility of each project config
       viform(e, vi);
@@ -236,7 +247,7 @@ export default {
         const all = await get_allitem();
 
         // clear all existing input
-        clrform(input);
+        clr_form(input);
 
         // console.log(a);
         // console.log(a[arg]);
@@ -255,12 +266,27 @@ export default {
       })();
     });
 
+    // new button
+    function btn_new(selproj) {
+      console.log(`new ${selproj}`);
+      post_cfg(selproj, input.value[0]);
+      clr_new_form(input);
+    }
+
+    // update button
+    function btn_update(selproj) {
+      console.log(`update ${selproj}`);
+    }
+
     return {
       selected,
+      selproj,
       title,
       vi,
-      label,
+      label: InitLabel,
       input,
+      btn_new,
+      btn_update,
     };
   },
 

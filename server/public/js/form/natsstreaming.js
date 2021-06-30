@@ -8,9 +8,9 @@ let form_natsstreaming = `
         <label class="lb">{{label.path[0]}}:</label>
         <input v-model="input[i].path" type="text" :placeholder="label.path[1]">                
                        
-        <input v-if="i==0" type="button" value="new">
-        <input v-if="i>0" type="button" value="update">
-        
+        <input v-if="i==0" type="button" value="new" @click="btn_new(selproj)">
+        <input v-if="i>0" type="button" value="update" @click="btn_update(selproj)">
+
     </form>
 </div>
 `;

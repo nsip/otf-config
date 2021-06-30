@@ -10,6 +10,7 @@ import (
 
 var (
 	log4get = lk.Fac4GrpIdxLogF("GET", 0, lk.INFO, true)
+	log4post = lk.Fac4GrpIdxLogF("POST", 0, lk.INFO, true)
 
 	cfg          = config.OtfCfg
 	cfgNameQuery = "cfgName"

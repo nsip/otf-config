@@ -2,6 +2,18 @@ package api
 
 import "github.com/labstack/echo/v4"
 
+func UpdateNatsStreamingCfg(c echo.Context) error {
+	return nil
+}
+
+func UpdateNias3Cfg(c echo.Context) error {
+	return nil
+}
+
+func UpdateBenthosCfg(c echo.Context) error {
+	return nil
+}
+
 func UpdateReaderCfg(c echo.Context) error {
 	return nil
 }
