@@ -46,6 +46,24 @@ function viform(proj, vi) {
   }
 }
 
+function clrform(input) {
+  input.value = [
+    {
+      name: "",
+      path: "",
+      svrname: "",
+      svrid: "",
+      provider: "",
+      inputfmt: "",
+      alignmethod: "",
+      levelmethod: "",
+      gencapability: "",
+      natshost: "",
+      natsport: "",
+    }
+  ];
+}
+
 export default {
   setup() {
     let selected = Vue.ref(false);
@@ -63,17 +81,23 @@ export default {
       hub: false,
     });
 
-    let names_in = Vue.ref([""]); // init an empty one for the first new form
-    let paths_in = Vue.ref([""]);
-    let svrnames_in = Vue.ref([""]);
-    let svrids_in = Vue.ref([""]);
-    let providers_in = Vue.ref([""]);
-    let inputfmts_in = Vue.ref([""]);
-    let alignmethods_in = Vue.ref([""]);
-    let levelmethods_in = Vue.ref([""]);
-    let gencapabilities_in = Vue.ref([""]);
-    let natshosts_in = Vue.ref([""]);
-    let natsports_in = Vue.ref([""]);
+    // define all input
+    let input = Vue.ref([
+      // init an empty one for the first new form
+      {
+        name: "",
+        path: "",
+        svrname: "",
+        svrid: "",
+        provider: "",
+        inputfmt: "",
+        alignmethod: "",
+        levelmethod: "",
+        gencapability: "",
+        natshost: "",
+        natsport: "",
+      }
+    ]);
 
     // listen to an event
     emitter.on("selected", (e) => {
@@ -97,18 +121,8 @@ export default {
         }
         const all = await get_allitem();
 
-        // clear ***_in for inflating again
-        names_in.value = [""]; // init an empty one for the first new form
-        paths_in.value = [""];
-        svrnames_in.value = [""];
-        svrids_in.value = [""];
-        providers_in.value = [""];
-        inputfmts_in.value = [""];
-        alignmethods_in.value = [""];
-        levelmethods_in.value = [""];
-        gencapabilities_in.value = [""];
-        natshosts_in = Vue.ref([""]);
-        natsports_in = Vue.ref([""]);
+        // clear all existing input
+        clrform(input);
 
         // console.log(a);
         // console.log(a[arg]);
@@ -119,17 +133,21 @@ export default {
             const b = await get_cfg(e, cname);
             console.log(b);
 
-            names_in.value.push(b.name);
-            paths_in.value.push(b.path);
-            svrnames_in.value.push(b.svrname);
-            svrids_in.value.push(b.svrid);
-            providers_in.value.push(b.provider);
-            inputfmts_in.value.push(b.inputFormat);
-            alignmethods_in.value.push(b.alignMethod);
-            levelmethods_in.value.push(b.levelMethod);
-            gencapabilities_in.value.push(b.capability);
-            natshosts_in.value.push(b.natsHost);
-            natsports_in.value.push(b.natsPort);
+            // assign from fetch
+            input.value.push({
+              name: b.name,
+              path: b.path,
+              svrname: b.svrname,
+              svrid: b.svrid,
+              provider: b.provider,
+              inputfmt: b.inputFormat,
+              alignmethod: b.alignMethod,
+              levelmethod: b.levelMethod,
+              gencapability: b.capability,
+              natshost: b.natsHost,
+              natsport: b.natsPort,
+            });
+
           })();
         });
       })();
@@ -139,17 +157,7 @@ export default {
       selected,
       title,
       vi,
-      names_in,
-      paths_in,
-      svrnames_in,
-      svrids_in,
-      providers_in,
-      inputfmts_in,
-      alignmethods_in,
-      levelmethods_in,
-      gencapabilities_in,
-      natshosts_in,
-      natsports_in,
+      input,
     };
   },
 
