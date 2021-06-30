@@ -4,7 +4,20 @@ import { getForm } from "./form/all.js";
 
 const emitter = getEmitter();
 
+const VisForm = {
+  natsstreaming: false,
+  nias3: false,
+  benthos: false,
+  reader: false,
+  align: false,
+  txtclassifier: false,
+  level: false,
+  weight: false,
+  hub: false,
+}
+
 function viform(proj, vi) {
+
   vi.natsstreaming = false;
   vi.nias3 = false;
   vi.benthos = false;
@@ -46,22 +59,146 @@ function viform(proj, vi) {
   }
 }
 
+const InitLabel = {
+  // all
+  name: ["Config File Name", "config file name, should be identical"],
+  path: ["Path to Service Executable", "path/to/service/executable"],
+
+  // all services
+  svrname: ["Service Name", "name for service"],
+  svrid: ["Service ID", "id for service, leave blank to auto-generate a unique id"],
+
+  // reader
+  provider: ["Provider Name", "name of product or system supplying the data"],
+  inputfmt: ["Input File Format", "format of input data, one of csv|json"],
+  alignmethod: ["Align Method", "method to align input data to NLPs must be one of prescribed|mapped|inferred"],
+  levelmethod: ["Level Method", "method to apply common scaling this data, one of prescribed|mapped-scale|rules"],
+  gencapability: ["General Capability", "General Capability for assessment results; Literacy or Numeracy"],
+  natshost: ["Nats Streaming Host", "hostname/ip of nats broker"],
+  natsport: ["Nats Port", "connection port for nats broker"],
+  natscluster: ["Nats Cluster Name", "cluster id for nats broker"],
+  topic: ["Nats Topic", "nats topic name to publish parsed data items to"],
+  folder: ["Watching Folder", "folder to watch for data files"],
+  filesuffix: ["Only Watch File Suffix", "filter files to read by file extension, eg. .csv or .myapp (actual data handling will be determined by input format flag)"],
+  interval: ["Interval For Dealing", "watcher poll interval"],
+  recursive: ["Dealing With Sub Folder", "watch folders recursively"],
+  dotfiles: ["Dealing With Dot Files", "watch dot files"],
+  ignore: ["Folders To Be Ignored", "comma separated list of paths to ignore"],
+  concurrfiles: ["Files' Count In Once Process", "pool size for concurrent file processing"],
+
+  // align, level, weight ...
+  port: ["Service Port", "current service running port"],
+
+  // align, level ...
+  niashost: ["NIAS3 Host", "hostname/ip of nias3"],
+  niasport: ["NIAS3 Port", "connection port for nias3"],
+  niastoken: ["NIAS3 Token", "token to access nias3"],
+
+  // align
+  tchost: ["Text Classifier Host", "text classifier service hostname/ip"],
+  tcport: ["Text Classifier Port", "text classifier service connection port"],
+
+  // text classifier
+
+  // weight
+  failwhenerr: ["Panic If Error", "if error happens, should service abort?"],
+}
+
+const InitInput = {
+  // all
+  name: "",
+  path: "",
+
+  // all services
+  svrname: "",
+  svrid: "",
+
+  // reader
+  provider: "",
+  inputfmt: "",
+  alignmethod: "",
+  levelmethod: "",
+  gencapability: "",
+  natshost: "",
+  natsport: "",
+  natscluster: "",
+  topic: "",
+  folder: "",
+  filesuffix: "",
+  interval: "",
+  recursive: false,
+  dotfiles: false,
+  ignore: "",
+  concurrfiles: 10,
+
+  // align, level, weight ...
+  port: "",
+
+  // align, level ...
+  niashost: "",
+  niasport: "",
+  niastoken: "",
+
+  // align
+  tchost: "",
+  tcport: "",
+
+  // text classifier
+
+  // weight
+  failwhenerr: false,
+
+}
+
+function inflateform(input, data) {
+
+  // data fields name refer to 'config.go'
+  input.value.push({
+    // all
+    name: data.name,
+    path: data.path,
+
+    // all services
+    svrname: data.svrname,
+    svrid: data.svrid,
+
+    // reader
+    provider: data.provider,
+    inputfmt: data.inputFormat,
+    alignmethod: data.alignMethod,
+    levelmethod: data.levelMethod,
+    gencapability: data.capability,
+    natshost: data.natsHost,
+    natsport: data.natsPort,
+    natscluster: data.natsCluster,
+    topic: data.topic,
+    folder: data.folder,
+    filesuffix: data.suffix,
+    interval: data.interval,
+    recursive: data.recursive,
+    dotfiles: data.dotfiles,
+    ignore: data.ignore,
+    concurrfiles: data.concurrFiles,
+
+    // align, level, weight ...
+    port: data.port,
+
+    // align, level ...
+    niashost: data.niasHost,
+    niasport: data.niasPort,
+    niastoken: data.niasToken,
+
+    // align
+    tchost: data.tcHost,
+    tcport: data.tcPort,
+
+    // weight
+    failwhenerr: data.failWhenErr,
+  });
+}
+
 function clrform(input) {
-  input.value = [
-    {
-      name: "",
-      path: "",
-      svrname: "",
-      svrid: "",
-      provider: "",
-      inputfmt: "",
-      alignmethod: "",
-      levelmethod: "",
-      gencapability: "",
-      natshost: "",
-      natsport: "",
-    }
-  ];
+  input.value = [InitInput];
 }
 
 export default {
@@ -69,35 +206,12 @@ export default {
     let selected = Vue.ref(false);
     let title = Vue.ref("OTF project (select from left)");
 
-    let vi = Vue.reactive({
-      natsstreaming: false,
-      nias3: false,
-      benthos: false,
-      reader: false,
-      align: false,
-      txtclassifier: false,
-      level: false,
-      weight: false,
-      hub: false,
-    });
+    let vi = Vue.reactive(VisForm);
 
-    // define all input
-    let input = Vue.ref([
-      // init an empty one for the first new form
-      {
-        name: "",
-        path: "",
-        svrname: "",
-        svrid: "",
-        provider: "",
-        inputfmt: "",
-        alignmethod: "",
-        levelmethod: "",
-        gencapability: "",
-        natshost: "",
-        natsport: "",
-      }
-    ]);
+    const label = InitLabel;
+
+    // init an empty one for the first new form
+    let input = Vue.ref([InitInput]);
 
     // listen to an event
     emitter.on("selected", (e) => {
@@ -133,20 +247,8 @@ export default {
             const b = await get_cfg(e, cname);
             console.log(b);
 
-            // assign from fetch
-            input.value.push({
-              name: b.name,
-              path: b.path,
-              svrname: b.svrname,
-              svrid: b.svrid,
-              provider: b.provider,
-              inputfmt: b.inputFormat,
-              alignmethod: b.alignMethod,
-              levelmethod: b.levelMethod,
-              gencapability: b.capability,
-              natshost: b.natsHost,
-              natsport: b.natsPort,
-            });
+            // fill existing form input with fetch data
+            inflateform(input, b);
 
           })();
         });
@@ -157,6 +259,7 @@ export default {
       selected,
       title,
       vi,
+      label,
       input,
     };
   },

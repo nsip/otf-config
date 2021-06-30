@@ -59,9 +59,10 @@ body {
 
 .lb {
   color: rgb(3, 104, 104);
-  width: 250px;
+  width: 220px;
   display: inline-block;
   padding: 1%;
+  /* margin-top: 0.5%;  */
 }
 
 .cfgform input[type="text"] {
@@ -69,7 +70,7 @@ body {
   padding-bottom: 0.5%;
   padding-left: 0.5%;
   padding-right: 0.5%;
-  margin-top: 1%;
+  /* margin-top: 0.5%;   */
   color: #111111;
   width: 500px;
   border-radius: 4px;
