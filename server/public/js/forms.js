@@ -72,6 +72,8 @@ export default {
     let alignmethods_in = Vue.ref([""]);
     let levelmethods_in = Vue.ref([""]);
     let gencapabilities_in = Vue.ref([""]);
+    let natshosts_in = Vue.ref([""]);
+    let natsports_in = Vue.ref([""]);
 
     // listen to an event
     emitter.on("selected", (e) => {
@@ -105,6 +107,8 @@ export default {
         alignmethods_in.value = [""];
         levelmethods_in.value = [""];
         gencapabilities_in.value = [""];
+        natshosts_in = Vue.ref([""]);
+        natsports_in = Vue.ref([""]);
 
         // console.log(a);
         // console.log(a[arg]);
@@ -124,6 +128,8 @@ export default {
             alignmethods_in.value.push(b.alignMethod);
             levelmethods_in.value.push(b.levelMethod);
             gencapabilities_in.value.push(b.capability);
+            natshosts_in.value.push(b.natsHost);
+            natsports_in.value.push(b.natsPort);
           })();
         });
       })();
@@ -142,6 +148,8 @@ export default {
       alignmethods_in,
       levelmethods_in,
       gencapabilities_in,
+      natshosts_in,
+      natsports_in,
     };
   },
 
