@@ -10,12 +10,13 @@ import { getForm_Level } from "./level.js";
 import { getForm_Weight } from "./weight.js";
 import { getForm_Hub } from "./hub.js";
 
-let form_head = `<div id="mainform">
-<h4 style="text-align: center;">{{title}}</h4>`;
-
-let form_tail = `<br></div>`;
-
 export function getForm() {
+
+  let form_head = `<div id="mainform">
+  <h4 style="text-align: center;">{{title}}</h4>`;
+
+  let form_tail = `<br></div>`;
+
   return (
     form_head +
     getForm_NatsStreaming() +

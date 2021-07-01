@@ -1,5 +1,5 @@
 import { getEmitter } from "./js/mitt.js";
-import { get_allitem, get_cfg, post_cfg } from "./js/fetch.js";
+import { get_allitem, get_cfg, post_cfg, put_cfg } from "./js/fetch.js";
 import { getForm } from "./form/all.js";
 
 const emitter = getEmitter();
@@ -201,9 +201,13 @@ function clr_form(input) {
   input.value = [InitInput];
 }
 
+// ****************************************************************************************** adding more
 function clr_new_form(input) {
   input.value[0].name = "";
   input.value[0].path = "";
+  input.value[0].svrname = "";
+  input.value[0].svrid = "";
+  input.value[0].port = "";
 }
 
 export default {
@@ -231,6 +235,11 @@ export default {
 
       // change title
       title.value = `OTF - ${e}`;
+
+      // clear input form if change to another project config
+      if (e != selproj.value) {
+        clr_new_form(input);
+      }
 
       // select project
       selproj.value = e;
@@ -275,8 +284,10 @@ export default {
     }
 
     // update button
-    function btn_update(selproj) {
-      console.log(`update ${selproj}`);
+    function btn_update(selproj, i) {
+      console.log(`update ${selproj} on ${i} form`);
+      put_cfg(selproj, input.value[i]);
+      emitter.emit("selected", selproj); // refresh current form
     }
 
     let disable_btn = Vue.ref(false);

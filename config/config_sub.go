@@ -21,16 +21,22 @@ func objType(obj interface{}) string {
 	return reflect.ValueOf(obj).Elem().Type().Name()
 }
 
-func isNotEmpty(field string) bool {
-	return strings.Trim(field, " \t") != ""
+func isEmpty(field string) bool {
+	return strings.Trim(field, " \t") == ""
 }
 
-func fileExists(field string) bool {
-	return filedir.FileExists(field)
+func fileMissing(field string) bool {
+	return !filedir.FileExists(field)
 }
 
-func dirExists(field string) bool {
-	return filedir.DirExists(field)
+func dirMissing(field string) bool {
+	return !filedir.DirExists(field)
+}
+
+type IValidate interface {
+	GetName() string
+	Validate() error
+	Dispense() error
 }
 
 ///////////////////////////////////////////////
@@ -40,17 +46,26 @@ type NatsStreaming struct {
 	Path string `json:"path"`
 }
 
-func (cfg *NatsStreaming) Validate() error {
-	if isNotEmpty(cfg.Name) && fileExists(cfg.Path) {
-		return nil
-	}
-	return fmt.Errorf("not valid %s config", objType(cfg))
+func (cfg *NatsStreaming) GetName() string {
+	return cfg.Name
 }
 
-func (cfg *NatsStreaming) Dispense() {
+func (cfg *NatsStreaming) Validate() error {
+	switch {
+	case isEmpty(cfg.Name):
+		return fmt.Errorf("not valid %s config, empty name", objType(cfg))
+	case fileMissing(cfg.Path):
+		return fmt.Errorf("not valid %s config, executable cannot be found via path", objType(cfg))
+	default:
+		return nil
+	}
+}
+
+func (cfg *NatsStreaming) Dispense() error {
 	cf, err := json.Marshal(cfg)
 	record("%v", err)
 	io.MustWriteFile(dir(cfg.Path)+"/"+cfg.Name+".json", cf)
+	return err
 }
 
 ////////////////////////////////
@@ -60,17 +75,26 @@ type Nias3 struct {
 	Path string `json:"path"`
 }
 
-func (cfg *Nias3) Validate() error {
-	if isNotEmpty(cfg.Name) && fileExists(cfg.Path) {
-		return nil
-	}
-	return fmt.Errorf("not valid %s config", objType(cfg))
+func (cfg *Nias3) GetName() string {
+	return cfg.Name
 }
 
-func (cfg *Nias3) Dispense() {
+func (cfg *Nias3) Validate() error {
+	switch {
+	case isEmpty(cfg.Name):
+		return fmt.Errorf("not valid %s config, empty name", objType(cfg))
+	case fileMissing(cfg.Path):
+		return fmt.Errorf("not valid %s config, executable cannot be found via path", objType(cfg))
+	default:
+		return nil
+	}
+}
+
+func (cfg *Nias3) Dispense() error {
 	cf, err := json.Marshal(cfg)
 	record("%v", err)
 	io.MustWriteFile(dir(cfg.Path)+"/"+cfg.Name+".json", cf)
+	return err
 }
 
 ////////////////////////////////
@@ -80,17 +104,26 @@ type Benthos struct {
 	Path string `json:"path"`
 }
 
-func (cfg *Benthos) Validate() error {
-	if isNotEmpty(cfg.Name) && fileExists(cfg.Path) {
-		return nil
-	}
-	return fmt.Errorf("not valid %s config", objType(cfg))
+func (cfg *Benthos) GetName() string {
+	return cfg.Name
 }
 
-func (cfg *Benthos) Dispense() {
+func (cfg *Benthos) Validate() error {
+	switch {
+	case isEmpty(cfg.Name):
+		return fmt.Errorf("not valid %s config, empty name", objType(cfg))
+	case fileMissing(cfg.Path):
+		return fmt.Errorf("not valid %s config, executable cannot be found via path", objType(cfg))
+	default:
+		return nil
+	}
+}
+
+func (cfg *Benthos) Dispense() error {
 	cf, err := json.Marshal(cfg)
 	record("%v", err)
 	io.MustWriteFile(dir(cfg.Path)+"/"+cfg.Name+".json", cf)
+	return err
 }
 
 ////////////////////////////////
@@ -118,17 +151,26 @@ type Reader struct {
 	ConcurrFiles  int    `json:"concurrFiles"`
 }
 
-func (cfg *Reader) Validate() error {
-	if isNotEmpty(cfg.Name) && fileExists(cfg.Path) {
-		return nil
-	}
-	return fmt.Errorf("not valid %s config", objType(cfg))
+func (cfg *Reader) GetName() string {
+	return cfg.Name
 }
 
-func (cfg *Reader) Dispense() {
+func (cfg *Reader) Validate() error {
+	switch {
+	case isEmpty(cfg.Name):
+		return fmt.Errorf("not valid %s config, empty name", objType(cfg))
+	case fileMissing(cfg.Path):
+		return fmt.Errorf("not valid %s config, executable cannot be found via path", objType(cfg))
+	default:
+		return nil
+	}
+}
+
+func (cfg *Reader) Dispense() error {
 	cf, err := json.Marshal(cfg)
 	record("%v", err)
 	io.MustWriteFile(dir(cfg.Path)+"/"+cfg.Name+".json", cf)
+	return err
 }
 
 ////////////////////////////////
@@ -147,17 +189,26 @@ type Align struct {
 	TcPort    int    `json:"tcPort"`
 }
 
-func (cfg *Align) Validate() error {
-	if isNotEmpty(cfg.Name) && fileExists(cfg.Path) {
-		return nil
-	}
-	return fmt.Errorf("not valid %s config", objType(cfg))
+func (cfg *Align) GetName() string {
+	return cfg.Name
 }
 
-func (cfg *Align) Dispense() {
+func (cfg *Align) Validate() error {
+	switch {
+	case isEmpty(cfg.Name):
+		return fmt.Errorf("not valid %s config, empty name", objType(cfg))
+	case fileMissing(cfg.Path):
+		return fmt.Errorf("not valid %s config, executable cannot be found via path", objType(cfg))
+	default:
+		return nil
+	}
+}
+
+func (cfg *Align) Dispense() error {
 	cf, err := json.Marshal(cfg)
 	record("%v", err)
 	io.MustWriteFile(dir(cfg.Path)+"/"+cfg.Name+".json", cf)
+	return err
 }
 
 ////////////////////////////////
@@ -167,17 +218,26 @@ type TxtClassifier struct {
 	Path string `json:"path"`
 }
 
-func (cfg *TxtClassifier) Validate() error {
-	if isNotEmpty(cfg.Name) && fileExists(cfg.Path) {
-		return nil
-	}
-	return fmt.Errorf("not valid %s config", objType(cfg))
+func (cfg *TxtClassifier) GetName() string {
+	return cfg.Name
 }
 
-func (cfg *TxtClassifier) Dispense() {
+func (cfg *TxtClassifier) Validate() error {
+	switch {
+	case isEmpty(cfg.Name):
+		return fmt.Errorf("not valid %s config, empty name", objType(cfg))
+	case fileMissing(cfg.Path):
+		return fmt.Errorf("not valid %s config, executable cannot be found via path", objType(cfg))
+	default:
+		return nil
+	}
+}
+
+func (cfg *TxtClassifier) Dispense() error {
 	cf, err := json.Marshal(cfg)
 	record("%v", err)
 	io.MustWriteFile(dir(cfg.Path)+"/"+cfg.Name+".json", cf)
+	return err
 }
 
 ////////////////////////////////
@@ -194,17 +254,26 @@ type Level struct {
 	NiasToken string `json:"niasToken"`
 }
 
-func (cfg *Level) Validate() error {
-	if isNotEmpty(cfg.Name) && fileExists(cfg.Path) {
-		return nil
-	}
-	return fmt.Errorf("not valid %s config", objType(cfg))
+func (cfg *Level) GetName() string {
+	return cfg.Name
 }
 
-func (cfg *Level) Dispense() {
+func (cfg *Level) Validate() error {
+	switch {
+	case isEmpty(cfg.Name):
+		return fmt.Errorf("not valid %s config, empty name", objType(cfg))
+	case fileMissing(cfg.Path):
+		return fmt.Errorf("not valid %s config, executable cannot be found via path", objType(cfg))
+	default:
+		return nil
+	}
+}
+
+func (cfg *Level) Dispense() error {
 	cf, err := json.Marshal(cfg)
 	record("%v", err)
 	io.MustWriteFile(dir(cfg.Path)+"/"+cfg.Name+".json", cf)
+	return err
 }
 
 ////////////////////////////////
@@ -227,17 +296,26 @@ type Weight struct {
 	}
 }
 
-func (cfg *Weight) Validate() error {
-	if isNotEmpty(cfg.Name) && fileExists(cfg.Path) {
-		return nil
-	}
-	return fmt.Errorf("not valid %s config", objType(cfg))
+func (cfg *Weight) GetName() string {
+	return cfg.Name
 }
 
-func (cfg *Weight) Dispense() {
+func (cfg *Weight) Validate() error {
+	switch {
+	case isEmpty(cfg.Name):
+		return fmt.Errorf("not valid %s config, empty name", objType(cfg))
+	case fileMissing(cfg.Path):
+		return fmt.Errorf("not valid %s config, executable cannot be found via path", objType(cfg))
+	default:
+		return nil
+	}
+}
+
+func (cfg *Weight) Dispense() error {
 	cf, err := json.Marshal(cfg)
 	record("%v", err)
 	io.MustWriteFile(dir(cfg.Path)+"/"+cfg.Name+".json", cf)
+	return err
 }
 
 ////////////////////////////////
@@ -247,15 +325,24 @@ type Hub struct {
 	Path string `json:"path"`
 }
 
-func (cfg *Hub) Validate() error {
-	if isNotEmpty(cfg.Name) && fileExists(cfg.Path) {
-		return nil
-	}
-	return fmt.Errorf("not valid %s config", objType(cfg))
+func (cfg *Hub) GetName() string {
+	return cfg.Name
 }
 
-func (cfg *Hub) Dispense() {
+func (cfg *Hub) Validate() error {
+	switch {
+	case isEmpty(cfg.Name):
+		return fmt.Errorf("not valid %s config, empty name", objType(cfg))
+	case fileMissing(cfg.Path):
+		return fmt.Errorf("not valid %s config, executable cannot be found via path", objType(cfg))
+	default:
+		return nil
+	}
+}
+
+func (cfg *Hub) Dispense() error {
 	cf, err := json.Marshal(cfg)
 	record("%v", err)
 	io.MustWriteFile(dir(cfg.Path)+"/"+cfg.Name+".json", cf)
+	return err
 }

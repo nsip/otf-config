@@ -98,3 +98,49 @@ export function post_cfg(project, data) {
             return fetch_post(`otf-config/hub`, data)
     }
 }
+
+////////////////////////////////////////////////////////////////////////////////
+
+function fetch_put(path, data) {
+
+    let url = HOST_PORT + path;
+
+    console.log(data);
+
+    const rest = fetch(url, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', },
+        body: JSON.stringify(data),
+    })
+        .then(resp => resp.json())
+        .then(data => {
+            console.log(data);
+            return data
+        })
+        .catch(error => console.error('Error:', error));
+
+    return rest;
+}
+
+export function put_cfg(project, data) {
+    switch (project) {
+        case "NatsStreaming":
+            return fetch_put(`otf-config/natsstreaming`, data)
+        case "Nias3":
+            return fetch_put(`otf-config/nias3`, data)
+        case "Benthos":
+            return fetch_put(`otf-config/benthos`, data)
+        case "Reader":
+            return fetch_put(`otf-config/reader`, data)
+        case "Align":
+            return fetch_put(`otf-config/align`, data)
+        case "TxtClassifier":
+            return fetch_put(`otf-config/textclassifier`, data)
+        case "Level":
+            return fetch_put(`otf-config/level`, data)
+        case "Weight":
+            return fetch_put(`otf-config/weight`, data)
+        case "Hub":
+            return fetch_put(`otf-config/hub`, data)
+    }
+}

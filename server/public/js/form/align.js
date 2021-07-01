@@ -3,7 +3,7 @@ let form_align = `
     <form class="cfgform">
 
       <label class="lb">{{label.name[0]}}: </label>
-      <input v-model="input[i].name" type="text" :placeholder="label.name[1]">   
+      <input v-model="input[i].name" type="text" :placeholder="label.name[1]" :readonly="i>0">   
 
       <label class="lb">{{label.path[0]}}:</label>
       <input v-model="input[i].path" type="text" :placeholder="label.path[1]">   
@@ -32,13 +32,13 @@ let form_align = `
       <label class="lb">{{label.tcport[0]}}:</label>
       <input v-model="input[i].tcport" type="text" :placeholder="label.tcport[1]"> 
 
-        <!--
-        <label class="lb">***:</label>
-        <input v-model="input[i].***" type="text" placeholder="***">            
-        -->
+      <!--
+      <label class="lb">***:</label>
+      <input v-model="input[i].***" type="text" placeholder="***">            
+      -->
         
-      <input v-if="i==0" type="button" value="new">
-      <input v-if="i>0" type="button" value="update">
+      <input v-if="i==0" type="button" value="new" :disabled="disable_btn" @click="btn_new(selproj)">
+      <input v-if="i>0" type="button" value="update" :disabled="disable_btn" @click="btn_update(selproj, i)">
       
     </form>
 </div>
