@@ -3,46 +3,81 @@ package api
 import (
 	"net/http"
 
-	"github.com/davecgh/go-spew/spew"
 	"github.com/labstack/echo/v4"
+	"github.com/nsip/otf-config/config"
+	"github.com/pkg/errors"
 )
 
 func NewNatsStreamingCfg(c echo.Context) error {
 
-	ns := new(struct {
-		CfgName string `json:"name"`
-		Path    string `json:"path"`
-	})
-	if err := c.Bind(ns); err != nil {
-		log4post("%v", err)
+	var (
+		failmsg = "Adding Config Failed: "
+		status  = http.StatusOK
+		info    = "OTF Config Added: "
+	)
+
+	newcfg := new(config.NatsStreaming)
+
+	if err := c.Bind(newcfg); err != nil {
+		status = http.StatusBadRequest
+		info = errors.Wrap(err, failmsg).Error()
+		goto R
 	}
-	spew.Dump(ns)
 
-	// CANNOT Fetch by c.FormValue
-	// cfg.NatsStreamings = append(cfg.NatsStreamings, struct {
-	// 	CfgName string `json:"name"`
-	// 	Path    string `json:"path"`
-	// }{
-	// 	CfgName: c.FormValue("name"),
-	// 	Path:    c.FormValue("path"),
-	// })
-	// log4post("%s - %s", c.FormValue("name"), c.FormValue("path"))
+	if err := newcfg.Validate(); err != nil {
+		status = http.StatusBadRequest
+		info = errors.Wrap(err, failmsg+newcfg.Name).Error()
+		goto R
+	}
 
-	return c.JSON(http.StatusOK, "POST to NewNS")
+	cfg.NatsStreamings = append(cfg.NatsStreamings, *newcfg)
+
+	if err := cfg.SaveToml(); err != nil {
+		status = http.StatusInternalServerError
+		info = errors.Wrap(err, failmsg+newcfg.Name).Error()
+		goto R
+	}
+
+	info += newcfg.Name
+
+R:
+	return c.JSON(status, info)
 }
 
 func NewNias3Cfg(c echo.Context) error {
 
-	ns := new(struct {
-		CfgName string `json:"name"`
-		Path    string `json:"path"`
-	})
-	if err := c.Bind(ns); err != nil {
-		log4post("%v", err)
-	}
-	spew.Dump(ns)
+	var (
+		failmsg = "Adding Config Failed: "
+		status  = http.StatusOK
+		info    = "OTF Config Added: "
+	)
 
-	return c.JSON(http.StatusOK, "POST to NewNias3")
+	newcfg := new(config.Nias3)
+
+	if err := c.Bind(newcfg); err != nil {
+		status = http.StatusBadRequest
+		info = errors.Wrap(err, failmsg).Error()
+		goto R
+	}
+
+	if err := newcfg.Validate(); err != nil {
+		status = http.StatusBadRequest
+		info = errors.Wrap(err, failmsg+newcfg.Name).Error()
+		goto R
+	}
+
+	cfg.Nias3s = append(cfg.Nias3s, *newcfg)
+
+	if err := cfg.SaveToml(); err != nil {
+		status = http.StatusInternalServerError
+		info = errors.Wrap(err, failmsg+newcfg.Name).Error()
+		goto R
+	}
+
+	info += newcfg.Name
+
+R:
+	return c.JSON(status, info)
 }
 
 func NewBenthosCfg(c echo.Context) error {

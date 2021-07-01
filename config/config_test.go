@@ -1,13 +1,11 @@
 package config
 
 import (
-	"encoding/json"
 	"fmt"
 	"testing"
 
 	"github.com/BurntSushi/toml"
 	"github.com/davecgh/go-spew/spew"
-	"github.com/digisan/gotk/io"
 	lk "github.com/digisan/logkit"
 )
 
@@ -25,9 +23,14 @@ func TestGetConfig(t *testing.T) {
 	cfg.Dispense()
 }
 
-func TestCreateJSON(t *testing.T) {
+func TestSave(t *testing.T) {
 	cfg := GetConfig("../config.toml")
-	bytes, err := json.Marshal(cfg)
-	lk.FailOnErr("%v", err)
-	io.MustWriteFile("config.json", bytes)
+
+	cfg.NatsStreamings = append(cfg.NatsStreamings, NatsStreaming{
+		Name: "test_name",
+		Path: "test_path",
+	})
+
+	cfg.SaveAsJson()
+	cfg.SaveToml()
 }

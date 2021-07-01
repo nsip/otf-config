@@ -269,14 +269,17 @@ export default {
     // new button
     function btn_new(selproj) {
       console.log(`new ${selproj}`);
-      post_cfg(selproj, input.value[0]);
-      clr_new_form(input);
+      post_cfg(selproj, input.value[0]); // send input new form to backend
+      clr_new_form(input);               // clear new form
+      emitter.emit("selected", selproj); // refresh current form
     }
 
     // update button
     function btn_update(selproj) {
       console.log(`update ${selproj}`);
     }
+
+    let disable_btn = Vue.ref(false);
 
     return {
       selected,
@@ -285,6 +288,7 @@ export default {
       vi,
       label: InitLabel,
       input,
+      disable_btn,
       btn_new,
       btn_update,
     };

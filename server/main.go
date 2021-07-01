@@ -16,7 +16,7 @@ import (
 
 func hostPage() func() {
 
-	cfg := config.OtfCfg
+	cfg := config.GetConfig("../config.toml", "./config.toml")
 
 	return func() {
 		e := echo.New()
@@ -91,7 +91,7 @@ func hostPage() func() {
 
 func main() {
 
-	cfg := config.OtfCfg
+	cfg := config.GetConfig("../config.toml", "./config.toml")
 	spew.Dump(cfg)
 
 	go hostPage()()

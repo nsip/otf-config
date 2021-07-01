@@ -4,29 +4,33 @@ API = "/otf-config"
 PageFolder = "public"
 
 [[NatsStreamings]]
-  CfgName = "ns_config"
-  Path = "~/Desktop/OTF/nats-streaming-server-v0.22.0-linux-amd64/nats-streaming-server"
+  Name = "ns_config"
+  Path = "/home/qmiao/Desktop/OTF/nats-streaming-server-v0.22.0-linux-amd64/nats-streaming-server"
+
+[[NatsStreamings]]
+  Name = "222"
+  Path = "/home/qmiao/Desktop/OTF/nats-streaming-server-v0.22.0-linux-amd64/nats-streaming-server"
 
 [[Nias3s]]
-  CfgName = "n3_config"
-  Path = "~/Desktop/OTF/n3-web/server/n3w/n3w"
+  Name = "n3_config"
+  Path = "/home/qmiao/Desktop/OTF/n3-web/server/n3w/n3w"
 
 [[Benthoses]]
-  CfgName = "benthos_config"
-  Path = "~/Desktop/OTF/benthos3470/benthos"
+  Name = "benthos_config"
+  Path = "/home/qmiao/Desktop/OTF/benthos3470/benthos"
 
 [[Readers]]
-  CfgName = "spa_prescribed_config"
-  Path = "~/Desktop/OTF/otf-reader/cmd/otf-reader/otf-reader"
-  Name = ""
-  ID = ""
+  Name = "spa_prescribed_config"
+  Path = "/home/qmiao/Desktop/OTF/otf-reader/cmd/otf-reader/otf-reader"
+  SvrName = ""
+  SvrID = ""
   Provider = "SPA"
   InputFmt = "csv"
   AlignMethod = "prescribed"
   LevelMethod = "prescribed"
   GenCapability = "literacy"
   NatsHost = ""
-  natsPort = 4222
+  NatsPort = 4222
   NatsCluster = ""
   Topic = "otf.ingest"
   Folder = ""
@@ -38,17 +42,17 @@ PageFolder = "public"
   ConcurrFiles = 10
 
 [[Readers]]
-  CfgName = "spa_mapped_config"
-  Path = "~/Desktop/OTF/otf-reader/cmd/otf-reader/otf-reader"
-  Name = ""
-  ID = ""
+  Name = "spa_mapped_config"
+  Path = "/home/qmiao/Desktop/OTF/otf-reader/cmd/otf-reader/otf-reader"
+  SvrName = ""
+  SvrID = ""
   Provider = "SPA"
   InputFmt = "csv"
   AlignMethod = "mapped"
   LevelMethod = "prescribed"
   GenCapability = "literacy"
   NatsHost = ""
-  natsPort = 4222
+  NatsPort = 4222
   NatsCluster = ""
   Topic = "otf.ingest"
   Folder = ""
@@ -60,17 +64,17 @@ PageFolder = "public"
   ConcurrFiles = 10
 
 [[Readers]]
-  CfgName = "mp_config"
-  Path = "~/Desktop/OTF/otf-reader/cmd/otf-reader/otf-reader"
-  Name = ""
-  ID = ""
+  Name = "mp_config"
+  Path = "/home/qmiao/Desktop/OTF/otf-reader/cmd/otf-reader/otf-reader"
+  SvrName = ""
+  SvrID = ""
   Provider = "MathsPathway"
   InputFmt = "csv"
   AlignMethod = "mapped"
   LevelMethod = "prescribed"
   GenCapability = "numeracy"
   NatsHost = ""
-  natsPort = 4222
+  NatsPort = 4222
   NatsCluster = ""
   Topic = "otf.ingest"
   Folder = ""
@@ -82,17 +86,17 @@ PageFolder = "public"
   ConcurrFiles = 10
 
 [[Readers]]
-  CfgName = "lpofa_numeracy_config"
-  Path = "~/Desktop/OTF/otf-reader/cmd/otf-reader/otf-reader"
-  Name = ""
-  ID = ""
+  Name = "lpofa_numeracy_config"
+  Path = "/home/qmiao/Desktop/OTF/otf-reader/cmd/otf-reader/otf-reader"
+  SvrName = ""
+  SvrID = ""
   Provider = "LPOFA"
   InputFmt = "json"
   AlignMethod = "inferred"
   LevelMethod = "prescribed"
   GenCapability = "numeracy"
   NatsHost = ""
-  natsPort = 4222
+  NatsPort = 4222
   NatsCluster = ""
   Topic = "otf.ingest"
   Folder = ""
@@ -104,17 +108,17 @@ PageFolder = "public"
   ConcurrFiles = 10
 
 [[Readers]]
-  CfgName = "lpofa_literacy_config"
-  Path = "~/Desktop/OTF/otf-reader/cmd/otf-reader/otf-reader"
-  Name = ""
-  ID = ""
+  Name = "lpofa_literacy_config"
+  Path = "/home/qmiao/Desktop/OTF/otf-reader/cmd/otf-reader/otf-reader"
+  SvrName = ""
+  SvrID = ""
   Provider = "LPOFA"
   InputFmt = "json"
   AlignMethod = "inferred"
   LevelMethod = "prescribed"
   GenCapability = "literacy"
   NatsHost = ""
-  natsPort = 4222
+  NatsPort = 4222
   NatsCluster = ""
   Topic = "otf.ingest"
   Folder = ""
@@ -126,17 +130,17 @@ PageFolder = "public"
   ConcurrFiles = 10
 
 [[Readers]]
-  CfgName = "bp_config"
-  Path = "~/Desktop/OTF/otf-reader/cmd/otf-reader/otf-reader"
-  Name = ""
-  ID = ""
+  Name = "bp_config"
+  Path = "/home/qmiao/Desktop/OTF/otf-reader/cmd/otf-reader/otf-reader"
+  SvrName = ""
+  SvrID = ""
   Provider = "BrightPath"
   InputFmt = "json"
   AlignMethod = "mapped"
   LevelMethod = "mapped"
   GenCapability = "literacy"
   NatsHost = ""
-  natsPort = 4222
+  NatsPort = 4222
   NatsCluster = ""
   Topic = "otf.ingest"
   Folder = ""
@@ -148,17 +152,17 @@ PageFolder = "public"
   ConcurrFiles = 10
 
 [[Readers]]
-  CfgName = "levelMaps_config"
-  Path = "~/Desktop/OTF/otf-reader/cmd/otf-reader/otf-reader"
-  Name = ""
-  ID = ""
+  Name = "levelMaps_config"
+  Path = "/home/qmiao/Desktop/OTF/otf-reader/cmd/otf-reader/otf-reader"
+  SvrName = ""
+  SvrID = ""
   Provider = "nsip"
   InputFmt = "csv"
   AlignMethod = "mapped"
   LevelMethod = "mapped"
   GenCapability = "literacy"
   NatsHost = ""
-  natsPort = 4222
+  NatsPort = 4222
   NatsCluster = ""
   Topic = "otf.maps.level"
   Folder = ""
@@ -170,17 +174,17 @@ PageFolder = "public"
   ConcurrFiles = 10
 
 [[Readers]]
-  CfgName = "alignMaps_config"
-  Path = "~/Desktop/OTF/otf-reader/cmd/otf-reader/otf-reader"
-  Name = ""
-  ID = ""
+  Name = "alignMaps_config"
+  Path = "/home/qmiao/Desktop/OTF/otf-reader/cmd/otf-reader/otf-reader"
+  SvrName = ""
+  SvrID = ""
   Provider = "nsip"
   InputFmt = "csv"
   AlignMethod = "mapped"
   LevelMethod = "mapped"
   GenCapability = "literacy"
   NatsHost = ""
-  natsPort = 4222
+  NatsPort = 4222
   NatsCluster = ""
   Topic = "otf.maps.align"
   Folder = ""
@@ -190,12 +194,12 @@ PageFolder = "public"
   DotFiles = false
   Ignore = ""
   ConcurrFiles = 10
-  
+
 [[Aligns]]
-  CfgName = "align_config"
-  Path = "~/Desktop/OTF/otf-align/cmd/otf-align/otf-align"
-  Name = ""
-  ID = ""
+  Name = "align_config"
+  Path = "/home/qmiao/Desktop/OTF/otf-align/cmd/otf-align/otf-align"
+  SvrName = ""
+  SvrID = ""
   Host = ""
   Port = 1234
   NiasHost = ""
@@ -205,15 +209,14 @@ PageFolder = "public"
   TcPort = 1576
 
 [[TxtClassifiers]]
-  CfgName = "tc_config"
-  Path = "~/Desktop/OTF/otf-classifier/build/Linux64/otf-classifier/otf-classifier"
-  Port = 1576
+  Name = "tc_config"
+  Path = "/home/qmiao/Desktop/OTF/otf-classifier/build/Linux64/otf-classifier/otf-classifier"
 
 [[Levels]]
-  CfgName = "level_config"
-  Path = "~/Desktop/OTF/otf-level/cmd/otf-level/otf-level"
-  Name = ""
-  ID = ""
+  Name = "level_config"
+  Path = "/home/qmiao/Desktop/OTF/otf-level/cmd/otf-level/otf-level"
+  SvrName = ""
+  SvrID = ""
   Host = ""
   Port = 1234
   NiasHost = ""
@@ -221,22 +224,20 @@ PageFolder = "public"
   NiasToken = ""
 
 [[Weights]]
-  CfgName = "weight_config"
-  Path = "~/Desktop/OTF/otf-weighting/otf-weighting"
-  FailOnErr = true
+  Name = "weight_config"
+  Path = "/home/qmiao/Desktop/OTF/otf-weighting/otf-weighting"
+  FailWhenErr = false
   [Weights.Service]
-    Name = ""
-    ID = ""
+    SvrName = ""
+    SvrID = ""
     Port = 1329
     API = "/weight"
   [Weights.Weighting]
     StudentIDPath = "otf.id.studentID"
     DomainPath = "meta.capability"
-    TimePath="meta.readTimestampUTC"
+    TimePath = "meta.readTimestampUTC"
     ScorePath = "otf.level.calculatedScore.scaledScore"
 
 [[Hubs]]
-  CfgName = "hub_config"
-  Path = "~/Desktop/OTF/otf-hub/hub"
-  PdmRoot = ""
-  OtfRoot = ""
+  Name = "hub_config"
+  Path = "/home/qmiao/Desktop/OTF/otf-hub/hub/hub"

@@ -4,50 +4,54 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
+	"github.com/nsip/otf-config/config"
 )
 
 func AllCfgGrp(c echo.Context) error {
+	cfg = config.GetConfig("../config.toml", "./config.toml")
 	return c.JSON(http.StatusOK, WantedFieldsByType(cfg, "[]struct"))
 }
 
 func AllCfgItems(c echo.Context) error {
 
+	cfg = config.GetConfig("../config.toml", "./config.toml")
+
 	m := make(map[string][]string)
 
 	for _, c := range cfg.NatsStreamings {
-		m["NatsStreamings"] = append(m["NatsStreamings"], c.CfgName)
+		m["NatsStreamings"] = append(m["NatsStreamings"], c.Name)
 	}
 
 	for _, c := range cfg.Nias3s {
-		m["Nias3s"] = append(m["Nias3s"], c.CfgName)
+		m["Nias3s"] = append(m["Nias3s"], c.Name)
 	}
 
 	for _, c := range cfg.Benthoses {
-		m["Benthoses"] = append(m["Benthoses"], c.CfgName)
+		m["Benthoses"] = append(m["Benthoses"], c.Name)
 	}
 
 	for _, c := range cfg.Readers {
-		m["Readers"] = append(m["Readers"], c.CfgName)
+		m["Readers"] = append(m["Readers"], c.Name)
 	}
 
 	for _, c := range cfg.Aligns {
-		m["Aligns"] = append(m["Aligns"], c.CfgName)
+		m["Aligns"] = append(m["Aligns"], c.Name)
 	}
 
 	for _, c := range cfg.TxtClassifiers {
-		m["TxtClassifiers"] = append(m["TxtClassifiers"], c.CfgName)
+		m["TxtClassifiers"] = append(m["TxtClassifiers"], c.Name)
 	}
 
 	for _, c := range cfg.Levels {
-		m["Levels"] = append(m["Levels"], c.CfgName)
+		m["Levels"] = append(m["Levels"], c.Name)
 	}
 
 	for _, c := range cfg.Weights {
-		m["Weights"] = append(m["Weights"], c.CfgName)
+		m["Weights"] = append(m["Weights"], c.Name)
 	}
 
 	for _, c := range cfg.Hubs {
-		m["Hubs"] = append(m["Hubs"], c.CfgName)
+		m["Hubs"] = append(m["Hubs"], c.Name)
 	}
 
 	return c.JSON(http.StatusOK, m)
@@ -56,7 +60,7 @@ func AllCfgItems(c echo.Context) error {
 func NatsStreamingCfg(c echo.Context) error {
 	cname := c.QueryParam(cfgNameQuery)
 	for _, cr := range cfg.NatsStreamings {
-		if cr.CfgName == cname {
+		if cr.Name == cname {
 			return c.JSON(http.StatusOK, cr)
 		}
 	}
@@ -66,7 +70,7 @@ func NatsStreamingCfg(c echo.Context) error {
 func Nias3Cfg(c echo.Context) error {
 	cname := c.QueryParam(cfgNameQuery)
 	for _, cr := range cfg.Nias3s {
-		if cr.CfgName == cname {
+		if cr.Name == cname {
 			return c.JSON(http.StatusOK, cr)
 		}
 	}
@@ -76,7 +80,7 @@ func Nias3Cfg(c echo.Context) error {
 func BenthosCfg(c echo.Context) error {
 	cname := c.QueryParam(cfgNameQuery)
 	for _, cr := range cfg.Benthoses {
-		if cr.CfgName == cname {
+		if cr.Name == cname {
 			return c.JSON(http.StatusOK, cr)
 		}
 	}
@@ -88,7 +92,7 @@ func BenthosCfg(c echo.Context) error {
 func ReaderCfg(c echo.Context) error {
 	cname := c.QueryParam(cfgNameQuery)
 	for _, cr := range cfg.Readers {
-		if cr.CfgName == cname {
+		if cr.Name == cname {
 			return c.JSON(http.StatusOK, cr)
 		}
 	}
@@ -98,7 +102,7 @@ func ReaderCfg(c echo.Context) error {
 func AlignCfg(c echo.Context) error {
 	cname := c.QueryParam(cfgNameQuery)
 	for _, cr := range cfg.Aligns {
-		if cr.CfgName == cname {
+		if cr.Name == cname {
 			return c.JSON(http.StatusOK, cr)
 		}
 	}
@@ -108,7 +112,7 @@ func AlignCfg(c echo.Context) error {
 func TextclassifierCfg(c echo.Context) error {
 	cname := c.QueryParam(cfgNameQuery)
 	for _, cr := range cfg.TxtClassifiers {
-		if cr.CfgName == cname {
+		if cr.Name == cname {
 			return c.JSON(http.StatusOK, cr)
 		}
 	}
@@ -118,7 +122,7 @@ func TextclassifierCfg(c echo.Context) error {
 func LevelCfg(c echo.Context) error {
 	cname := c.QueryParam(cfgNameQuery)
 	for _, cr := range cfg.Levels {
-		if cr.CfgName == cname {
+		if cr.Name == cname {
 			return c.JSON(http.StatusOK, cr)
 		}
 	}
@@ -128,7 +132,7 @@ func LevelCfg(c echo.Context) error {
 func WeightCfg(c echo.Context) error {
 	cname := c.QueryParam(cfgNameQuery)
 	for _, cr := range cfg.Weights {
-		if cr.CfgName == cname {
+		if cr.Name == cname {
 			return c.JSON(http.StatusOK, cr)
 		}
 	}
@@ -138,7 +142,7 @@ func WeightCfg(c echo.Context) error {
 func HubCfg(c echo.Context) error {
 	cname := c.QueryParam(cfgNameQuery)
 	for _, cr := range cfg.Hubs {
-		if cr.CfgName == cname {
+		if cr.Name == cname {
 			return c.JSON(http.StatusOK, cr)
 		}
 	}
