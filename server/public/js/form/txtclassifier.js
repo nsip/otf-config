@@ -17,7 +17,7 @@ let form_txtclassifier = `
       -->
       
       <label class="lb">{{label.port[0]}}:</label>
-      <input v-model="input[i].port" type="text" :placeholder="label.port[1]"> 
+      <input v-model.number="input[i].port" type="text" :placeholder="label.port[1]"> 
 
       <!--
       <label class="lb">***:</label>

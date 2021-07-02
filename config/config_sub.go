@@ -42,9 +42,10 @@ type IEle interface {
 
 // for Group
 type IGrp interface {
-	GetAllNames() []string
-	GetElem(name string) IEle
-	AddElem(elem IEle)
+	AllNames() []string
+	Get(name string) IEle
+	Add(newElem IEle)
+	Update(name string, newElem IEle)
 }
 
 ///////////////////////////////////////////////
@@ -78,14 +79,14 @@ func (cfg *NatsStreaming) Dispense() error {
 
 type NatsStreamingGrp []NatsStreaming
 
-func (grp *NatsStreamingGrp) GetAllNames() (names []string) {
+func (grp *NatsStreamingGrp) AllNames() (names []string) {
 	for _, elem := range *grp {
 		names = append(names, elem.Name)
 	}
 	return
 }
 
-func (grp *NatsStreamingGrp) GetElem(name string) IEle {
+func (grp *NatsStreamingGrp) Get(name string) IEle {
 	for _, elem := range *grp {
 		if elem.Name == name {
 			return &elem
@@ -94,8 +95,17 @@ func (grp *NatsStreamingGrp) GetElem(name string) IEle {
 	return nil
 }
 
-func (grp *NatsStreamingGrp) AddElem(elem IEle) {
-	*grp = append(*grp, *(elem.(*NatsStreaming)))
+func (grp *NatsStreamingGrp) Add(newElem IEle) {
+	*grp = append(*grp, *(newElem.(*NatsStreaming)))
+}
+
+func (grp *NatsStreamingGrp) Update(name string, newElem IEle) {
+	for i, elem := range *grp {
+		if elem.Name == name {
+			(*grp)[i] = *(newElem.(*NatsStreaming))
+			return
+		}
+	}
 }
 
 ////////////////////////////////
@@ -129,14 +139,14 @@ func (cfg *Nias3) Dispense() error {
 
 type Nias3Grp []Nias3
 
-func (grp *Nias3Grp) GetAllNames() (names []string) {
+func (grp *Nias3Grp) AllNames() (names []string) {
 	for _, elem := range *grp {
 		names = append(names, elem.Name)
 	}
 	return
 }
 
-func (grp *Nias3Grp) GetElem(name string) IEle {
+func (grp *Nias3Grp) Get(name string) IEle {
 	for _, elem := range *grp {
 		if elem.Name == name {
 			return &elem
@@ -145,8 +155,17 @@ func (grp *Nias3Grp) GetElem(name string) IEle {
 	return nil
 }
 
-func (grp *Nias3Grp) AddElem(elem IEle) {
-	*grp = append(*grp, *(elem.(*Nias3)))
+func (grp *Nias3Grp) Add(newElem IEle) {
+	*grp = append(*grp, *(newElem.(*Nias3)))
+}
+
+func (grp *Nias3Grp) Update(name string, newElem IEle) {
+	for i, elem := range *grp {
+		if elem.Name == name {
+			(*grp)[i] = *(newElem.(*Nias3))
+			return
+		}
+	}
 }
 
 ////////////////////////////////
@@ -180,14 +199,14 @@ func (cfg *Benthos) Dispense() error {
 
 type BenthosGrp []Benthos
 
-func (grp *BenthosGrp) GetAllNames() (names []string) {
+func (grp *BenthosGrp) AllNames() (names []string) {
 	for _, elem := range *grp {
 		names = append(names, elem.Name)
 	}
 	return
 }
 
-func (grp *BenthosGrp) GetElem(name string) IEle {
+func (grp *BenthosGrp) Get(name string) IEle {
 	for _, elem := range *grp {
 		if elem.Name == name {
 			return &elem
@@ -196,8 +215,17 @@ func (grp *BenthosGrp) GetElem(name string) IEle {
 	return nil
 }
 
-func (grp *BenthosGrp) AddElem(elem IEle) {
-	*grp = append(*grp, *(elem.(*Benthos)))
+func (grp *BenthosGrp) Add(newElem IEle) {
+	*grp = append(*grp, *(newElem.(*Benthos)))
+}
+
+func (grp *BenthosGrp) Update(name string, newElem IEle) {
+	for i, elem := range *grp {
+		if elem.Name == name {
+			(*grp)[i] = *(newElem.(*Benthos))
+			return
+		}
+	}
 }
 
 ////////////////////////////////
@@ -249,14 +277,14 @@ func (cfg *Reader) Dispense() error {
 
 type ReaderGrp []Reader
 
-func (grp *ReaderGrp) GetAllNames() (names []string) {
+func (grp *ReaderGrp) AllNames() (names []string) {
 	for _, elem := range *grp {
 		names = append(names, elem.Name)
 	}
 	return
 }
 
-func (grp *ReaderGrp) GetElem(name string) IEle {
+func (grp *ReaderGrp) Get(name string) IEle {
 	for _, elem := range *grp {
 		if elem.Name == name {
 			return &elem
@@ -265,8 +293,17 @@ func (grp *ReaderGrp) GetElem(name string) IEle {
 	return nil
 }
 
-func (grp *ReaderGrp) AddElem(elem IEle) {
-	*grp = append(*grp, *(elem.(*Reader)))
+func (grp *ReaderGrp) Add(newElem IEle) {
+	*grp = append(*grp, *(newElem.(*Reader)))
+}
+
+func (grp *ReaderGrp) Update(name string, newElem IEle) {
+	for i, elem := range *grp {
+		if elem.Name == name {
+			(*grp)[i] = *(newElem.(*Reader))
+			return
+		}
+	}
 }
 
 ////////////////////////////////
@@ -309,14 +346,14 @@ func (cfg *Align) Dispense() error {
 
 type AlignGrp []Align
 
-func (grp *AlignGrp) GetAllNames() (names []string) {
+func (grp *AlignGrp) AllNames() (names []string) {
 	for _, elem := range *grp {
 		names = append(names, elem.Name)
 	}
 	return
 }
 
-func (grp *AlignGrp) GetElem(name string) IEle {
+func (grp *AlignGrp) Get(name string) IEle {
 	for _, elem := range *grp {
 		if elem.Name == name {
 			return &elem
@@ -325,8 +362,17 @@ func (grp *AlignGrp) GetElem(name string) IEle {
 	return nil
 }
 
-func (grp *AlignGrp) AddElem(elem IEle) {
-	*grp = append(*grp, *(elem.(*Align)))
+func (grp *AlignGrp) Add(newElem IEle) {
+	*grp = append(*grp, *(newElem.(*Align)))
+}
+
+func (grp *AlignGrp) Update(name string, newElem IEle) {
+	for i, elem := range *grp {
+		if elem.Name == name {
+			(*grp)[i] = *(newElem.(*Align))
+			return
+		}
+	}
 }
 
 ////////////////////////////////
@@ -334,6 +380,7 @@ func (grp *AlignGrp) AddElem(elem IEle) {
 type TxtClassifier struct {
 	Name string `json:"name"`
 	Path string `json:"path"`
+	Port int    `json:"port"`
 }
 
 func (cfg *TxtClassifier) GetName() string {
@@ -360,14 +407,14 @@ func (cfg *TxtClassifier) Dispense() error {
 
 type TxtClassifierGrp []TxtClassifier
 
-func (grp *TxtClassifierGrp) GetAllNames() (names []string) {
+func (grp *TxtClassifierGrp) AllNames() (names []string) {
 	for _, elem := range *grp {
 		names = append(names, elem.Name)
 	}
 	return
 }
 
-func (grp *TxtClassifierGrp) GetElem(name string) IEle {
+func (grp *TxtClassifierGrp) Get(name string) IEle {
 	for _, elem := range *grp {
 		if elem.Name == name {
 			return &elem
@@ -376,8 +423,17 @@ func (grp *TxtClassifierGrp) GetElem(name string) IEle {
 	return nil
 }
 
-func (grp *TxtClassifierGrp) AddElem(elem IEle) {
-	*grp = append(*grp, *(elem.(*TxtClassifier)))
+func (grp *TxtClassifierGrp) Add(newElem IEle) {
+	*grp = append(*grp, *(newElem.(*TxtClassifier)))
+}
+
+func (grp *TxtClassifierGrp) Update(name string, newElem IEle) {
+	for i, elem := range *grp {
+		if elem.Name == name {
+			(*grp)[i] = *(newElem.(*TxtClassifier))
+			return
+		}
+	}
 }
 
 ////////////////////////////////
@@ -418,14 +474,14 @@ func (cfg *Level) Dispense() error {
 
 type LevelGrp []Level
 
-func (grp *LevelGrp) GetAllNames() (names []string) {
+func (grp *LevelGrp) AllNames() (names []string) {
 	for _, elem := range *grp {
 		names = append(names, elem.Name)
 	}
 	return
 }
 
-func (grp *LevelGrp) GetElem(name string) IEle {
+func (grp *LevelGrp) Get(name string) IEle {
 	for _, elem := range *grp {
 		if elem.Name == name {
 			return &elem
@@ -434,8 +490,17 @@ func (grp *LevelGrp) GetElem(name string) IEle {
 	return nil
 }
 
-func (grp *LevelGrp) AddElem(elem IEle) {
-	*grp = append(*grp, *(elem.(*Level)))
+func (grp *LevelGrp) Add(newElem IEle) {
+	*grp = append(*grp, *(newElem.(*Level)))
+}
+
+func (grp *LevelGrp) Update(name string, newElem IEle) {
+	for i, elem := range *grp {
+		if elem.Name == name {
+			(*grp)[i] = *(newElem.(*Level))
+			return
+		}
+	}
 }
 
 ////////////////////////////////
@@ -482,14 +547,14 @@ func (cfg *Weight) Dispense() error {
 
 type WeightGrp []Weight
 
-func (grp *WeightGrp) GetAllNames() (names []string) {
+func (grp *WeightGrp) AllNames() (names []string) {
 	for _, elem := range *grp {
 		names = append(names, elem.Name)
 	}
 	return
 }
 
-func (grp *WeightGrp) GetElem(name string) IEle {
+func (grp *WeightGrp) Get(name string) IEle {
 	for _, elem := range *grp {
 		if elem.Name == name {
 			return &elem
@@ -498,8 +563,17 @@ func (grp *WeightGrp) GetElem(name string) IEle {
 	return nil
 }
 
-func (grp *WeightGrp) AddElem(elem IEle) {
-	*grp = append(*grp, *(elem.(*Weight)))
+func (grp *WeightGrp) Add(newElem IEle) {
+	*grp = append(*grp, *(newElem.(*Weight)))
+}
+
+func (grp *WeightGrp) Update(name string, newElem IEle) {
+	for i, elem := range *grp {
+		if elem.Name == name {
+			(*grp)[i] = *(newElem.(*Weight))
+			return
+		}
+	}
 }
 
 ////////////////////////////////
@@ -533,14 +607,14 @@ func (cfg *Hub) Dispense() error {
 
 type HubGrp []Hub
 
-func (grp *HubGrp) GetAllNames() (names []string) {
+func (grp *HubGrp) AllNames() (names []string) {
 	for _, elem := range *grp {
 		names = append(names, elem.Name)
 	}
 	return
 }
 
-func (grp *HubGrp) GetElem(name string) IEle {
+func (grp *HubGrp) Get(name string) IEle {
 	for _, elem := range *grp {
 		if elem.Name == name {
 			return &elem
@@ -549,6 +623,15 @@ func (grp *HubGrp) GetElem(name string) IEle {
 	return nil
 }
 
-func (grp *HubGrp) AddElem(elem IEle) {
-	*grp = append(*grp, *(elem.(*Hub)))
+func (grp *HubGrp) Add(newElem IEle) {
+	*grp = append(*grp, *(newElem.(*Hub)))
+}
+
+func (grp *HubGrp) Update(name string, newElem IEle) {
+	for i, elem := range *grp {
+		if elem.Name == name {
+			(*grp)[i] = *(newElem.(*Hub))
+			return
+		}
+	}
 }

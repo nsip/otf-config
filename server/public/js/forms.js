@@ -149,7 +149,7 @@ const InitInput = {
   concurrfiles: 10,
 
   // align, level, weight ...
-  port: "",
+  port: 0,
 
   // align, level ...
   niashost: "",
@@ -193,10 +193,10 @@ function inflateform(input, data) {
     recursive: data.recursive,
     dotfiles: data.dotfiles,
     ignore: data.ignore,
-    concurrfiles: data.concurrFiles,
+    concurrfiles: parseInt(data.concurrFiles),
 
     // align, level, weight ...
-    port: data.port,
+    port: parseInt(data.port),
 
     // align, level ...
     niashost: data.niasHost,
@@ -222,7 +222,7 @@ function clr_new_form(input) {
   input.value[0].path = "";
   input.value[0].svrname = "";
   input.value[0].svrid = "";
-  input.value[0].port = "";
+  input.value[0].port = 0;
 }
 
 export default {
@@ -294,6 +294,9 @@ export default {
     // update button
     function btn_update(selproj, i) {
       console.log(`update ${selproj} on ${i} form`);
+
+      console.log(input.value[i])
+
       put_cfg(selproj, input.value[i]);
       emitter.emit("selected", selproj); // refresh current form
     }

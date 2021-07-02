@@ -59,7 +59,7 @@ function fetch_post(path, data) {
 
     let url = HOST_PORT + path;
 
-    console.log(data);
+    // console.log(data);
 
     const rest = fetch(url, {
         method: 'POST',
@@ -105,7 +105,7 @@ function fetch_put(path, data) {
 
     let url = HOST_PORT + path;
 
-    console.log(data);
+    // console.log(data);
 
     const rest = fetch(url, {
         method: 'PUT',
@@ -123,6 +123,9 @@ function fetch_put(path, data) {
 }
 
 export function put_cfg(project, data) {
+
+    // console.log(data)
+
     switch (project) {
         case "NatsStreaming":
             return fetch_put(`otf-config/natsstreaming`, data)

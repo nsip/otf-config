@@ -31,13 +31,13 @@ func AllCfgItems(c echo.Context) error {
 
 	m := make(map[string][]string)
 	for k, v := range mGrp {
-		m[k] = v.GetAllNames()
+		m[k] = v.AllNames()
 	}
 
 	return c.JSON(http.StatusOK, m)
 }
 
-func Factory4GetCfg(proj string) func(c echo.Context) error {
+func Factory4Get(proj string) func(c echo.Context) error {
 
 	return func(c echo.Context) error {
 
@@ -55,6 +55,6 @@ func Factory4GetCfg(proj string) func(c echo.Context) error {
 
 		cname := c.QueryParam(cfgNameQuery)
 
-		return c.JSON(http.StatusOK, mGrp[proj].GetElem(cname))
+		return c.JSON(http.StatusOK, mGrp[proj].Get(cname))
 	}
 }

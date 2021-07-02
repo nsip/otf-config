@@ -211,6 +211,12 @@ PageFolder = "public"
 [[TxtClassifiers]]
   Name = "tc_config"
   Path = "~/Desktop/OTF/otf-classifier/build/Linux64/otf-classifier/otf-classifier"
+  Port = 1458
+
+[[TxtClassifiers]]
+  Name = "tc_config_1"
+  Path = "~/Desktop/OTF/otf-classifier/build/Linux64/otf-classifier/otf-classifier"
+  Port = 2547
 
 [[Levels]]
   Name = "level_config"
