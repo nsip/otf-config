@@ -23,15 +23,15 @@ type Config struct {
 	Port           int
 	API            string
 	PageFolder     string
-	NatsStreamings []NatsStreaming
-	Nias3s         []Nias3
-	Benthoses      []Benthos
-	Readers        []Reader
-	Aligns         []Align
-	TxtClassifiers []TxtClassifier
-	Levels         []Level
-	Weights        []Weight
-	Hubs           []Hub
+	NatsStreamings NatsStreamingGrp
+	Nias3s         Nias3Grp
+	Benthoses      BenthosGrp
+	Readers        ReaderGrp
+	Aligns         AlignGrp
+	TxtClassifiers TxtClassifierGrp
+	Levels         LevelGrp
+	Weights        WeightGrp
+	Hubs           HubGrp
 }
 
 func (cfg *Config) validate() (err error) {

@@ -5,23 +5,23 @@ PageFolder = "public"
 
 [[NatsStreamings]]
   Name = "ns_config"
-  Path = "/home/qmiao/Desktop/OTF/nats-streaming-server-v0.22.0-linux-amd64/nats-streaming-server"
+  Path = "~/Desktop/OTF/nats-streaming-server-v0.22.0-linux-amd64/nats-streaming-server"
 
 [[NatsStreamings]]
-  Name = "3334"
-  Path = "/home/qmiao/Desktop/OTF/nats-streaming-server-v0.22.0-linux-amd64/nats-streaming-server"
+  Name = "999"
+  Path = "~/Desktop/OTF/nats-streaming-server-v0.22.0-linux-amd64/nats-streaming-server"
 
 [[Nias3s]]
   Name = "n3_config"
-  Path = "/home/qmiao/Desktop/OTF/n3-web/server/n3w/n3w"
+  Path = "~/Desktop/OTF/n3-web/server/n3w/n3w"
 
 [[Benthoses]]
   Name = "benthos_config"
-  Path = "/home/qmiao/Desktop/OTF/benthos3470/benthos"
+  Path = "~/Desktop/OTF/benthos3470/benthos"
 
 [[Readers]]
   Name = "spa_prescribed_config"
-  Path = "/home/qmiao/Desktop/OTF/otf-reader/cmd/otf-reader/otf-reader"
+  Path = "~/Desktop/OTF/otf-reader/cmd/otf-reader/otf-reader"
   SvrName = ""
   SvrID = ""
   Provider = "SPA"
@@ -43,7 +43,7 @@ PageFolder = "public"
 
 [[Readers]]
   Name = "spa_mapped_config"
-  Path = "/home/qmiao/Desktop/OTF/otf-reader/cmd/otf-reader/otf-reader"
+  Path = "~/Desktop/OTF/otf-reader/cmd/otf-reader/otf-reader"
   SvrName = ""
   SvrID = ""
   Provider = "SPA"
@@ -65,7 +65,7 @@ PageFolder = "public"
 
 [[Readers]]
   Name = "mp_config"
-  Path = "/home/qmiao/Desktop/OTF/otf-reader/cmd/otf-reader/otf-reader"
+  Path = "~/Desktop/OTF/otf-reader/cmd/otf-reader/otf-reader"
   SvrName = ""
   SvrID = ""
   Provider = "MathsPathway"
@@ -87,7 +87,7 @@ PageFolder = "public"
 
 [[Readers]]
   Name = "lpofa_numeracy_config"
-  Path = "/home/qmiao/Desktop/OTF/otf-reader/cmd/otf-reader/otf-reader"
+  Path = "~/Desktop/OTF/otf-reader/cmd/otf-reader/otf-reader"
   SvrName = ""
   SvrID = ""
   Provider = "LPOFA"
@@ -109,7 +109,7 @@ PageFolder = "public"
 
 [[Readers]]
   Name = "lpofa_literacy_config"
-  Path = "/home/qmiao/Desktop/OTF/otf-reader/cmd/otf-reader/otf-reader"
+  Path = "~/Desktop/OTF/otf-reader/cmd/otf-reader/otf-reader"
   SvrName = ""
   SvrID = ""
   Provider = "LPOFA"
@@ -131,7 +131,7 @@ PageFolder = "public"
 
 [[Readers]]
   Name = "bp_config"
-  Path = "/home/qmiao/Desktop/OTF/otf-reader/cmd/otf-reader/otf-reader"
+  Path = "~/Desktop/OTF/otf-reader/cmd/otf-reader/otf-reader"
   SvrName = ""
   SvrID = ""
   Provider = "BrightPath"
@@ -153,7 +153,7 @@ PageFolder = "public"
 
 [[Readers]]
   Name = "levelMaps_config"
-  Path = "/home/qmiao/Desktop/OTF/otf-reader/cmd/otf-reader/otf-reader"
+  Path = "~/Desktop/OTF/otf-reader/cmd/otf-reader/otf-reader"
   SvrName = ""
   SvrID = ""
   Provider = "nsip"
@@ -175,7 +175,7 @@ PageFolder = "public"
 
 [[Readers]]
   Name = "alignMaps_config"
-  Path = "/home/qmiao/Desktop/OTF/otf-reader/cmd/otf-reader/otf-reader"
+  Path = "~/Desktop/OTF/otf-reader/cmd/otf-reader/otf-reader"
   SvrName = ""
   SvrID = ""
   Provider = "nsip"
@@ -197,7 +197,7 @@ PageFolder = "public"
 
 [[Aligns]]
   Name = "align_config"
-  Path = "/home/qmiao/Desktop/OTF/otf-align/cmd/otf-align/otf-align"
+  Path = "~/Desktop/OTF/otf-align/cmd/otf-align/otf-align"
   SvrName = ""
   SvrID = ""
   Host = ""
@@ -210,11 +210,11 @@ PageFolder = "public"
 
 [[TxtClassifiers]]
   Name = "tc_config"
-  Path = "/home/qmiao/Desktop/OTF/otf-classifier/build/Linux64/otf-classifier/otf-classifier"
+  Path = "~/Desktop/OTF/otf-classifier/build/Linux64/otf-classifier/otf-classifier"
 
 [[Levels]]
   Name = "level_config"
-  Path = "/home/qmiao/Desktop/OTF/otf-level/cmd/otf-level/otf-level"
+  Path = "~/Desktop/OTF/otf-level/cmd/otf-level/otf-level"
   SvrName = ""
   SvrID = ""
   Host = ""
@@ -225,7 +225,7 @@ PageFolder = "public"
 
 [[Weights]]
   Name = "weight_config"
-  Path = "/home/qmiao/Desktop/OTF/otf-weighting/otf-weighting"
+  Path = "~/Desktop/OTF/otf-weighting/otf-weighting"
   FailWhenErr = false
   [Weights.Service]
     SvrName = ""
@@ -240,4 +240,4 @@ PageFolder = "public"
 
 [[Hubs]]
   Name = "hub_config"
-  Path = "/home/qmiao/Desktop/OTF/otf-hub/hub/hub"
+  Path = "~/Desktop/OTF/otf-hub/hub/hub"

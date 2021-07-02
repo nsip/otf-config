@@ -33,10 +33,18 @@ func dirMissing(field string) bool {
 	return !filedir.DirExists(field)
 }
 
-type IValidate interface {
+// for element
+type IEle interface {
 	GetName() string
 	Validate() error
 	Dispense() error
+}
+
+// for Group
+type IGrp interface {
+	GetAllNames() []string
+	GetElem(name string) IEle
+	AddElem(elem IEle)
 }
 
 ///////////////////////////////////////////////
@@ -68,6 +76,28 @@ func (cfg *NatsStreaming) Dispense() error {
 	return err
 }
 
+type NatsStreamingGrp []NatsStreaming
+
+func (grp *NatsStreamingGrp) GetAllNames() (names []string) {
+	for _, elem := range *grp {
+		names = append(names, elem.Name)
+	}
+	return
+}
+
+func (grp *NatsStreamingGrp) GetElem(name string) IEle {
+	for _, elem := range *grp {
+		if elem.Name == name {
+			return &elem
+		}
+	}
+	return nil
+}
+
+func (grp *NatsStreamingGrp) AddElem(elem IEle) {
+	*grp = append(*grp, *(elem.(*NatsStreaming)))
+}
+
 ////////////////////////////////
 
 type Nias3 struct {
@@ -97,6 +127,28 @@ func (cfg *Nias3) Dispense() error {
 	return err
 }
 
+type Nias3Grp []Nias3
+
+func (grp *Nias3Grp) GetAllNames() (names []string) {
+	for _, elem := range *grp {
+		names = append(names, elem.Name)
+	}
+	return
+}
+
+func (grp *Nias3Grp) GetElem(name string) IEle {
+	for _, elem := range *grp {
+		if elem.Name == name {
+			return &elem
+		}
+	}
+	return nil
+}
+
+func (grp *Nias3Grp) AddElem(elem IEle) {
+	*grp = append(*grp, *(elem.(*Nias3)))
+}
+
 ////////////////////////////////
 
 type Benthos struct {
@@ -124,6 +176,28 @@ func (cfg *Benthos) Dispense() error {
 	record("%v", err)
 	io.MustWriteFile(dir(cfg.Path)+"/"+cfg.Name+".json", cf)
 	return err
+}
+
+type BenthosGrp []Benthos
+
+func (grp *BenthosGrp) GetAllNames() (names []string) {
+	for _, elem := range *grp {
+		names = append(names, elem.Name)
+	}
+	return
+}
+
+func (grp *BenthosGrp) GetElem(name string) IEle {
+	for _, elem := range *grp {
+		if elem.Name == name {
+			return &elem
+		}
+	}
+	return nil
+}
+
+func (grp *BenthosGrp) AddElem(elem IEle) {
+	*grp = append(*grp, *(elem.(*Benthos)))
 }
 
 ////////////////////////////////
@@ -173,6 +247,28 @@ func (cfg *Reader) Dispense() error {
 	return err
 }
 
+type ReaderGrp []Reader
+
+func (grp *ReaderGrp) GetAllNames() (names []string) {
+	for _, elem := range *grp {
+		names = append(names, elem.Name)
+	}
+	return
+}
+
+func (grp *ReaderGrp) GetElem(name string) IEle {
+	for _, elem := range *grp {
+		if elem.Name == name {
+			return &elem
+		}
+	}
+	return nil
+}
+
+func (grp *ReaderGrp) AddElem(elem IEle) {
+	*grp = append(*grp, *(elem.(*Reader)))
+}
+
 ////////////////////////////////
 
 type Align struct {
@@ -211,6 +307,28 @@ func (cfg *Align) Dispense() error {
 	return err
 }
 
+type AlignGrp []Align
+
+func (grp *AlignGrp) GetAllNames() (names []string) {
+	for _, elem := range *grp {
+		names = append(names, elem.Name)
+	}
+	return
+}
+
+func (grp *AlignGrp) GetElem(name string) IEle {
+	for _, elem := range *grp {
+		if elem.Name == name {
+			return &elem
+		}
+	}
+	return nil
+}
+
+func (grp *AlignGrp) AddElem(elem IEle) {
+	*grp = append(*grp, *(elem.(*Align)))
+}
+
 ////////////////////////////////
 
 type TxtClassifier struct {
@@ -238,6 +356,28 @@ func (cfg *TxtClassifier) Dispense() error {
 	record("%v", err)
 	io.MustWriteFile(dir(cfg.Path)+"/"+cfg.Name+".json", cf)
 	return err
+}
+
+type TxtClassifierGrp []TxtClassifier
+
+func (grp *TxtClassifierGrp) GetAllNames() (names []string) {
+	for _, elem := range *grp {
+		names = append(names, elem.Name)
+	}
+	return
+}
+
+func (grp *TxtClassifierGrp) GetElem(name string) IEle {
+	for _, elem := range *grp {
+		if elem.Name == name {
+			return &elem
+		}
+	}
+	return nil
+}
+
+func (grp *TxtClassifierGrp) AddElem(elem IEle) {
+	*grp = append(*grp, *(elem.(*TxtClassifier)))
 }
 
 ////////////////////////////////
@@ -274,6 +414,28 @@ func (cfg *Level) Dispense() error {
 	record("%v", err)
 	io.MustWriteFile(dir(cfg.Path)+"/"+cfg.Name+".json", cf)
 	return err
+}
+
+type LevelGrp []Level
+
+func (grp *LevelGrp) GetAllNames() (names []string) {
+	for _, elem := range *grp {
+		names = append(names, elem.Name)
+	}
+	return
+}
+
+func (grp *LevelGrp) GetElem(name string) IEle {
+	for _, elem := range *grp {
+		if elem.Name == name {
+			return &elem
+		}
+	}
+	return nil
+}
+
+func (grp *LevelGrp) AddElem(elem IEle) {
+	*grp = append(*grp, *(elem.(*Level)))
 }
 
 ////////////////////////////////
@@ -318,6 +480,28 @@ func (cfg *Weight) Dispense() error {
 	return err
 }
 
+type WeightGrp []Weight
+
+func (grp *WeightGrp) GetAllNames() (names []string) {
+	for _, elem := range *grp {
+		names = append(names, elem.Name)
+	}
+	return
+}
+
+func (grp *WeightGrp) GetElem(name string) IEle {
+	for _, elem := range *grp {
+		if elem.Name == name {
+			return &elem
+		}
+	}
+	return nil
+}
+
+func (grp *WeightGrp) AddElem(elem IEle) {
+	*grp = append(*grp, *(elem.(*Weight)))
+}
+
 ////////////////////////////////
 
 type Hub struct {
@@ -345,4 +529,26 @@ func (cfg *Hub) Dispense() error {
 	record("%v", err)
 	io.MustWriteFile(dir(cfg.Path)+"/"+cfg.Name+".json", cf)
 	return err
+}
+
+type HubGrp []Hub
+
+func (grp *HubGrp) GetAllNames() (names []string) {
+	for _, elem := range *grp {
+		names = append(names, elem.Name)
+	}
+	return
+}
+
+func (grp *HubGrp) GetElem(name string) IEle {
+	for _, elem := range *grp {
+		if elem.Name == name {
+			return &elem
+		}
+	}
+	return nil
+}
+
+func (grp *HubGrp) AddElem(elem IEle) {
+	*grp = append(*grp, *(elem.(*Hub)))
 }

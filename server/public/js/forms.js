@@ -14,10 +14,9 @@ const VisForm = {
   level: false,
   weight: false,
   hub: false,
-}
+};
 
 function viform(proj, vi) {
-
   vi.natsstreaming = false;
   vi.nias3 = false;
   vi.benthos = false;
@@ -66,25 +65,43 @@ const InitLabel = {
 
   // all services
   svrname: ["Service Name", "name for service"],
-  svrid: ["Service ID", "id for service, leave blank to auto-generate a unique id"],
+  svrid: [
+    "Service ID",
+    "id for service, leave blank to auto-generate a unique id",
+  ],
 
   // reader
   provider: ["Provider Name", "name of product or system supplying the data"],
   inputfmt: ["Input File Format", "format of input data, one of csv|json"],
-  alignmethod: ["Align Method", "method to align input data to NLPs must be one of prescribed|mapped|inferred"],
-  levelmethod: ["Level Method", "method to apply common scaling this data, one of prescribed|mapped-scale|rules"],
-  gencapability: ["General Capability", "General Capability for assessment results; Literacy or Numeracy"],
+  alignmethod: [
+    "Align Method",
+    "method to align input data to NLPs must be one of prescribed|mapped|inferred",
+  ],
+  levelmethod: [
+    "Level Method",
+    "method to apply common scaling this data, one of prescribed|mapped-scale|rules",
+  ],
+  gencapability: [
+    "General Capability",
+    "General Capability for assessment results; Literacy or Numeracy",
+  ],
   natshost: ["Nats Streaming Host", "hostname/ip of nats broker"],
   natsport: ["Nats Port", "connection port for nats broker"],
   natscluster: ["Nats Cluster Name", "cluster id for nats broker"],
   topic: ["Nats Topic", "nats topic name to publish parsed data items to"],
   folder: ["Watching Folder", "folder to watch for data files"],
-  filesuffix: ["Only Watch File Suffix", "filter files to read by file extension, eg. .csv or .myapp (actual data handling will be determined by input format flag)"],
+  filesuffix: [
+    "Only Watch File Suffix",
+    "filter files to read by file extension, eg. .csv or .myapp (actual data handling will be determined by input format flag)",
+  ],
   interval: ["Interval For Dealing", "watcher poll interval"],
   recursive: ["Dealing With Sub Folder", "watch folders recursively"],
   dotfiles: ["Dealing With Dot Files", "watch dot files"],
   ignore: ["Folders To Be Ignored", "comma separated list of paths to ignore"],
-  concurrfiles: ["Files' Count In Once Process", "pool size for concurrent file processing"],
+  concurrfiles: [
+    "Files' Count In Once Process",
+    "pool size for concurrent file processing",
+  ],
 
   // align, level, weight ...
   port: ["Service Port", "current service running port"],
@@ -102,7 +119,7 @@ const InitLabel = {
 
   // weight
   failwhenerr: ["Panic If Error", "if error happens, should service abort?"],
-}
+};
 
 const InitInput = {
   // all
@@ -147,11 +164,9 @@ const InitInput = {
 
   // weight
   failwhenerr: false,
-
-}
+};
 
 function inflateform(input, data) {
-
   // data fields name refer to 'config.go'
   input.value.push({
     // all
@@ -212,7 +227,6 @@ function clr_new_form(input) {
 
 export default {
   setup() {
-
     let selected = Vue.ref(false);
 
     let selproj = Vue.ref("");
@@ -226,7 +240,6 @@ export default {
 
     // listen to an event
     emitter.on("selected", (e) => {
-
       // test
       console.log("forms received:", e);
 
@@ -249,27 +262,22 @@ export default {
 
       // fetch all selected config
       (async () => {
-        let arg = `${e}s`;
-        if (e == "Benthos") {
-          arg = `${e}es`;
-        }
         const all = await get_allitem();
 
         // clear all existing input
         clr_form(input);
 
         // console.log(a);
-        // console.log(a[arg]);
+        // console.log(a[e]);
 
         // fetch config content array
-        all[arg].forEach((cname) => {
+        all[e].forEach((cname) => {
           (async () => {
             const b = await get_cfg(e, cname);
             console.log(b);
 
             // fill existing form input with fetch data
             inflateform(input, b);
-
           })();
         });
       })();
@@ -279,7 +287,7 @@ export default {
     function btn_new(selproj) {
       console.log(`new ${selproj}`);
       post_cfg(selproj, input.value[0]); // send input new form to backend
-      clr_new_form(input);               // clear new form
+      clr_new_form(input); // clear new form
       emitter.emit("selected", selproj); // refresh current form
     }
 
