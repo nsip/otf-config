@@ -147,3 +147,49 @@ export function put_cfg(project, data) {
             return fetch_put(`otf-config/hub`, data)
     }
 }
+
+////////////////////////////////////////////////////////////////////////////////
+
+function fetch_delete(path) {
+
+    let url = HOST_PORT + path;
+    // console.log(url);
+
+    const rest = fetch(url, {
+        method: 'DELETE',
+    })
+        .then(resp => resp.json())
+        .then(data => {
+            console.log(data);
+            return data
+        })
+        .catch(error => console.error('Error:', error));
+
+    return rest;
+}
+
+export function delete_cfg(project, cfgname) {
+
+    // console.log("in delete_cfg");
+
+    switch (project) {
+        case "NatsStreaming":
+            return fetch_delete(`otf-config/natsstreaming?cfgName=${cfgname}`)
+        case "Nias3":
+            return fetch_delete(`otf-config/nias3?cfgName=${cfgname}`)
+        case "Benthos":
+            return fetch_delete(`otf-config/benthos?cfgName=${cfgname}`)
+        case "Reader":
+            return fetch_delete(`otf-config/reader?cfgName=${cfgname}`)
+        case "Align":
+            return fetch_delete(`otf-config/align?cfgName=${cfgname}`)
+        case "TxtClassifier":
+            return fetch_delete(`otf-config/textclassifier?cfgName=${cfgname}`)
+        case "Level":
+            return fetch_delete(`otf-config/level?cfgName=${cfgname}`)
+        case "Weight":
+            return fetch_delete(`otf-config/weight?cfgName=${cfgname}`)
+        case "Hub":
+            return fetch_delete(`otf-config/hub?cfgName=${cfgname}`)
+    }
+}

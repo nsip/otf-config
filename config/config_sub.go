@@ -46,6 +46,7 @@ type IGrp interface {
 	Get(name string) IEle
 	Add(newElem IEle)
 	Update(name string, newElem IEle)
+	Delete(name string)
 }
 
 ///////////////////////////////////////////////
@@ -108,6 +109,16 @@ func (grp *NatsStreamingGrp) Update(name string, newElem IEle) {
 	}
 }
 
+func (grp *NatsStreamingGrp) Delete(name string) {
+	for i, elem := range *grp {
+		if elem.Name == name {
+			(*grp)[i] = (*grp)[len(*grp)-1]
+			break
+		}
+	}
+	*grp = (*grp)[:len(*grp)-1]
+}
+
 ////////////////////////////////
 
 type Nias3 struct {
@@ -168,6 +179,16 @@ func (grp *Nias3Grp) Update(name string, newElem IEle) {
 	}
 }
 
+func (grp *Nias3Grp) Delete(name string) {
+	for i, elem := range *grp {
+		if elem.Name == name {
+			(*grp)[i] = (*grp)[len(*grp)-1]
+			break
+		}
+	}
+	*grp = (*grp)[:len(*grp)-1]
+}
+
 ////////////////////////////////
 
 type Benthos struct {
@@ -226,6 +247,16 @@ func (grp *BenthosGrp) Update(name string, newElem IEle) {
 			return
 		}
 	}
+}
+
+func (grp *BenthosGrp) Delete(name string) {
+	for i, elem := range *grp {
+		if elem.Name == name {
+			(*grp)[i] = (*grp)[len(*grp)-1]
+			break
+		}
+	}
+	*grp = (*grp)[:len(*grp)-1]
 }
 
 ////////////////////////////////
@@ -306,6 +337,16 @@ func (grp *ReaderGrp) Update(name string, newElem IEle) {
 	}
 }
 
+func (grp *ReaderGrp) Delete(name string) {
+	for i, elem := range *grp {
+		if elem.Name == name {
+			(*grp)[i] = (*grp)[len(*grp)-1]
+			break
+		}
+	}
+	*grp = (*grp)[:len(*grp)-1]
+}
+
 ////////////////////////////////
 
 type Align struct {
@@ -375,6 +416,16 @@ func (grp *AlignGrp) Update(name string, newElem IEle) {
 	}
 }
 
+func (grp *AlignGrp) Delete(name string) {
+	for i, elem := range *grp {
+		if elem.Name == name {
+			(*grp)[i] = (*grp)[len(*grp)-1]
+			break
+		}
+	}
+	*grp = (*grp)[:len(*grp)-1]
+}
+
 ////////////////////////////////
 
 type TxtClassifier struct {
@@ -434,6 +485,16 @@ func (grp *TxtClassifierGrp) Update(name string, newElem IEle) {
 			return
 		}
 	}
+}
+
+func (grp *TxtClassifierGrp) Delete(name string) {
+	for i, elem := range *grp {
+		if elem.Name == name {
+			(*grp)[i] = (*grp)[len(*grp)-1]
+			break
+		}
+	}
+	*grp = (*grp)[:len(*grp)-1]
 }
 
 ////////////////////////////////
@@ -501,6 +562,16 @@ func (grp *LevelGrp) Update(name string, newElem IEle) {
 			return
 		}
 	}
+}
+
+func (grp *LevelGrp) Delete(name string) {
+	for i, elem := range *grp {
+		if elem.Name == name {
+			(*grp)[i] = (*grp)[len(*grp)-1]
+			break
+		}
+	}
+	*grp = (*grp)[:len(*grp)-1]
 }
 
 ////////////////////////////////
@@ -576,6 +647,16 @@ func (grp *WeightGrp) Update(name string, newElem IEle) {
 	}
 }
 
+func (grp *WeightGrp) Delete(name string) {
+	for i, elem := range *grp {
+		if elem.Name == name {
+			(*grp)[i] = (*grp)[len(*grp)-1]
+			break
+		}
+	}
+	*grp = (*grp)[:len(*grp)-1]
+}
+
 ////////////////////////////////
 
 type Hub struct {
@@ -634,4 +715,14 @@ func (grp *HubGrp) Update(name string, newElem IEle) {
 			return
 		}
 	}
+}
+
+func (grp *HubGrp) Delete(name string) {
+	for i, elem := range *grp {
+		if elem.Name == name {
+			(*grp)[i] = (*grp)[len(*grp)-1]
+			break
+		}
+	}
+	*grp = (*grp)[:len(*grp)-1]
 }

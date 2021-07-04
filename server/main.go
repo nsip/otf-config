@@ -40,15 +40,15 @@ func hostPage() func() {
 		// grp.Use(middleware.JWT("demoSecret"))
 
 		// Search Config
-		grp.GET("/natsstreaming", api.Factory4Get("NatsStreaming"))
-		grp.GET("/nias3", api.Factory4Get("Nias3"))
-		grp.GET("/benthos", api.Factory4Get("Benthos"))
-		grp.GET("/reader", api.Factory4Get("Reader"))
-		grp.GET("/align", api.Factory4Get("Align"))
-		grp.GET("/textclassifier", api.Factory4Get("TxtClassifier"))
-		grp.GET("/level", api.Factory4Get("Level"))
-		grp.GET("/weight", api.Factory4Get("Weight"))
-		grp.GET("/hub", api.Factory4Get("Hub"))
+		grp.GET("/natsstreaming", api.Factory4GetDel("Get", "NatsStreaming"))
+		grp.GET("/nias3", api.Factory4GetDel("Get", "Nias3"))
+		grp.GET("/benthos", api.Factory4GetDel("Get", "Benthos"))
+		grp.GET("/reader", api.Factory4GetDel("Get", "Reader"))
+		grp.GET("/align", api.Factory4GetDel("Get", "Align"))
+		grp.GET("/textclassifier", api.Factory4GetDel("Get", "TxtClassifier"))
+		grp.GET("/level", api.Factory4GetDel("Get", "Level"))
+		grp.GET("/weight", api.Factory4GetDel("Get", "Weight"))
+		grp.GET("/hub", api.Factory4GetDel("Get", "Hub"))
 
 		// New Config
 		grp.POST("/natsstreaming", api.Factory4NewUpdate("New", "NatsStreaming"))
@@ -73,15 +73,15 @@ func hostPage() func() {
 		grp.PUT("/hub", api.Factory4NewUpdate("Update", "Hub"))
 
 		// Delete Config
-		grp.DELETE("/natsstreaming", api.Factory4Delete("NatsStreaming"))
-		grp.DELETE("/nias3", api.Factory4Delete("Nias3"))
-		grp.DELETE("/benthos", api.Factory4Delete("Benthos"))
-		grp.DELETE("/reader", api.Factory4Delete("Reader"))
-		grp.DELETE("/align", api.Factory4Delete("Align"))
-		grp.DELETE("/textclassifier", api.Factory4Delete("TxtClassifier"))
-		grp.DELETE("/level", api.Factory4Delete("Level"))
-		grp.DELETE("/weight", api.Factory4Delete("Weight"))
-		grp.DELETE("/hub", api.Factory4Delete("Hub"))
+		grp.DELETE("/natsstreaming", api.Factory4GetDel("Del", "NatsStreaming"))
+		grp.DELETE("/nias3", api.Factory4GetDel("Del", "Nias3"))
+		grp.DELETE("/benthos", api.Factory4GetDel("Del", "Benthos"))
+		grp.DELETE("/reader", api.Factory4GetDel("Del", "Reader"))
+		grp.DELETE("/align", api.Factory4GetDel("Del", "Align"))
+		grp.DELETE("/textclassifier", api.Factory4GetDel("Del", "TxtClassifier"))
+		grp.DELETE("/level", api.Factory4GetDel("Del", "Level"))
+		grp.DELETE("/weight", api.Factory4GetDel("Del", "Weight"))
+		grp.DELETE("/hub", api.Factory4GetDel("Del", "Hub"))
 
 		if err := e.Start(fmt.Sprintf(":%d", cfg.Port)); err != nil {
 			e.Logger.Info("shutting down the server: " + cfg.PageFolder)

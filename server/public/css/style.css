@@ -76,6 +76,10 @@ body {
   border-radius: 4px;
 }
 
+.cfgform input[readonly] {
+  color: #e70404; 
+}
+
 .cfgform input[type="button"] {
   padding-left: 1%;
   padding-right: 1%;

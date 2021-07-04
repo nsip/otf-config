@@ -5,6 +5,7 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/nsip/otf-config/config"
+	"github.com/pkg/errors"
 )
 
 func AllCfgGrp(c echo.Context) error {
@@ -37,7 +38,7 @@ func AllCfgItems(c echo.Context) error {
 	return c.JSON(http.StatusOK, m)
 }
 
-func Factory4Get(proj string) func(c echo.Context) error {
+func Factory4GetDel(GetDel, proj string) func(c echo.Context) error {
 
 	return func(c echo.Context) error {
 
@@ -55,6 +56,19 @@ func Factory4Get(proj string) func(c echo.Context) error {
 
 		cname := c.QueryParam(cfgNameQuery)
 
-		return c.JSON(http.StatusOK, mGrp[proj].Get(cname))
+		switch GetDel {
+		case "Get", "GET", "get":
+			return c.JSON(http.StatusOK, mGrp[proj].Get(cname))
+		case "Delete", "DELETE", "delete", "Del", "del":
+			// log4del("In Delete")
+			mGrp[proj].Delete(cname)
+			if err := cfg.SaveToml(); err != nil {
+				info := errors.Wrap(err, "SaveToml Error - Delete Failed"+cname).Error()
+				return c.JSON(http.StatusInternalServerError, info)
+			}
+			return c.JSON(http.StatusOK, cname+" deleted")
+		default:
+			panic("Invalid 'GetDel' value")
+		}
 	}
 }

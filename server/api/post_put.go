@@ -60,6 +60,8 @@ func Factory4NewUpdate(NewUpdate, proj string) func(c echo.Context) error {
 			mGrp[proj].Add(newcfg)
 		case "Update", "update", "PUT", "put":
 			mGrp[proj].Update(newcfg.GetName(), newcfg)
+		default:
+			panic("Invalid 'NewUpdate' value")
 		}
 
 		if err := cfg.SaveToml(); err != nil {

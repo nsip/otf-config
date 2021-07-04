@@ -1,5 +1,5 @@
 import { getEmitter } from "./js/mitt.js";
-import { get_allitem, get_cfg, post_cfg, put_cfg } from "./js/fetch.js";
+import { get_allitem, get_cfg, post_cfg, put_cfg, delete_cfg } from "./js/fetch.js";
 import { getForm } from "./form/all.js";
 
 const emitter = getEmitter();
@@ -294,10 +294,15 @@ export default {
     // update button
     function btn_update(selproj, i) {
       console.log(`update ${selproj} on ${i} form`);
-
       console.log(input.value[i])
-
       put_cfg(selproj, input.value[i]);
+      emitter.emit("selected", selproj); // refresh current form
+    }
+
+    function btn_delete(selproj, i) {
+      console.log(`delete ${selproj} on ${i} form`);
+      console.log(input.value[i])
+      delete_cfg(selproj, input.value[i].name);
       emitter.emit("selected", selproj); // refresh current form
     }
 
@@ -313,6 +318,7 @@ export default {
       disable_btn,
       btn_new,
       btn_update,
+      btn_delete,
     };
   },
 

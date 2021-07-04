@@ -7,10 +7,6 @@ PageFolder = "public"
   Name = "ns_config"
   Path = "~/Desktop/OTF/nats-streaming-server-v0.22.0-linux-amd64/nats-streaming-server"
 
-[[NatsStreamings]]
-  Name = "999"
-  Path = "~/Desktop/OTF/nats-streaming-server-v0.22.0-linux-amd64/nats-streaming-server"
-
 [[Nias3s]]
   Name = "n3_config"
   Path = "~/Desktop/OTF/n3-web/server/n3w/n3w"
@@ -212,11 +208,6 @@ PageFolder = "public"
   Name = "tc_config"
   Path = "~/Desktop/OTF/otf-classifier/build/Linux64/otf-classifier/otf-classifier"
   Port = 1458
-
-[[TxtClassifiers]]
-  Name = "tc_config_1"
-  Path = "~/Desktop/OTF/otf-classifier/build/Linux64/otf-classifier/otf-classifier"
-  Port = 2547
 
 [[Levels]]
   Name = "level_config"
