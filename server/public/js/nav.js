@@ -1,3 +1,4 @@
+import { get_dispense } from './js/fetch.js';
 import { getEmitter } from './js/mitt.js'
 
 const allGrp = [
@@ -35,15 +36,22 @@ export default {
       emitter.emit("selected", str);
     }
 
+    function dispense() {
+      // alert("dispense");
+      get_dispense();
+    }
+
     return {
       grps: allGrp,
       sel2form,
+      dispense,
     };
   },
 
   template: `
   <div id="nav" class="sidenav">
-  <a href="#" v-for="grp in grps" :id="grp" @click="this.sel2form(grp)">{{grp}}</a>
+  <input type="button" value="Dispense All" @click="this.dispense()"/>
+  <a href="#" v-for="grp in grps" :id="grp" @click="this.sel2form(grp)">{{grp}}</a>  
   </div>
   `,
 }

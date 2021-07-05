@@ -13,7 +13,7 @@ import (
 )
 
 var (
-	record = logkit.WarnOnErr
+	record = logkit.FailOnErr
 	dir    = filepath.Dir
 )
 
@@ -47,6 +47,8 @@ type IGrp interface {
 	Add(newElem IEle)
 	Update(name string, newElem IEle)
 	Delete(name string)
+	Validate() error
+	Dispense() error
 }
 
 ///////////////////////////////////////////////
@@ -119,6 +121,24 @@ func (grp *NatsStreamingGrp) Delete(name string) {
 	*grp = (*grp)[:len(*grp)-1]
 }
 
+func (grp *NatsStreamingGrp) Validate() error {
+	for _, g := range *grp {
+		if err := g.Validate(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func (grp *NatsStreamingGrp) Dispense() error {
+	for _, g := range *grp {
+		if err := g.Dispense(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 ////////////////////////////////
 
 type Nias3 struct {
@@ -189,6 +209,24 @@ func (grp *Nias3Grp) Delete(name string) {
 	*grp = (*grp)[:len(*grp)-1]
 }
 
+func (grp *Nias3Grp) Validate() error {
+	for _, g := range *grp {
+		if err := g.Validate(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func (grp *Nias3Grp) Dispense() error {
+	for _, g := range *grp {
+		if err := g.Dispense(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 ////////////////////////////////
 
 type Benthos struct {
@@ -257,6 +295,24 @@ func (grp *BenthosGrp) Delete(name string) {
 		}
 	}
 	*grp = (*grp)[:len(*grp)-1]
+}
+
+func (grp *BenthosGrp) Validate() error {
+	for _, g := range *grp {
+		if err := g.Validate(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func (grp *BenthosGrp) Dispense() error {
+	for _, g := range *grp {
+		if err := g.Dispense(); err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 ////////////////////////////////
@@ -347,6 +403,24 @@ func (grp *ReaderGrp) Delete(name string) {
 	*grp = (*grp)[:len(*grp)-1]
 }
 
+func (grp *ReaderGrp) Validate() error {
+	for _, g := range *grp {
+		if err := g.Validate(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func (grp *ReaderGrp) Dispense() error {
+	for _, g := range *grp {
+		if err := g.Dispense(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 ////////////////////////////////
 
 type Align struct {
@@ -426,6 +500,24 @@ func (grp *AlignGrp) Delete(name string) {
 	*grp = (*grp)[:len(*grp)-1]
 }
 
+func (grp *AlignGrp) Validate() error {
+	for _, g := range *grp {
+		if err := g.Validate(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func (grp *AlignGrp) Dispense() error {
+	for _, g := range *grp {
+		if err := g.Dispense(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 ////////////////////////////////
 
 type TxtClassifier struct {
@@ -495,6 +587,24 @@ func (grp *TxtClassifierGrp) Delete(name string) {
 		}
 	}
 	*grp = (*grp)[:len(*grp)-1]
+}
+
+func (grp *TxtClassifierGrp) Validate() error {
+	for _, g := range *grp {
+		if err := g.Validate(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func (grp *TxtClassifierGrp) Dispense() error {
+	for _, g := range *grp {
+		if err := g.Dispense(); err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 ////////////////////////////////
@@ -572,6 +682,24 @@ func (grp *LevelGrp) Delete(name string) {
 		}
 	}
 	*grp = (*grp)[:len(*grp)-1]
+}
+
+func (grp *LevelGrp) Validate() error {
+	for _, g := range *grp {
+		if err := g.Validate(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func (grp *LevelGrp) Dispense() error {
+	for _, g := range *grp {
+		if err := g.Dispense(); err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 ////////////////////////////////
@@ -657,6 +785,24 @@ func (grp *WeightGrp) Delete(name string) {
 	*grp = (*grp)[:len(*grp)-1]
 }
 
+func (grp *WeightGrp) Validate() error {
+	for _, g := range *grp {
+		if err := g.Validate(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func (grp *WeightGrp) Dispense() error {
+	for _, g := range *grp {
+		if err := g.Dispense(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 ////////////////////////////////
 
 type Hub struct {
@@ -725,4 +871,22 @@ func (grp *HubGrp) Delete(name string) {
 		}
 	}
 	*grp = (*grp)[:len(*grp)-1]
+}
+
+func (grp *HubGrp) Validate() error {
+	for _, g := range *grp {
+		if err := g.Validate(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func (grp *HubGrp) Dispense() error {
+	for _, g := range *grp {
+		if err := g.Dispense(); err != nil {
+			return err
+		}
+	}
+	return nil
 }

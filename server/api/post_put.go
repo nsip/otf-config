@@ -42,9 +42,9 @@ func Factory4NewUpdate(NewUpdate, proj string) func(c echo.Context) error {
 		}
 
 		var (
-			failmsg = "Add/Update Config Failed"
+			failmsg = "Add/Update Config Failed "
 			status  = http.StatusOK
-			info    = "OTF Config Added/Updated"
+			info    = "OTF Config Added/Updated "
 			newcfg  = mNew[proj]
 		)
 

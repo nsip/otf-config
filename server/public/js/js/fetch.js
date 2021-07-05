@@ -22,6 +22,10 @@ function fetch_get(path) {
     return rest;
 }
 
+export function get_dispense() {
+    return fetch_get("dispense")
+}
+
 export function get_allgrp() {
     return fetch_get("allgrp")
 }

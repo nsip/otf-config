@@ -34,80 +34,51 @@ type Config struct {
 	Hubs           HubGrp
 }
 
-func (cfg *Config) validate() (err error) {
-
-	record := lk.WarnOnErr
+func (cfg *Config) Validate() (err error) {
 
 	// natsstreaming
-	for i := 0; i < len(cfg.NatsStreamings); i++ {
-		if err = (&cfg.NatsStreamings[i]).Validate(); err != nil {
-			record("%v", err)
-			return err
-		}
+	if err = cfg.NatsStreamings.Validate(); err != nil {
+		return
 	}
 
 	// nias3
-	for i := 0; i < len(cfg.Nias3s); i++ {
-		if err = (&cfg.Nias3s[i]).Validate(); err != nil {
-			record("%v", err)
-			return err
-		}
+	if err = cfg.Nias3s.Validate(); err != nil {
+		return
 	}
 
 	// benthos
-	for i := 0; i < len(cfg.Benthoses); i++ {
-		if err = (&cfg.Benthoses[i]).Validate(); err != nil {
-			record("%v", err)
-			return err
-		}
+	if err = cfg.Benthoses.Validate(); err != nil {
+		return
 	}
 
 	// reader
-	for i := 0; i < len(cfg.Readers); i++ {
-		if err = (&cfg.Readers[i]).Validate(); err != nil {
-			record("%v", err)
-			return err
-		}
+	if err = cfg.Readers.Validate(); err != nil {
+		return
 	}
 
 	// align
-	for i := 0; i < len(cfg.Aligns); i++ {
-		if err = (&cfg.Aligns[i]).Validate(); err != nil {
-			record("%v", err)
-			return err
-		}
+	if err = cfg.Aligns.Validate(); err != nil {
+		return
 	}
 
 	// text classifier
-	for i := 0; i < len(cfg.TxtClassifiers); i++ {
-		if err = (&cfg.TxtClassifiers[i]).Validate(); err != nil {
-			record("%v", err)
-			return err
-		}
+	if err = cfg.TxtClassifiers.Validate(); err != nil {
+		return
 	}
 
 	// level
-	for i := 0; i < len(cfg.Levels); i++ {
-		if err = (&cfg.Levels[i]).Validate(); err != nil {
-			record("%v", err)
-			return err
-		}
+	if err = cfg.Levels.Validate(); err != nil {
+		return
 	}
 
 	// weight
-	for i := 0; i < len(cfg.Weights); i++ {
-		if err = (&cfg.Weights[i]).Validate(); err != nil {
-			record("%v", err)
-			return err
-		}
+	if err = cfg.Weights.Validate(); err != nil {
+		return
 	}
 
 	// hub
-	for i := 0; i < len(cfg.Hubs); i++ {
-		if err = (&cfg.Hubs[i]).Validate(); err != nil {
-			record("%v", err)
-			return err
-		}
+	if err = cfg.Hubs.Validate(); err != nil {
+		return
 	}
 
 	return
@@ -173,7 +144,7 @@ func GetConfig(configs ...string) *Config {
 			continue
 		}
 
-		err = cfg.validate()
+		err = cfg.Validate()
 		lk.FailOnErr("%v", err)
 
 		cfg.procAPI()
@@ -190,7 +161,7 @@ func GetConfig(configs ...string) *Config {
 func (cfg *Config) SaveAsJson() (err error) {
 	bytes, err := json.Marshal(cfg)
 	lk.FailOnErr("%v", err)
-	if err = cfg.validate(); err == nil {
+	if err = cfg.Validate(); err == nil {
 		io.MustWriteFile(cfg.using+".json", bytes)
 	}
 	return err
@@ -200,41 +171,20 @@ func (cfg *Config) SaveToml() (err error) {
 	var buf bytes.Buffer
 	err = toml.NewEncoder(&buf).Encode(*cfg)
 	lk.FailOnErr("%v", err)
-	if err = cfg.validate(); err == nil {
+	if err = cfg.Validate(); err == nil {
 		io.MustWriteFile(cfg.using, buf.Bytes())
 	}
 	return err
 }
 
 func (cfg *Config) Dispense() {
-
-	// reader
-	for _, reader := range cfg.Readers {
-		reader.Dispense()
-	}
-
-	// align
-	for _, align := range cfg.Aligns {
-		align.Dispense()
-	}
-
-	// text classifier
-	for _, textclassifier := range cfg.TxtClassifiers {
-		textclassifier.Dispense()
-	}
-
-	// level
-	for _, level := range cfg.Levels {
-		level.Dispense()
-	}
-
-	// weight
-	for _, weight := range cfg.Weights {
-		weight.Dispense()
-	}
-
-	// hub
-	for _, hub := range cfg.Hubs {
-		hub.Dispense()
-	}
+	cfg.NatsStreamings.Dispense()
+	cfg.Nias3s.Dispense()
+	cfg.Benthoses.Dispense()
+	cfg.Readers.Dispense()
+	cfg.Aligns.Dispense()
+	cfg.TxtClassifiers.Dispense()
+	cfg.Levels.Dispense()
+	cfg.Weights.Dispense()
+	cfg.Hubs.Dispense()
 }

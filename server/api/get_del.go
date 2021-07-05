@@ -10,7 +10,6 @@ import (
 )
 
 func AllCfgGrp(c echo.Context) error {
-
 	cfg = config.GetConfig("../config.toml", "./config.toml")
 	return c.JSON(http.StatusOK, WantedFieldsByType(cfg, "[]struct"))
 }
