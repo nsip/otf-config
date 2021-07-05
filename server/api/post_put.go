@@ -2,6 +2,7 @@ package api
 
 import (
 	"net/http"
+	"sync"
 
 	"github.com/labstack/echo/v4"
 	"github.com/nsip/otf-config/config"
@@ -10,7 +11,11 @@ import (
 
 func Factory4NewUpdate(NewUpdate, proj string) func(c echo.Context) error {
 
+	mtx := &sync.Mutex{}
+
 	return func(c echo.Context) error {
+		defer mtx.Unlock()
+		mtx.Lock()
 
 		mNew := map[string]config.IEle{
 			"NatsStreaming": new(config.NatsStreaming),

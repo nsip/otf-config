@@ -2,6 +2,7 @@ package api
 
 import (
 	"net/http"
+	"sync"
 
 	"github.com/labstack/echo/v4"
 	"github.com/nsip/otf-config/config"
@@ -40,7 +41,11 @@ func AllCfgItems(c echo.Context) error {
 
 func Factory4GetDel(GetDel, proj string) func(c echo.Context) error {
 
+	mtx := &sync.Mutex{}
+
 	return func(c echo.Context) error {
+		defer mtx.Unlock()
+		mtx.Lock()
 
 		mGrp := map[string]config.IGrp{
 			"NatsStreaming": &cfg.NatsStreamings,
@@ -54,19 +59,19 @@ func Factory4GetDel(GetDel, proj string) func(c echo.Context) error {
 			"Hub":           &cfg.Hubs,
 		}
 
-		cname := c.QueryParam(cfgNameQuery)
+		name := c.QueryParam(cfgNameQuery)
 
 		switch GetDel {
 		case "Get", "GET", "get":
-			return c.JSON(http.StatusOK, mGrp[proj].Get(cname))
+			return c.JSON(http.StatusOK, mGrp[proj].Get(name))
 		case "Delete", "DELETE", "delete", "Del", "del":
 			// log4del("In Delete")
-			mGrp[proj].Delete(cname)
+			mGrp[proj].Delete(name)
 			if err := cfg.SaveToml(); err != nil {
-				info := errors.Wrap(err, "SaveToml Error - Delete Failed"+cname).Error()
+				info := errors.Wrap(err, "SaveToml Error - Delete Failed"+name).Error()
 				return c.JSON(http.StatusInternalServerError, info)
 			}
-			return c.JSON(http.StatusOK, cname+" deleted")
+			return c.JSON(http.StatusOK, name+" deleted")
 		default:
 			panic("Invalid 'GetDel' value")
 		}

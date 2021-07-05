@@ -225,6 +225,8 @@ function clr_new_form(input) {
   input.value[0].port = 0;
 }
 
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+
 export default {
   setup() {
     let selected = Vue.ref(false);
@@ -270,16 +272,29 @@ export default {
         // console.log(a);
         // console.log(a[e]);
 
-        // fetch config content array
-        all[e].forEach((cname) => {
-          (async () => {
-            const b = await get_cfg(e, cname);
-            console.log(b);
-
-            // fill existing form input with fetch data
+        (async function inflate(data) {
+          for (let i = 0; i < data.length; i++) {
+            await sleep(10);
+            const b = await get_cfg(e, data[i]);
             inflateform(input, b);
-          })();
-        });
+          }
+        })(all[e]);
+
+        /////////////////////////////////////////////
+
+        // sort all[e] then fetch each config content
+        // all[e].sort().forEach(name => {
+        //   (async () => {
+        //     const b = await get_cfg(e, name);
+        //     // console.log(b);
+        //     // fill existing form input with fetch data
+        //     inflateform(input, b);
+        //   })();
+        // }); // END forEach
+
+        /////////////////////////////////////////////
+
+
       })();
     });
 
