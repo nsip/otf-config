@@ -229,6 +229,7 @@ const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
 export default {
   setup() {
+
     let selected = Vue.ref(false);
 
     let selproj = Vue.ref("");
@@ -264,6 +265,7 @@ export default {
 
       // fetch all selected config
       (async () => {
+        await sleep(20);
         const all = await get_allitem();
 
         // clear all existing input
@@ -309,19 +311,49 @@ export default {
     // update button
     function btn_update(selproj, i) {
       console.log(`update ${selproj} on ${i} form`);
-      console.log(input.value[i])
+      // console.log(input.value[i])
       put_cfg(selproj, input.value[i]);
       emitter.emit("selected", selproj); // refresh current form
     }
 
+    // delete button
     function btn_delete(selproj, i) {
       console.log(`delete ${selproj} on ${i} form`);
-      console.log(input.value[i])
+      // console.log(input.value[i])
       delete_cfg(selproj, input.value[i].name);
       emitter.emit("selected", selproj); // refresh current form
     }
 
     let disable_btn = Vue.ref(false);
+
+
+    ////////////////////////////////////////////////////////////////////////////////////
+
+
+    function myFunction() {
+      document.getElementById("myDropdown").classList.toggle("show");
+    }
+
+    window.onclick = function (event) {
+      if (!event.target.matches('.dropbtn')) {
+        let dropdowns = document.getElementsByClassName("dropdown-content");
+        for (let i = 0; i < dropdowns.length; i++) {
+          let openDropdown = dropdowns[i];
+
+          console.log(openDropdown);
+
+          if (openDropdown.classList.contains('show')) {
+            openDropdown.classList.remove('show');
+          }
+        }
+      }
+    }
+
+    function dropdown(dropitem) {
+      alert(dropitem);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////
 
     return {
       selected,
@@ -334,6 +366,11 @@ export default {
       btn_new,
       btn_update,
       btn_delete,
+
+      ////////////////////////////////////////////////////////////////////////////////
+      myFunction,
+      dropdown,
+      dropcontent: ["a", "b"],
     };
   },
 

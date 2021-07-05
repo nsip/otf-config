@@ -212,7 +212,7 @@ PageFolder = "public"
 [[TxtClassifiers]]
   Name = "333"
   Path = "~/Desktop/OTF/otf-classifier/build/Linux64/otf-classifier/otf-classifier"
-  Port = 1589
+  Port = 1577
 
 [[Levels]]
   Name = "level_config"
