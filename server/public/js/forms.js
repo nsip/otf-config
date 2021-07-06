@@ -119,6 +119,12 @@ const InitLabel = {
 
   // weight
   failwhenerr: ["Panic If Error", "if error happens, should service abort?"],
+
+  //////////////////////////////////////////////////////////////
+
+  sel_natsstreaming: ["Select NatsStreaming Config", "Select NatsStreaming Config"],
+  sel_nias3: ["Select Nias3 Config", "Select Nias3 Config"],
+
 };
 
 const InitInput = {
@@ -282,22 +288,8 @@ export default {
           }
         })(all[e]);
 
-        /////////////////////////////////////////////
-
-        // sort all[e] then fetch each config content
-        // all[e].sort().forEach(name => {
-        //   (async () => {
-        //     const b = await get_cfg(e, name);
-        //     // console.log(b);
-        //     // fill existing form input with fetch data
-        //     inflateform(input, b);
-        //   })();
-        // }); // END forEach
-
-        /////////////////////////////////////////////
-
-
       })();
+
     });
 
     // new button
@@ -326,32 +318,41 @@ export default {
 
     let disable_btn = Vue.ref(false);
 
-
     ////////////////////////////////////////////////////////////////////////////////////
 
+    const mPN = new Map();
+    mPN.set('NatsStreaming', Vue.ref([]));
+    mPN.set('Nias3', Vue.ref([]));
+    mPN.set('Benthos', Vue.ref([]));
+    mPN.set('Reader', Vue.ref([]));
+    mPN.set('Align', Vue.ref([]));
+    mPN.set('TxtClassifier', Vue.ref([]));
+    mPN.set('Level', Vue.ref([]));
+    mPN.set('Weight', Vue.ref([]));
 
-    function myFunction() {
-      document.getElementById("myDropdown").classList.toggle("show");
-    }
-
-    window.onclick = function (event) {
-      if (!event.target.matches('.dropbtn')) {
-        let dropdowns = document.getElementsByClassName("dropdown-content");
-        for (let i = 0; i < dropdowns.length; i++) {
-          let openDropdown = dropdowns[i];
-
-          console.log(openDropdown);
-
-          if (openDropdown.classList.contains('show')) {
-            openDropdown.classList.remove('show');
+    function get_dropcontent(proj) {
+      mPN.get(proj).value = [];
+      (async () => {
+        await sleep(20);
+        const all = await get_allitem();
+        (async function inflate(data) {
+          for (let i = 0; i < data.length; i++) {
+            await sleep(10);
+            const b = await get_cfg(proj, data[i]);
+            mPN.get(proj).value.push(b.name);
           }
-        }
-      }
+        })(all[proj]);
+      })();
     }
 
-    function dropdown(dropitem) {
-      alert(dropitem);
-    }
+    get_dropcontent('NatsStreaming');
+    get_dropcontent('Nias3');
+    get_dropcontent('Benthos');
+    get_dropcontent('Reader');
+    get_dropcontent('Align');
+    get_dropcontent('TxtClassifier');
+    get_dropcontent('Level');
+    get_dropcontent('Weight');
 
     ////////////////////////////////////////////////////////////////////////////////////
 
@@ -366,11 +367,7 @@ export default {
       btn_new,
       btn_update,
       btn_delete,
-
-      ////////////////////////////////////////////////////////////////////////////////
-      myFunction,
-      dropdown,
-      dropcontent: ["a", "b"],
+      mPN,
     };
   },
 

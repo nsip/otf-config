@@ -15,12 +15,19 @@ let form_hub = `
 
       <p></p>
 
-      <div class="dropdown">
-        <button @click="myFunction()" class="dropbtn">Select NatsStreaming</button>
-        <div id="myDropdown" class="dropdown-content">
-          <a href="#" v-for="(cn, i) in dropcontent" :id="cn" @click="dropdown(cn)">{{cn}}</a>          
-        </div>
-      </div>      
+      <label class="lb">{{label.sel_natsstreaming[0]}}: </label>
+      <select class="selector">
+        <option value="" disabled selected>{{label.sel_natsstreaming[1]}}</option>
+        <option v-for="(cn, i) in mPN.get('NatsStreaming').value" value="">{{cn}}</option>
+      </select>
+
+      <br/>     
+
+      <label class="lb">{{label.sel_nias3[0]}}: </label>
+      <select class="selector">
+        <option value="" disabled selected>{{label.sel_nias3[1]}}</option>
+        <option v-for="(cn, i) in mPN.get('Nias3').value" value="">{{cn}}</option>
+      </select>
 
     </form>
 </div>

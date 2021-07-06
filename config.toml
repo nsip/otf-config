@@ -7,6 +7,10 @@ PageFolder = "public"
   Name = "ns_config"
   Path = "~/Desktop/OTF/nats-streaming-server-v0.22.0-linux-amd64/nats-streaming-server"
 
+[[NatsStreamings]]
+  Name = "test1"
+  Path = "~/Desktop/OTF/nats-streaming-server-v0.22.0-linux-amd64/nats-streaming-server"
+
 [[Nias3s]]
   Name = "n3_config"
   Path = "~/Desktop/OTF/n3-web/server/n3w/n3w"
