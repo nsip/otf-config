@@ -1,136 +1,15 @@
 import { getEmitter } from "./js/mitt.js";
 import { get_allitem, get_cfg, post_cfg, put_cfg, delete_cfg } from "./js/fetch.js";
 import { getForm } from "./form/all.js";
+import { getLabels } from "./js/label.js";
 
 const emitter = getEmitter();
-
-const VisForm = {
-  natsstreaming: false,
-  nias3: false,
-  benthos: false,
-  reader: false,
-  align: false,
-  txtclassifier: false,
-  level: false,
-  weight: false,
-  hub: false,
-};
-
-function viform(proj, vi) {
-  vi.natsstreaming = false;
-  vi.nias3 = false;
-  vi.benthos = false;
-  vi.reader = false;
-  vi.align = false;
-  vi.txtclassifier = false;
-  vi.level = false;
-  vi.weight = false;
-  vi.hub = false;
-
-  switch (proj) {
-    case "NatsStreaming":
-      vi.natsstreaming = true;
-      break;
-    case "Nias3":
-      vi.nias3 = true;
-      break;
-    case "Benthos":
-      vi.benthos = true;
-      break;
-    case "Reader":
-      vi.reader = true;
-      break;
-    case "Align":
-      vi.align = true;
-      break;
-    case "TxtClassifier":
-      vi.txtclassifier = true;
-      break;
-    case "Level":
-      vi.level = true;
-      break;
-    case "Weight":
-      vi.weight = true;
-      break;
-    case "Hub":
-      vi.hub = true;
-      break;
-  }
-}
-
-const InitLabel = {
-  // all
-  name: ["Config File Name", "config file name, should be identical"],
-  path: ["Path to Service Executable", "path/to/service/executable"],
-
-  // all services
-  svrname: ["Service Name", "name for service"],
-  svrid: [
-    "Service ID",
-    "id for service, leave blank to auto-generate a unique id",
-  ],
-
-  // reader
-  provider: ["Provider Name", "name of product or system supplying the data"],
-  inputfmt: ["Input File Format", "format of input data, one of csv|json"],
-  alignmethod: [
-    "Align Method",
-    "method to align input data to NLPs must be one of prescribed|mapped|inferred",
-  ],
-  levelmethod: [
-    "Level Method",
-    "method to apply common scaling this data, one of prescribed|mapped-scale|rules",
-  ],
-  gencapability: [
-    "General Capability",
-    "General Capability for assessment results; Literacy or Numeracy",
-  ],
-  natshost: ["Nats Streaming Host", "hostname/ip of nats broker"],
-  natsport: ["Nats Port", "connection port for nats broker"],
-  natscluster: ["Nats Cluster Name", "cluster id for nats broker"],
-  topic: ["Nats Topic", "nats topic name to publish parsed data items to"],
-  folder: ["Watching Folder", "folder to watch for data files"],
-  filesuffix: [
-    "Only Watch File Suffix",
-    "filter files to read by file extension, eg. .csv or .myapp (actual data handling will be determined by input format flag)",
-  ],
-  interval: ["Interval For Dealing", "watcher poll interval"],
-  recursive: ["Dealing With Sub Folder", "watch folders recursively"],
-  dotfiles: ["Dealing With Dot Files", "watch dot files"],
-  ignore: ["Folders To Be Ignored", "comma separated list of paths to ignore"],
-  concurrfiles: [
-    "Files' Count In Once Process",
-    "pool size for concurrent file processing",
-  ],
-
-  // align, level, weight ...
-  port: ["Service Port", "current service running port"],
-
-  // align, level ...
-  niashost: ["NIAS3 Host", "hostname/ip of nias3"],
-  niasport: ["NIAS3 Port", "connection port for nias3"],
-  niastoken: ["NIAS3 Token", "token to access nias3"],
-
-  // align
-  tchost: ["Text Classifier Host", "text classifier service hostname/ip"],
-  tcport: ["Text Classifier Port", "text classifier service connection port"],
-
-  // text classifier
-
-  // weight
-  failwhenerr: ["Panic If Error", "if error happens, should service abort?"],
-
-  //////////////////////////////////////////////////////////////
-
-  sel_natsstreaming: ["Select NatsStreaming Config", "Select NatsStreaming Config"],
-  sel_nias3: ["Select Nias3 Config", "Select Nias3 Config"],
-
-};
 
 const InitInput = {
   // all
   name: "",
   path: "",
+  args: "",
 
   // all services
   svrname: "",
@@ -172,12 +51,13 @@ const InitInput = {
   failwhenerr: false,
 };
 
-function inflateform(input, data) {
+function inflate_form(input, data) {
   // data fields name refer to 'config.go'
   input.value.push({
     // all
     name: data.name,
     path: data.path,
+    args: data.args,
 
     // all services
     svrname: data.svrname,
@@ -226,34 +106,95 @@ function clr_form(input) {
 function clr_new_form(input) {
   input.value[0].name = "";
   input.value[0].path = "";
+  input.value[0].args = "";
   input.value[0].svrname = "";
   input.value[0].svrid = "";
   input.value[0].port = 0;
 }
+
+////////////////////////////////////////////////////////////////////////////////////
+
+const mPV = new Map();
+mPV.set('NatsStreaming', Vue.ref(false));
+mPV.set('Nias3', Vue.ref(false));
+mPV.set('Benthos', Vue.ref(false));
+mPV.set('Reader', Vue.ref(false));
+mPV.set('Align', Vue.ref(false));
+mPV.set('TxtClassifier', Vue.ref(false));
+mPV.set('Level', Vue.ref(false));
+mPV.set('Weight', Vue.ref(false));
+mPV.set('Hub', Vue.ref(false));
+
+function reset_v() {
+  mPV.get('NatsStreaming').value = false;
+  mPV.get('Nias3').value = false;
+  mPV.get('Benthos').value = false;
+  mPV.get('Reader').value = false;
+  mPV.get('Align').value = false;
+  mPV.get('TxtClassifier').value = false;
+  mPV.get('Level').value = false;
+  mPV.get('Weight').value = false;
+  mPV.get('Hub').value = false;
+}
+
+function visible(proj) {
+  reset_v();
+  mPV.get(proj).value = true;
+}
+
+////////////////////////////////////////////////////////////////////////////////////
+
+const mPN = new Map();
+mPN.set('NatsStreaming', Vue.ref([]));
+mPN.set('Nias3', Vue.ref([]));
+mPN.set('Benthos', Vue.ref([]));
+mPN.set('Reader', Vue.ref([]));
+mPN.set('Align', Vue.ref([]));
+mPN.set('TxtClassifier', Vue.ref([]));
+mPN.set('Level', Vue.ref([]));
+mPN.set('Weight', Vue.ref([]));
+
+function get_dropcontent(proj) {
+  mPN.get(proj).value = [];
+  (async () => {
+    await sleep(20);
+    const all = await get_allitem();
+    (async function inflate(data) {
+      for (let i = 0; i < data.length; i++) {
+        await sleep(10);
+        const b = await get_cfg(proj, data[i]);
+        mPN.get(proj).value.push(b.name);
+      }
+    })(all[proj]);
+  })();
+}
+
+////////////////////////////////////////////////////////////////////////////////////
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
 export default {
   setup() {
 
-    let selected = Vue.ref(false);
-
     let selproj = Vue.ref("");
 
     let title = Vue.ref("OTF project (select from left)");
 
-    let vi = Vue.reactive(VisForm);
-
     // init an empty one for the first new form
     let input = Vue.ref([InitInput]);
 
+    // in one page, which form can be seen
+    let vf = Vue.ref([true]);
+
+    function collapse(i) {
+      vf.value[i] = !vf.value[i];
+    }
+
     // listen to an event
     emitter.on("selected", (e) => {
+
       // test
       console.log("forms received:", e);
-
-      // selected
-      selected.value = true;
 
       // change title
       title.value = `OTF - ${e}`;
@@ -266,8 +207,8 @@ export default {
       // select project
       selproj.value = e;
 
-      // set visibility of each project config
-      viform(e, vi);
+      // set visibility of each project config     
+      visible(e);
 
       // fetch all selected config
       (async () => {
@@ -284,12 +225,28 @@ export default {
           for (let i = 0; i < data.length; i++) {
             await sleep(10);
             const b = await get_cfg(e, data[i]);
-            inflateform(input, b);
+            inflate_form(input, b);
           }
         })(all[e]);
 
       })();
 
+      /////////////////////////////////////////////
+
+      // refresh selector
+      if (e == "Hub") {
+        get_dropcontent('NatsStreaming');
+        get_dropcontent('Nias3');
+        get_dropcontent('Benthos');
+        get_dropcontent('Reader');
+        get_dropcontent('Align');
+        get_dropcontent('TxtClassifier');
+        get_dropcontent('Level');
+        get_dropcontent('Weight');
+      }
+
+      // keep the 1st form visible on project changed
+      vf.value = [true];
     });
 
     // new button
@@ -318,56 +275,19 @@ export default {
 
     let disable_btn = Vue.ref(false);
 
-    ////////////////////////////////////////////////////////////////////////////////////
-
-    const mPN = new Map();
-    mPN.set('NatsStreaming', Vue.ref([]));
-    mPN.set('Nias3', Vue.ref([]));
-    mPN.set('Benthos', Vue.ref([]));
-    mPN.set('Reader', Vue.ref([]));
-    mPN.set('Align', Vue.ref([]));
-    mPN.set('TxtClassifier', Vue.ref([]));
-    mPN.set('Level', Vue.ref([]));
-    mPN.set('Weight', Vue.ref([]));
-
-    function get_dropcontent(proj) {
-      mPN.get(proj).value = [];
-      (async () => {
-        await sleep(20);
-        const all = await get_allitem();
-        (async function inflate(data) {
-          for (let i = 0; i < data.length; i++) {
-            await sleep(10);
-            const b = await get_cfg(proj, data[i]);
-            mPN.get(proj).value.push(b.name);
-          }
-        })(all[proj]);
-      })();
-    }
-
-    get_dropcontent('NatsStreaming');
-    get_dropcontent('Nias3');
-    get_dropcontent('Benthos');
-    get_dropcontent('Reader');
-    get_dropcontent('Align');
-    get_dropcontent('TxtClassifier');
-    get_dropcontent('Level');
-    get_dropcontent('Weight');
-
-    ////////////////////////////////////////////////////////////////////////////////////
-
     return {
-      selected,
       selproj,
       title,
-      vi,
-      label: InitLabel,
+      label: getLabels(),
       input,
       disable_btn,
       btn_new,
       btn_update,
       btn_delete,
+      mPV,
       mPN,
+      vf,
+      collapse,
     };
   },
 

@@ -71,6 +71,7 @@ type IGrp interface {
 type NatsStreaming struct {
 	Name string `json:"name"`
 	Path string `json:"path"`
+	Args string `json:"args"`
 }
 
 func (cfg *NatsStreaming) GetName() string {
@@ -159,6 +160,7 @@ func (grp *NatsStreamingGrp) Dispense() error {
 type Nias3 struct {
 	Name string `json:"name"`
 	Path string `json:"path"`
+	Args string `json:"args"`
 }
 
 func (cfg *Nias3) GetName() string {
@@ -247,6 +249,7 @@ func (grp *Nias3Grp) Dispense() error {
 type Benthos struct {
 	Name string `json:"name"`
 	Path string `json:"path"`
+	Args string `json:"args"`
 }
 
 func (cfg *Benthos) GetName() string {
@@ -335,6 +338,7 @@ func (grp *BenthosGrp) Dispense() error {
 type Reader struct {
 	Name          string `json:"name"`
 	Path          string `json:"path"`
+	Args          string `json:"args"`
 	SvrName       string `json:"svrname"`
 	SvrID         string `json:"svrid"`
 	Provider      string `json:"provider"`
@@ -441,6 +445,7 @@ func (grp *ReaderGrp) Dispense() error {
 type Align struct {
 	Name      string `json:"name"`
 	Path      string `json:"path"`
+	Args      string `json:"args"`
 	SvrName   string `json:"svrname"`
 	SvrID     string `json:"svrid"`
 	Host      string `json:"host"`
@@ -538,6 +543,7 @@ func (grp *AlignGrp) Dispense() error {
 type TxtClassifier struct {
 	Name string `json:"name"`
 	Path string `json:"path"`
+	Args string `json:"args"`
 	Port int    `json:"port"`
 }
 
@@ -627,6 +633,7 @@ func (grp *TxtClassifierGrp) Dispense() error {
 type Level struct {
 	Name      string `json:"name"`
 	Path      string `json:"path"`
+	Args      string `json:"args"`
 	SvrName   string `json:"svrname"`
 	SvrID     string `json:"svrid"`
 	Host      string `json:"host"`
@@ -722,6 +729,7 @@ func (grp *LevelGrp) Dispense() error {
 type Weight struct {
 	Name        string `json:"name"`
 	Path        string `json:"path"`
+	Args        string `json:"args"`
 	FailWhenErr bool   `json:"failWhenErr"`
 	Service     struct {
 		SvrName string `json:"svrname"`
@@ -823,6 +831,7 @@ func (grp *WeightGrp) Dispense() error {
 type Hub struct {
 	Name string `json:"name"`
 	Path string `json:"path"`
+	Args string `json:"args"`
 }
 
 func (cfg *Hub) GetName() string {
