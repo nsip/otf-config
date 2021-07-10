@@ -1,8 +1,8 @@
 const Labels = {
     // all
     name: ["Config File Name", "config file name, should be identical"],
-    path: ["Path to Service Executable", "path/to/service/executable"],
-    args: ["Start Arguments", "service executable starting arguments string"],
+    path: ["Service Executable Path", "path/to/service/executable"],
+    args: ["Arguments", "service executable starting arguments string"],
 
     // all services
     svrname: ["Service Name", "name for service"],
@@ -63,16 +63,18 @@ const Labels = {
 
     //////////////////////////////////////////////////////////////
 
-    sel_natsstreaming: ["NatsStreaming Config", "Select NatsStreaming Config"],
-    sel_nias3: ["Nias3 Config", "Select Nias3 Config"],
-    sel_benthos: ["Benthos Config", "Select Benthos Config"],
-    sel_reader: ["Reader Config", "Select Reader Config"],
-    sel_reader_align_map: ["Reader Config for Align Map", "Select Reader Config for Align Map"],
-    sel_reader_level_map: ["Reader Config for Level Map", "Select Reader Config for Level Map"],
-    sel_align: ["Align Config", "Select Align Config"],
-    sel_txtclassifier: ["TextClassifier Config", "Select TextClassifier Config"],
-    sel_level: ["Level Config", "Select Level Config"],
-    sel_weight: ["Weight Config", "Select Weight Config"],
+    sel_natsstreaming: ["NatsStreaming", "Select NatsStreaming Config"],
+    sel_nias3: ["Nias3", "Select Nias3 Config"],
+    sel_benthos_align: ["Benthos for Align", "Select Benthos Config for Align Map Flow"],
+    sel_benthos_level: ["Benthos for Level", "Select Benthos Config for Level Map Flow"],
+    sel_benthos: ["Benthos", "Select Benthos Config for Data Flow"],
+    sel_reader: ["Reader", "Select Reader Config"],
+    sel_reader_align_map: ["Reader for Align Map", "Select Reader Config for Align Map"],
+    sel_reader_level_map: ["Reader for Level Map", "Select Reader Config for Level Map"],
+    sel_align: ["Align", "Select Align Config"],
+    sel_txtclassifier: ["TextClassifier", "Select TextClassifier Config"],
+    sel_level: ["Level", "Select Level Config"],
+    sel_weight: ["Weight", "Select Weight Config"],
 
     create: ["Create New Config"],
 };

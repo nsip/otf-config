@@ -1,7 +1,6 @@
 package config
 
 import (
-	"encoding/json"
 	"fmt"
 	"path/filepath"
 	"reflect"
@@ -9,6 +8,7 @@ import (
 
 	"github.com/digisan/gotk/filedir"
 	"github.com/digisan/gotk/io"
+	jt "github.com/digisan/json-tool"
 	"github.com/digisan/logkit"
 )
 
@@ -16,21 +16,6 @@ var (
 	record = logkit.FailOnErr
 	dir    = filepath.Dir
 )
-
-func MarshalRemove(v interface{}, fields ...string) (bytes []byte, err error) {
-	if bytes, err = json.Marshal(v); err != nil {
-		return nil, err
-	}
-	m := make(map[string]interface{})
-	json.Unmarshal(bytes, &m)
-	for _, f := range fields {
-		delete(m, f)
-	}
-	if bytes, err = json.Marshal(m); err != nil {
-		return nil, err
-	}
-	return bytes, nil
-}
 
 func objType(obj interface{}) string {
 	return reflect.ValueOf(obj).Elem().Type().Name()
@@ -90,7 +75,7 @@ func (cfg *NatsStreaming) Validate() error {
 }
 
 func (cfg *NatsStreaming) Dispense() error {
-	cf, err := MarshalRemove(cfg, "name", "path")
+	cf, err := jt.MarshalRemove(cfg, nil, "name", "path")
 	record("%v", err)
 	io.MustWriteFile(dir(cfg.Path)+"/"+cfg.Name+".json", cf)
 	return err
@@ -179,7 +164,7 @@ func (cfg *Nias3) Validate() error {
 }
 
 func (cfg *Nias3) Dispense() error {
-	cf, err := MarshalRemove(cfg, "name", "path")
+	cf, err := jt.MarshalRemove(cfg, nil, "name", "path")
 	record("%v", err)
 	io.MustWriteFile(dir(cfg.Path)+"/"+cfg.Name+".json", cf)
 	return err
@@ -268,7 +253,7 @@ func (cfg *Benthos) Validate() error {
 }
 
 func (cfg *Benthos) Dispense() error {
-	cf, err := MarshalRemove(cfg, "name", "path")
+	cf, err := jt.MarshalRemove(cfg, nil, "name", "path")
 	record("%v", err)
 	io.MustWriteFile(dir(cfg.Path)+"/"+cfg.Name+".json", cf)
 	return err
@@ -375,7 +360,7 @@ func (cfg *Reader) Validate() error {
 }
 
 func (cfg *Reader) Dispense() error {
-	cf, err := MarshalRemove(cfg, "name", "path")
+	cf, err := jt.MarshalRemove(cfg, nil, "name", "path")
 	record("%v", err)
 	io.MustWriteFile(dir(cfg.Path)+"/"+cfg.Name+".json", cf)
 	return err
@@ -473,7 +458,7 @@ func (cfg *Align) Validate() error {
 }
 
 func (cfg *Align) Dispense() error {
-	cf, err := MarshalRemove(cfg, "name", "path")
+	cf, err := jt.MarshalRemove(cfg, nil, "name", "path")
 	record("%v", err)
 	io.MustWriteFile(dir(cfg.Path)+"/"+cfg.Name+".json", cf)
 	return err
@@ -563,7 +548,7 @@ func (cfg *TxtClassifier) Validate() error {
 }
 
 func (cfg *TxtClassifier) Dispense() error {
-	cf, err := MarshalRemove(cfg, "name", "path")
+	cf, err := jt.MarshalRemove(cfg, nil, "name", "path")
 	record("%v", err)
 	io.MustWriteFile(dir(cfg.Path)+"/"+cfg.Name+".json", cf)
 	return err
@@ -659,7 +644,7 @@ func (cfg *Level) Validate() error {
 }
 
 func (cfg *Level) Dispense() error {
-	cf, err := MarshalRemove(cfg, "name", "path")
+	cf, err := jt.MarshalRemove(cfg, nil, "name", "path")
 	record("%v", err)
 	io.MustWriteFile(dir(cfg.Path)+"/"+cfg.Name+".json", cf)
 	return err
@@ -761,7 +746,7 @@ func (cfg *Weight) Validate() error {
 }
 
 func (cfg *Weight) Dispense() error {
-	cf, err := MarshalRemove(cfg, "name", "path")
+	cf, err := jt.MarshalRemove(cfg, nil, "name", "path")
 	record("%v", err)
 	io.MustWriteFile(dir(cfg.Path)+"/"+cfg.Name+".json", cf)
 	return err
@@ -850,7 +835,7 @@ func (cfg *Hub) Validate() error {
 }
 
 func (cfg *Hub) Dispense() error {
-	cf, err := MarshalRemove(cfg, "name", "path")
+	cf, err := jt.MarshalRemove(cfg, nil, "name", "path")
 	record("%v", err)
 	io.MustWriteFile(dir(cfg.Path)+"/"+cfg.Name+".json", cf)
 	return err

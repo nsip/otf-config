@@ -14,9 +14,19 @@ PageFolder = "public"
   Args = ""
 
 [[Benthoses]]
-  Name = "benthos_config"
+  Name = "benthos_align"
   Path = "~/Desktop/OTF/benthos3470/benthos"
-  Args = ""
+  Args = "-c ~/Desktop/OTF/otf-hub/benthos/maps/align.yaml"
+
+[[Benthoses]]
+  Name = "benthos_level"
+  Path = "~/Desktop/OTF/benthos3470/benthos"
+  Args = "-c ~/Desktop/OTF/otf-hub/benthos/maps/level.yaml"
+
+[[Benthoses]]
+  Name = "benthos_data"
+  Path = "~/Desktop/OTF/benthos3470/benthos"
+  Args = "-c ~/Desktop/OTF/otf-hub/benthos/data.yaml"
 
 [[Readers]]
   Name = "spa_prescribed_config"

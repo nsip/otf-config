@@ -5,88 +5,124 @@ let form_hub = `
 
     <form class="cfgform">
 
-      <label class="lb">{{label.name[0]}}: </label>
-      <input v-model="input[0].name" type="text" :placeholder="label.name[1]">   
-
       <label class="lb">{{label.path[0]}}: </label>
-      <input v-model="input[0].path" type="text" :placeholder="label.path[1]">   
+      <input v-model.trim="input[0].path" type="text" :placeholder="label.path[1]">   
 
       <label class="lb">{{label.args[0]}}:</label>
-      <input v-model="input[0].args" type="text" :placeholder="label.args[1]">  
-
-      <input type="button" value="update" :disabled="disable_btn" @click="btn_update(selproj, 0)">
+      <input v-model.trim="input[0].args" type="text" :placeholder="label.args[1]">  
+      
+      <!-- ------------------------------------------------------------------------------------ -->
 
       <p></p>
 
-      <label class="lb">{{label.sel_natsstreaming[0]}}: </label>
-      <select class="selector">
-        <option value="" disabled selected>{{label.sel_natsstreaming[1]}}</option>
-        <option v-for="(cn, i) in mPN.get('NatsStreaming').value" value="">{{cn}}</option>
-      </select>
+      <!-- NatsStreaming -->
+      <div>
+        <label class="lb">{{label.sel_natsstreaming[0]}}: </label>
+        <select v-model="com_natsstreaming" class="selector">
+          <option value="" disabled selected>{{label.sel_natsstreaming[1]}}</option>
+          <option v-for="(cn, i) in mPN.get('NatsStreaming').value" :value="cn">{{cn}}</option>
+        </select>
+      </div>
+     
 
-      <br/>     
+      <!-- Nias3 -->
+      <div>
+        <label class="lb">{{label.sel_nias3[0]}}: </label>
+        <select v-model="com_nias3" class="selector">
+          <option value="" disabled selected>{{label.sel_nias3[1]}}</option>
+          <option v-for="(cn, i) in mPN.get('Nias3').value" :value="cn">{{cn}}</option>
+        </select>
+      </div>
 
-      <label class="lb">{{label.sel_nias3[0]}}: </label>
-      <select class="selector">
-        <option value="" disabled selected>{{label.sel_nias3[1]}}</option>
-        <option v-for="(cn, i) in mPN.get('Nias3').value" value="">{{cn}}</option>
-      </select>
 
-      <br/> 
+      <!-- Benthos for Align -->
+      <div>
+        <label class="lb">{{label.sel_benthos_align[0]}}: </label>
+        <select v-model="com_benthos_align" class="selector">
+          <option value="" disabled selected>{{label.sel_benthos_align[1]}}</option>
+          <option v-for="(cn, i) in mPN.get('Benthos').value" :value="cn">{{cn}}</option>
+        </select>   
+      </div>
 
-      <label class="lb">{{label.sel_benthos[0]}}: </label>
-      <select class="selector">
-        <option value="" disabled selected>{{label.sel_benthos[1]}}</option>
-        <option v-for="(cn, i) in mPN.get('Benthos').value" value="">{{cn}}</option>
-      </select>
+      <!-- Benthos for Level -->
+      <div>
+        <label class="lb">{{label.sel_benthos_level[0]}}: </label>
+        <select v-model="com_benthos_level" class="selector">
+          <option value="" disabled selected>{{label.sel_benthos_level[1]}}</option>
+          <option v-for="(cn, i) in mPN.get('Benthos').value" :value="cn">{{cn}}</option>
+        </select>   
+      </div>
 
-      <br/>     
+      <!-- Benthos for Data -->
+      <div>
+        <label class="lb">{{label.sel_benthos[0]}}: </label>
+        <select v-model="com_benthos" class="selector">
+          <option value="" disabled selected>{{label.sel_benthos[1]}}</option>
+          <option v-for="(cn, i) in mPN.get('Benthos').value" :value="cn">{{cn}}</option>
+        </select>   
+      </div>          
 
-      <label class="lb">{{label.sel_reader_align_map[0]}}: </label>
-      <select class="selector">
-        <option value="" disabled selected>{{label.sel_reader_align_map[1]}}</option>
-        <option v-for="(cn, i) in mPN.get('Reader').value" value="">{{cn}}</option>
-      </select>
+      <!-- Reader for Align -->
+      <div>
+        <label class="lb">{{label.sel_reader_align_map[0]}}: </label>
+        <select v-model="com_reader_align" class="selector">
+          <option value="" disabled selected>{{label.sel_reader_align_map[1]}}</option>
+          <option v-for="(cn, i) in mPN.get('Reader').value" :value="cn">{{cn}}</option>
+        </select>
+      </div>         
 
-      <br/>     
+      <!-- Reader for Level -->
+      <div>
+        <label class="lb">{{label.sel_reader_level_map[0]}}: </label>
+        <select v-model="com_reader_level" class="selector">
+          <option value="" disabled selected>{{label.sel_reader_level_map[1]}}</option>
+          <option v-for="(cn, i) in mPN.get('Reader').value" :value="cn">{{cn}}</option>
+        </select>
+      </div>
+      
 
-      <label class="lb">{{label.sel_reader_level_map[0]}}: </label>
-      <select class="selector">
-        <option value="" disabled selected>{{label.sel_reader_level_map[1]}}</option>
-        <option v-for="(cn, i) in mPN.get('Reader').value" value="">{{cn}}</option>
-      </select>
+      <!-- Readers -->
+      <div v-for="(rd, j) in nReader" >
+        <label class="lb">{{label.sel_reader[0]}}: </label>
+        <select v-model="com_reader[j]" class="selector">
+          <option value="" disabled selected>{{label.sel_reader[1]}}</option>
+          <option v-for="(cn, i) in mPN.get('Reader').value" :value="cn">{{cn}}</option>
+        </select>
+        <input v-if="j==nReader.length-1" type="button" value="remove" :disabled="nReader.length==1" @click="btn_remove_reader()">
+        <input v-if="j==nReader.length-1" type="button" value="more" @click="btn_add_reader()">        
+      </div>
+      
 
-      <br/>     
+      <!-- TxtClassifier -->
+      <div>
+        <label class="lb">{{label.sel_txtclassifier[0]}}: </label>
+        <select v-model="com_txtclassifier" class="selector">
+          <option value="" disabled selected>{{label.sel_txtclassifier[1]}}</option>
+          <option v-for="(cn, i) in mPN.get('TxtClassifier').value" :value="cn">{{cn}}</option>
+        </select>
+      </div>      
 
-      <label class="lb">{{label.sel_reader[0]}}: </label>
-      <select class="selector">
-        <option value="" disabled selected>{{label.sel_reader[1]}}</option>
-        <option v-for="(cn, i) in mPN.get('Reader').value" value="">{{cn}}</option>
-      </select>
 
-      <br/>     
+      <!-- Level -->
+      <div>
+        <label class="lb">{{label.sel_level[0]}}: </label>
+        <select v-model="com_level" class="selector">
+          <option value="" disabled selected>{{label.sel_level[1]}}</option>
+          <option v-for="(cn, i) in mPN.get('Level').value" :value="cn">{{cn}}</option>
+        </select>
+      </div>
+      
 
-      <label class="lb">{{label.sel_txtclassifier[0]}}: </label>
-      <select class="selector">
-        <option value="" disabled selected>{{label.sel_txtclassifier[1]}}</option>
-        <option v-for="(cn, i) in mPN.get('TxtClassifier').value" value="">{{cn}}</option>
-      </select>
+      <!-- Weight -->
+      <div>
+        <label class="lb">{{label.sel_weight[0]}}: </label>
+        <select v-model="com_weight" class="selector">
+          <option value="" disabled selected>{{label.sel_weight[1]}}</option>
+          <option v-for="(cn, i) in mPN.get('Weight').value" :value="cn">{{cn}}</option>
+        </select>
+      </div>
 
-      <br/>
-
-      <label class="lb">{{label.sel_level[0]}}: </label>
-      <select class="selector">
-        <option value="" disabled selected>{{label.sel_level[1]}}</option>
-        <option v-for="(cn, i) in mPN.get('Level').value" value="">{{cn}}</option>
-      </select>
-
-      <br/>
-
-      <label class="lb">{{label.sel_weight[0]}}: </label>
-      <select class="selector">
-        <option value="" disabled selected>{{label.sel_weight[1]}}</option>
-        <option v-for="(cn, i) in mPN.get('Weight').value" value="">{{cn}}</option>
-      </select>
+      <input type="button" value="Composite" @click="btn_composite()">  
 
     </form>
 </div>

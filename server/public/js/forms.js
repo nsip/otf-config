@@ -115,27 +115,20 @@ function clr_new_form(input) {
 ////////////////////////////////////////////////////////////////////////////////////
 
 const mPV = new Map();
-mPV.set('NatsStreaming', Vue.ref(false));
-mPV.set('Nias3', Vue.ref(false));
-mPV.set('Benthos', Vue.ref(false));
-mPV.set('Reader', Vue.ref(false));
-mPV.set('Align', Vue.ref(false));
-mPV.set('TxtClassifier', Vue.ref(false));
-mPV.set('Level', Vue.ref(false));
-mPV.set('Weight', Vue.ref(false));
-mPV.set('Hub', Vue.ref(false));
 
 function reset_v() {
-  mPV.get('NatsStreaming').value = false;
-  mPV.get('Nias3').value = false;
-  mPV.get('Benthos').value = false;
-  mPV.get('Reader').value = false;
-  mPV.get('Align').value = false;
-  mPV.get('TxtClassifier').value = false;
-  mPV.get('Level').value = false;
-  mPV.get('Weight').value = false;
-  mPV.get('Hub').value = false;
+  mPV.set('NatsStreaming', Vue.ref(false));
+  mPV.set('Nias3', Vue.ref(false));
+  mPV.set('Benthos', Vue.ref(false));
+  mPV.set('Reader', Vue.ref(false));
+  mPV.set('Align', Vue.ref(false));
+  mPV.set('TxtClassifier', Vue.ref(false));
+  mPV.set('Level', Vue.ref(false));
+  mPV.set('Weight', Vue.ref(false));
+  mPV.set('Hub', Vue.ref(false));
 }
+
+reset_v();
 
 function visible(proj) {
   reset_v();
@@ -164,6 +157,32 @@ function get_dropcontent(proj) {
         await sleep(10);
         const b = await get_cfg(proj, data[i]);
         mPN.get(proj).value.push(b.name);
+      }
+    })(all[proj]);
+  })();
+}
+
+////////////////////////////////////////////////////////////////////////////////////
+
+let ExePathGrp = [];
+let ArgsGrp = [];
+let DelayGrp = [];
+
+function fill_table(proj, name) {
+  (async () => {
+    await sleep(20);
+    const all = await get_allitem();
+    (async function inflate(data) {
+      for (let i = 0; i < data.length; i++) {
+        await sleep(10);
+        const b = await get_cfg(proj, data[i]);
+        if (b.name == name) {
+
+          console.log(b.path);
+
+          ExePathGrp.push(b.path);
+          console.log(ExePathGrp);
+        }
       }
     })(all[proj]);
   })();
@@ -252,7 +271,7 @@ export default {
     // new button
     function btn_new(selproj) {
       console.log(`new ${selproj}`);
-      post_cfg(selproj, input.value[0]); // send input new form to backend
+      post_cfg(selproj, input.value[0]); // send input new form to back-end
       clr_new_form(input); // clear new form
       emitter.emit("selected", selproj); // refresh current form
     }
@@ -262,7 +281,6 @@ export default {
       console.log(`update ${selproj} on ${i} form`);
       // console.log(input.value[i])
       put_cfg(selproj, input.value[i]);
-      emitter.emit("selected", selproj); // refresh current form
     }
 
     // delete button
@@ -274,6 +292,50 @@ export default {
     }
 
     let disable_btn = Vue.ref(false);
+
+    let nReader = Vue.ref([""]);
+
+    function btn_add_reader() {
+      nReader.value.push("");
+    }
+
+    function btn_remove_reader() {
+      nReader.value.pop();
+    }
+
+    let com_natsstreaming = Vue.ref("");
+    let com_nias3 = Vue.ref("");
+    let com_benthos_align = Vue.ref("");
+    let com_benthos_level = Vue.ref("");
+    let com_benthos = Vue.ref("");
+    let com_reader_align = Vue.ref("");
+    let com_reader_level = Vue.ref("");
+    let com_reader = Vue.ref([""]);
+    let com_txtclassifier = Vue.ref("");
+    let com_level = Vue.ref("");
+    let com_weight = Vue.ref("");
+
+    function btn_composite() {
+      alert(com_reader.value);
+
+      fill_table("NatsStreaming", com_natsstreaming.value)
+      fill_table("Nias3", com_nias3.value)
+      fill_table("Benthos", com_benthos_align.value)
+      fill_table("Benthos", com_benthos_level.value)
+      fill_table("Benthos", com_benthos.value)
+      fill_table("Reader", com_reader_align.value)
+      fill_table("Reader", com_reader_level.value)
+      for (let i = 0; i < com_reader.value.length; i++) {
+        fill_table("Reader", com_reader.value[i])
+      }
+      fill_table("TxtClassifier", com_txtclassifier.value)
+
+      // fill_table("", com_natsstreaming.value)
+      // fill_table("", com_natsstreaming.value)
+
+      // console.log(ExePathGrp);
+
+    }
 
     return {
       selproj,
@@ -288,6 +350,21 @@ export default {
       mPN,
       vf,
       collapse,
+      nReader,
+      btn_add_reader,
+      btn_remove_reader,
+      btn_composite,
+      com_natsstreaming,
+      com_nias3,
+      com_benthos_align,
+      com_benthos_level,
+      com_benthos,
+      com_reader_align,
+      com_reader_level,
+      com_reader,
+      com_txtclassifier,
+      com_level,
+      com_weight,
     };
   },
 
