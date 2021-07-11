@@ -14,6 +14,9 @@ let form_benthos = `
         
         <label class="lb">{{label.args[0]}}:</label>
         <input v-model.trim="input[i].args" type="text" :placeholder="label.args[1]">  
+
+        <label class="lb">{{label.delay[0]}}:</label>
+        <input v-model.trim="input[i].delay" type="text" :placeholder="label.delay[1]"> 
         
         <input v-if="i==0" type="button" value="new" :disabled="disable_btn" @click="btn_new(selproj)">
         <input v-if="i>0" type="button" value="delete" :disabled="disable_btn" @click="btn_delete(selproj, i)">

@@ -1,9 +1,11 @@
 import { getEmitter } from "./js/mitt.js";
-import { get_allitem, get_cfg, post_cfg, put_cfg, delete_cfg } from "./js/fetch.js";
+import { get_allitem, get_cfg, post_cfg, put_cfg, delete_cfg, post_table } from "./js/fetch.js";
 import { getForm } from "./form/all.js";
 import { getLabels } from "./js/label.js";
 
 const emitter = getEmitter();
+
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 const InitInput = {
   // all
@@ -137,6 +139,18 @@ function visible(proj) {
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+let all_data;
+
+function refresh_all_data() {
+  (async () => {
+    all_data = await get_allitem();
+  })();
+}
+
+refresh_all_data();
+
+////////////////////////////////////////////////////////////////////////////////////
+
 const mPN = new Map();
 mPN.set('NatsStreaming', Vue.ref([]));
 mPN.set('Nias3', Vue.ref([]));
@@ -149,48 +163,47 @@ mPN.set('Weight', Vue.ref([]));
 
 function get_dropcontent(proj) {
   mPN.get(proj).value = [];
-  (async () => {
-    await sleep(20);
-    const all = await get_allitem();
-    (async function inflate(data) {
-      for (let i = 0; i < data.length; i++) {
-        await sleep(10);
-        const b = await get_cfg(proj, data[i]);
-        mPN.get(proj).value.push(b.name);
-      }
-    })(all[proj]);
-  })();
+  (async (data) => {
+    for (let i = 0; i < data.length; i++) {
+      await sleep(10);
+      const b = await get_cfg(proj, data[i]);
+      mPN.get(proj).value.push(b.name);
+    }
+  })(all_data[proj]);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-let ExePathGrp = [];
-let ArgsGrp = [];
-let DelayGrp = [];
+const TableCols = {
+  ExePathGrp: ["PATH_OF_SERVICE", "L"],
+  ArgsGrp: ["ARGUMENTS", "L"],
+  DelayGrp: ["DELAY", "M"],
+  Enabled: ["ENABLED", "M"],
+}
 
 function fill_table(proj, name) {
-  (async () => {
-    await sleep(20);
-    const all = await get_allitem();
-    (async function inflate(data) {
-      for (let i = 0; i < data.length; i++) {
-        await sleep(10);
-        const b = await get_cfg(proj, data[i]);
-        if (b.name == name) {
-
-          console.log(b.path);
-
-          ExePathGrp.push(b.path);
-          console.log(ExePathGrp);
-        }
+  (async (data) => {
+    for (let i = 0; i < data.length; i++) {
+      await sleep(10);
+      const b = await get_cfg(proj, data[i]);
+      if (b.name == name) {
+        TableCols.ExePathGrp.push(b.path);
+        TableCols.ArgsGrp.push(b.args);
+        TableCols.DelayGrp.push(b.delay);
+        TableCols.Enabled.push(true);
       }
-    })(all[proj]);
-  })();
+    }
+  })(all_data[proj]);
+}
+
+function clear_table() {
+  TableCols.ExePathGrp = ["PATH_OF_SERVICE", "L"];
+  TableCols.ArgsGrp = ["ARGUMENTS", "L"];
+  TableCols.DelayGrp = ["DELAY", "M"];
+  TableCols.Enabled = ["ENABLED", "M"];
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
-
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
 export default {
   setup() {
@@ -231,22 +244,20 @@ export default {
 
       // fetch all selected config
       (async () => {
-        await sleep(20);
-        const all = await get_allitem();
+        await sleep(10);
+
+        await refresh_all_data();
 
         // clear all existing input
         clr_form(input);
 
-        // console.log(a);
-        // console.log(a[e]);
-
-        (async function inflate(data) {
+        (async (data) => {
           for (let i = 0; i < data.length; i++) {
             await sleep(10);
             const b = await get_cfg(e, data[i]);
             inflate_form(input, b);
           }
-        })(all[e]);
+        })(all_data[e]);
 
       })();
 
@@ -303,38 +314,76 @@ export default {
       nReader.value.pop();
     }
 
-    let com_natsstreaming = Vue.ref("");
-    let com_nias3 = Vue.ref("");
-    let com_benthos_align = Vue.ref("");
-    let com_benthos_level = Vue.ref("");
-    let com_benthos = Vue.ref("");
-    let com_reader_align = Vue.ref("");
-    let com_reader_level = Vue.ref("");
-    let com_reader = Vue.ref([""]);
-    let com_txtclassifier = Vue.ref("");
-    let com_level = Vue.ref("");
-    let com_weight = Vue.ref("");
+    let com = {
+      natsstreaming: Vue.ref(""),
+      nias3: Vue.ref(""),
+      benthos_align: Vue.ref(""),
+      benthos_level: Vue.ref(""),
+      benthos: Vue.ref(""),
+      reader_align: Vue.ref(""),
+      reader_level: Vue.ref(""),
+      reader: Vue.ref([""]),
+      align: Vue.ref(""),
+      txtclassifier: Vue.ref(""),
+      level: Vue.ref(""),
+      weight: Vue.ref(""),
+    }
+
+    function isEmpty(str) {
+      return (!str || str.length === 0);
+    }
+
+    function hasEmptyStr(arr) {
+      for (let i = 0; i < nReader.value.length; i++) {
+        if (isEmpty(arr[i])) {
+          return true
+        }
+      }
+      return false
+    }
+
+    function com_invalid() {
+      return isEmpty(com.natsstreaming.value) ||
+        isEmpty(com.nias3.value) ||
+        isEmpty(com.benthos_align.value) ||
+        isEmpty(com.benthos_level.value) ||
+        isEmpty(com.benthos.value) ||
+        isEmpty(com.reader_align.value) ||
+        isEmpty(com.reader_level.value) ||
+        hasEmptyStr(com.reader.value) ||
+        isEmpty(com.align.value) ||
+        isEmpty(com.txtclassifier.value) ||
+        isEmpty(com.level.value) ||
+        isEmpty(com.weight.value);
+    }
 
     function btn_composite() {
-      alert(com_reader.value);
+      // alert(com.natsstreaming.value);
 
-      fill_table("NatsStreaming", com_natsstreaming.value)
-      fill_table("Nias3", com_nias3.value)
-      fill_table("Benthos", com_benthos_align.value)
-      fill_table("Benthos", com_benthos_level.value)
-      fill_table("Benthos", com_benthos.value)
-      fill_table("Reader", com_reader_align.value)
-      fill_table("Reader", com_reader_level.value)
-      for (let i = 0; i < com_reader.value.length; i++) {
-        fill_table("Reader", com_reader.value[i])
+      clear_table();
+
+      fill_table("NatsStreaming", com.natsstreaming.value);
+      fill_table("Nias3", com.nias3.value);
+      fill_table("Benthos", com.benthos_align.value);
+      fill_table("Benthos", com.benthos_level.value);
+      fill_table("Benthos", com.benthos.value);
+      fill_table("Reader", com.reader_align.value);
+      fill_table("Reader", com.reader_level.value);
+      for (let i = 0; i < com.reader.value.length; i++) {
+        fill_table("Reader", com.reader.value[i]);
       }
-      fill_table("TxtClassifier", com_txtclassifier.value)
+      fill_table("Align", com.align.value);
+      fill_table("TxtClassifier", com.txtclassifier.value);
+      fill_table("Level", com.level.value);
+      fill_table("Weight", com.weight.value);
 
-      // fill_table("", com_natsstreaming.value)
-      // fill_table("", com_natsstreaming.value)
-
-      // console.log(ExePathGrp);
-
+      (
+        async () => {
+          await sleep(200);
+          post_table(TableCols);
+          // console.log(TableCols);
+        }
+      )();
     }
 
     return {
@@ -354,17 +403,8 @@ export default {
       btn_add_reader,
       btn_remove_reader,
       btn_composite,
-      com_natsstreaming,
-      com_nias3,
-      com_benthos_align,
-      com_benthos_level,
-      com_benthos,
-      com_reader_align,
-      com_reader_level,
-      com_reader,
-      com_txtclassifier,
-      com_level,
-      com_weight,
+      com,
+      com_invalid,
     };
   },
 

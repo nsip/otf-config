@@ -3,6 +3,7 @@ const Labels = {
     name: ["Config File Name", "config file name, should be identical"],
     path: ["Service Executable Path", "path/to/service/executable"],
     args: ["Arguments", "service executable starting arguments string"],
+    delay: ["Delay", "delay seconds for starting & stopping service, input like '2,5' "],
 
     // all services
     svrname: ["Service Name", "name for service"],

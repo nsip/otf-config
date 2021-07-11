@@ -15,6 +15,9 @@ let form_align = `
       <label class="lb">{{label.args[0]}}:</label>
       <input v-model.trim="input[i].args" type="text" :placeholder="label.args[1]">  
 
+      <label class="lb">{{label.delay[0]}}:</label>
+      <input v-model.trim="input[i].delay" type="text" :placeholder="label.delay[1]">  
+
       <label class="lb">{{label.svrname[0]}}:</label>
       <input v-model.trim="input[i].svrname" type="text" :placeholder="label.svrname[1]">           
 
