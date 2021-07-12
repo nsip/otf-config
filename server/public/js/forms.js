@@ -2,71 +2,26 @@ import { getEmitter } from "./js/mitt.js";
 import { get_allitem, get_cfg, post_cfg, put_cfg, delete_cfg, post_table } from "./js/fetch.js";
 import { getForm } from "./form/all.js";
 import { getLabels } from "./js/label.js";
+import { get_init_input } from "./js/input.js";
 
 const emitter = getEmitter();
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-const InitInput = {
-  // all
-  name: "",
-  path: "",
-  args: "",
-  delay: "",
-
-  // all services
-  svrname: "",
-  svrid: "",
-
-  // reader
-  provider: "",
-  inputfmt: "",
-  alignmethod: "",
-  levelmethod: "",
-  gencapability: "",
-  natshost: "",
-  natsport: "",
-  natscluster: "",
-  topic: "",
-  folder: "",
-  filesuffix: "",
-  interval: "",
-  recursive: false,
-  dotfiles: false,
-  ignore: "",
-  concurrfiles: 10,
-
-  // align, level, weight ...
-  port: 0,
-
-  // align, level ...
-  niashost: "",
-  niasport: "",
-  niastoken: "",
-
-  // align
-  tchost: "",
-  tcport: "",
-
-  // text classifier
-
-  // weight
-  failwhenerr: false,
-
-  // hub
-  tablename: "",
-};
-
 function inflate_form(input, data) {
+  // console.log(data);
   input.value.push(data);
 }
 
-function clr_all_forms(input) {
-  input.value = [InitInput];
+function clr_all_forms(input, proj) {
+  input.value = [get_init_input(proj)];
+  if (proj === "Hub") {
+    input.value = [];
+  }
 }
 
-function clr_new_form(input) {
-  input.value[0] = InitInput;
+function clr_new_form(input, proj) {
+  input.value[0] = get_init_input(proj);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -179,7 +134,7 @@ export default {
     let title = Vue.ref("OTF project (select from left)");
 
     // init an empty one for the first new form
-    let input = Vue.ref([InitInput]);
+    let input = Vue.ref([]);
 
     // in one page, which form can be seen
     let vf = Vue.ref([true]);
@@ -199,7 +154,7 @@ export default {
 
       // clear input form if change to another project config
       if (e != selproj.value) {
-        clr_new_form(input);
+        clr_new_form(input, e);
       }
 
       // select project
@@ -210,12 +165,12 @@ export default {
 
       // fetch all selected config
       (async () => {
-        await sleep(10);
 
-        await refresh_all_data();
+        refresh_all_data();
+        await sleep(20);
 
         // clear all existing input
-        clr_all_forms(input);
+        clr_all_forms(input, e);
 
         (async (data) => {
           for (let i = 0; i < data.length; i++) {
@@ -249,7 +204,7 @@ export default {
     function btn_new(selproj) {
       console.log(`new ${selproj}`);
       post_cfg(selproj, input.value[0]); // send input new form to back-end
-      clr_new_form(input); // clear new form
+      clr_new_form(input, selproj); // clear new form
       emitter.emit("selected", selproj); // refresh current form
     }
 

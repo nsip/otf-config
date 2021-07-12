@@ -822,10 +822,9 @@ func (grp *WeightGrp) Dispense() error {
 ////////////////////////////////
 
 type Hub struct {
-	Name  string `json:"name"`
-	Path  string `json:"path"`
-	Args  string `json:"args"`
-	Delay string `json:"delay"`
+	Name string `json:"name"`
+	Path string `json:"path"`
+	Args string `json:"args"`
 }
 
 func (cfg *Hub) GetName() string {

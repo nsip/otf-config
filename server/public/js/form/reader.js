@@ -28,25 +28,25 @@ let form_reader = `
         <input v-model.trim="input[i].provider" type="text" :placeholder="label.provider[1]">    
 
         <label class="lb">{{label.inputfmt[0]}}:</label>
-        <input v-model.trim="input[i].inputfmt" type="text" :placeholder="label.inputfmt[1]">    
+        <input v-model.trim="input[i].inputFormat" type="text" :placeholder="label.inputfmt[1]">    
 
         <label class="lb">{{label.alignmethod[0]}}:</label>
-        <input v-model.trim="input[i].alignmethod" type="text" :placeholder="label.alignmethod[1]">    
+        <input v-model.trim="input[i].alignMethod" type="text" :placeholder="label.alignmethod[1]">    
 
         <label class="lb">{{label.levelmethod[0]}}:</label>
-        <input v-model.trim="input[i].levelmethod" type="text" :placeholder="label.levelmethod[1]">    
+        <input v-model.trim="input[i].levelMethod" type="text" :placeholder="label.levelmethod[1]">    
 
         <label class="lb">{{label.gencapability[0]}}:</label>
-        <input v-model.trim="input[i].gencapability" type="text" :placeholder="label.gencapability[1]"> 
+        <input v-model.trim="input[i].capability" type="text" :placeholder="label.gencapability[1]"> 
 
         <label class="lb">{{label.natshost[0]}}:</label>
-        <input v-model.trim="input[i].natshost" type="text" :placeholder="label.natshost[1]">
+        <input v-model.trim="input[i].natsHost" type="text" :placeholder="label.natshost[1]">
 
         <label class="lb">{{label.natsport[0]}}:</label>
-        <input v-model.trim="input[i].natsport" type="text" :placeholder="label.natsport[1]"> 
+        <input v-model.trim="input[i].natsPort" type="text" :placeholder="label.natsport[1]"> 
 
         <label class="lb">{{label.natscluster[0]}}:</label>
-        <input v-model.trim="input[i].natscluster" type="text" :placeholder="label.natscluster[1]"> 
+        <input v-model.trim="input[i].natsCluster" type="text" :placeholder="label.natscluster[1]"> 
         
         <label class="lb">{{label.topic[0]}}:</label>
         <input v-model.trim="input[i].topic" type="text" :placeholder="label.topic[1]"> 
@@ -55,7 +55,7 @@ let form_reader = `
         <input v-model.trim="input[i].folder" type="text" :placeholder="label.folder[1]"> 
         
         <label class="lb">{{label.filesuffix[0]}}:</label>
-        <input v-model.trim="input[i].filesuffix" type="text" :placeholder="label.filesuffix[1]">
+        <input v-model.trim="input[i].suffix" type="text" :placeholder="label.filesuffix[1]">
 
         <label class="lb">{{label.interval[0]}}:</label>
         <input v-model.trim="input[i].interval" type="text" :placeholder="label.interval[1]">
@@ -70,7 +70,7 @@ let form_reader = `
         <input v-model.trim="input[i].ignore" type="text" :placeholder="label.ignore[1]"> 
 
         <label class="lb">{{label.concurrfiles[0]}}:</label>
-        <input v-model.trim="input[i].concurrfiles" type="text" :placeholder="label.concurrfiles[1]"> 
+        <input v-model.trim="input[i].concurrFiles" type="text" :placeholder="label.concurrfiles[1]"> 
 
         <!--
         <label class="lb">***:</label>
