@@ -822,9 +822,9 @@ func (grp *WeightGrp) Dispense() error {
 ////////////////////////////////
 
 type Hub struct {
-	Name string `json:"name"`
-	Path string `json:"path"`
-	Args string `json:"args"`
+	Name   string `json:"name"`
+	Path   string `json:"path"`
+	ComTbl string `json:"table"`
 }
 
 func (cfg *Hub) GetName() string {

@@ -8,11 +8,8 @@ let form_hub = `
       <label class="lb">{{label.path[0]}}: </label>
       <input v-model.trim="input[0].path" type="text" :placeholder="label.path[1]">   
 
-      <label class="lb">{{label.args[0]}}:</label>
-      <input v-model.trim="input[0].args" type="text" :placeholder="label.args[1]">  
-
       <label class="lb">{{label.tablename[0]}}:</label>
-      <input v-model.trim="input[0].tablename" type="text" :placeholder="label.tablename[1]">  
+      <input v-model.trim="input[0].table" type="text" :placeholder="label.tablename[1]">  
       
       <!-- ------------------------------------------------------------------------------------ -->
 

@@ -103,8 +103,8 @@ export function post_cfg(project, data) {
     }
 }
 
-export function post_table(name, data) {
-    return fetch_post(`composite?name=${name}`, data);
+export function post_table(name, exepath, data) {
+    return fetch_post(`composite?name=${name}&exepath=${exepath}`, data);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

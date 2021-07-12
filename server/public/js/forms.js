@@ -281,7 +281,7 @@ export default {
     }
 
     function input_hub_invalid() {
-      return isEmpty(input.value[0].path) || isEmpty(input.value[0].tablename)
+      return isEmpty(input.value[0].path) || isEmpty(input.value[0].table)
     }
 
     function btn_composite() {
@@ -307,7 +307,7 @@ export default {
       (
         async () => {
           await sleep(200);
-          post_table(input.value[0].tablename, TableCols);
+          post_table(input.value[0].table, input.value[0].path, TableCols);
         }
       )();
     }
