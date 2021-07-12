@@ -10,6 +10,9 @@ let form_hub = `
 
       <label class="lb">{{label.args[0]}}:</label>
       <input v-model.trim="input[0].args" type="text" :placeholder="label.args[1]">  
+
+      <label class="lb">{{label.tablename[0]}}:</label>
+      <input v-model.trim="input[0].tablename" type="text" :placeholder="label.tablename[1]">  
       
       <!-- ------------------------------------------------------------------------------------ -->
 
@@ -132,7 +135,7 @@ let form_hub = `
         </select>
       </div>
 
-      <input :disabled="com_invalid()" type="button" value="Composite" @click="btn_composite()">  
+      <input :disabled="com_invalid() || input_hub_invalid()" type="button" value="Composite" @click="btn_composite()">  
 
     </form>
 </div>

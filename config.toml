@@ -6,14 +6,14 @@ PageFolder = "public"
 [[NatsStreamings]]
   Name = "ns_config"
   Path = "~/Desktop/OTF/nats-streaming-server-v0.22.0-linux-amd64/nats-streaming-server"
-  Args = "test args  111"
-  Delay = "2,5"
+  Args = "test args 11"
+  Delay = "3,10"
 
 [[Nias3s]]
   Name = "n3_config"
   Path = "~/Desktop/OTF/n3-web/server/n3w/n3w"
   Args = ""
-  Delay = ""
+  Delay = "1,5"
 
 [[Benthoses]]
   Name = "benthos_align"

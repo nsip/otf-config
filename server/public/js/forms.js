@@ -12,6 +12,7 @@ const InitInput = {
   name: "",
   path: "",
   args: "",
+  delay: "",
 
   // all services
   svrname: "",
@@ -51,67 +52,21 @@ const InitInput = {
 
   // weight
   failwhenerr: false,
+
+  // hub
+  tablename: "",
 };
 
 function inflate_form(input, data) {
-  // data fields name refer to 'config.go'
-  input.value.push({
-    // all
-    name: data.name,
-    path: data.path,
-    args: data.args,
-
-    // all services
-    svrname: data.svrname,
-    svrid: data.svrid,
-
-    // reader
-    provider: data.provider,
-    inputfmt: data.inputFormat,
-    alignmethod: data.alignMethod,
-    levelmethod: data.levelMethod,
-    gencapability: data.capability,
-    natshost: data.natsHost,
-    natsport: data.natsPort,
-    natscluster: data.natsCluster,
-    topic: data.topic,
-    folder: data.folder,
-    filesuffix: data.suffix,
-    interval: data.interval,
-    recursive: data.recursive,
-    dotfiles: data.dotfiles,
-    ignore: data.ignore,
-    concurrfiles: parseInt(data.concurrFiles),
-
-    // align, level, weight ...
-    port: parseInt(data.port),
-
-    // align, level ...
-    niashost: data.niasHost,
-    niasport: data.niasPort,
-    niastoken: data.niasToken,
-
-    // align
-    tchost: data.tcHost,
-    tcport: data.tcPort,
-
-    // weight
-    failwhenerr: data.failWhenErr,
-  });
+  input.value.push(data);
 }
 
-function clr_form(input) {
+function clr_all_forms(input) {
   input.value = [InitInput];
 }
 
-// ****************************************************************************************** adding more
 function clr_new_form(input) {
-  input.value[0].name = "";
-  input.value[0].path = "";
-  input.value[0].args = "";
-  input.value[0].svrname = "";
-  input.value[0].svrid = "";
-  input.value[0].port = 0;
+  input.value[0] = InitInput;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -175,32 +130,43 @@ function get_dropcontent(proj) {
 ////////////////////////////////////////////////////////////////////////////////////
 
 const TableCols = {
-  ExePathGrp: ["PATH_OF_SERVICE", "L"],
-  ArgsGrp: ["ARGUMENTS", "L"],
-  DelayGrp: ["DELAY", "M"],
-  Enabled: ["ENABLED", "M"],
+  Indices: ["No", "M"],
+  Kinds: ["Service", "L"],
+  ExePathGrp: ["Executable Path", "L"],
+  ArgsGrp: ["Arguments", "L"],
+  DelayGrp: ["Delay", "M"],
+  EnabledGrp: ["Enabled", "M"],
+}
+
+function clear_table() {
+  TableCols.Indices = ["No", "M"];
+  TableCols.Kinds = ["Service", "L"];
+  TableCols.ExePathGrp = ["Executable Path", "L"];
+  TableCols.ArgsGrp = ["Arguments", "L"];
+  TableCols.DelayGrp = ["Delay", "M"];
+  TableCols.EnabledGrp = ["Enabled", "M"];
+}
+
+let idx = 0;
+
+function reset_idx() {
+  idx = 0;
 }
 
 function fill_table(proj, name) {
   (async (data) => {
     for (let i = 0; i < data.length; i++) {
-      await sleep(10);
       const b = await get_cfg(proj, data[i]);
       if (b.name == name) {
+        TableCols.Indices.push(++idx);
+        TableCols.Kinds.push(proj);
         TableCols.ExePathGrp.push(b.path);
         TableCols.ArgsGrp.push(b.args);
         TableCols.DelayGrp.push(b.delay);
-        TableCols.Enabled.push(true);
+        TableCols.EnabledGrp.push(true);
       }
     }
   })(all_data[proj]);
-}
-
-function clear_table() {
-  TableCols.ExePathGrp = ["PATH_OF_SERVICE", "L"];
-  TableCols.ArgsGrp = ["ARGUMENTS", "L"];
-  TableCols.DelayGrp = ["DELAY", "M"];
-  TableCols.Enabled = ["ENABLED", "M"];
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -249,7 +215,7 @@ export default {
         await refresh_all_data();
 
         // clear all existing input
-        clr_form(input);
+        clr_all_forms(input);
 
         (async (data) => {
           for (let i = 0; i < data.length; i++) {
@@ -302,19 +268,9 @@ export default {
       emitter.emit("selected", selproj); // refresh current form
     }
 
-    let disable_btn = Vue.ref(false);
+    // --------------------------------------------------------- //
 
-    let nReader = Vue.ref([""]);
-
-    function btn_add_reader() {
-      nReader.value.push("");
-    }
-
-    function btn_remove_reader() {
-      nReader.value.pop();
-    }
-
-    let com = {
+    const com = {
       natsstreaming: Vue.ref(""),
       nias3: Vue.ref(""),
       benthos_align: Vue.ref(""),
@@ -333,6 +289,7 @@ export default {
       return (!str || str.length === 0);
     }
 
+    // only for Reader Selector
     function hasEmptyStr(arr) {
       for (let i = 0; i < nReader.value.length; i++) {
         if (isEmpty(arr[i])) {
@@ -340,6 +297,17 @@ export default {
         }
       }
       return false
+    }
+
+    let nReader = Vue.ref([""]);
+
+    function btn_add_reader() {
+      nReader.value.push("");
+    }
+
+    function btn_remove_reader() {
+      nReader.value.pop();
+      com.reader.value.pop();
     }
 
     function com_invalid() {
@@ -357,10 +325,14 @@ export default {
         isEmpty(com.weight.value);
     }
 
+    function input_hub_invalid() {
+      return isEmpty(input.value[0].path) || isEmpty(input.value[0].tablename)
+    }
+
     function btn_composite() {
-      // alert(com.natsstreaming.value);
 
       clear_table();
+      reset_idx();
 
       fill_table("NatsStreaming", com.natsstreaming.value);
       fill_table("Nias3", com.nias3.value);
@@ -380,8 +352,7 @@ export default {
       (
         async () => {
           await sleep(200);
-          post_table(TableCols);
-          // console.log(TableCols);
+          post_table(input.value[0].tablename, TableCols);
         }
       )();
     }
@@ -391,7 +362,6 @@ export default {
       title,
       label: getLabels(),
       input,
-      disable_btn,
       btn_new,
       btn_update,
       btn_delete,
@@ -405,6 +375,7 @@ export default {
       btn_composite,
       com,
       com_invalid,
+      input_hub_invalid,
     };
   },
 

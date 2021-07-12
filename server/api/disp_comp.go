@@ -2,8 +2,8 @@ package api
 
 import (
 	"net/http"
+	"strings"
 
-	"github.com/davecgh/go-spew/spew"
 	md "github.com/digisan/data-drawing/markdown"
 	"github.com/labstack/echo/v4"
 	"github.com/nsip/otf-config/config"
@@ -19,7 +19,7 @@ func Dispense(c echo.Context) error {
 
 func Composite(c echo.Context) error {
 
-	log4post("compositing...")
+	log4post("%s%s", "compositing...", c.QueryParam("name"))
 
 	var (
 		failmsg = "Compositing Failed "
@@ -28,10 +28,12 @@ func Composite(c echo.Context) error {
 	)
 
 	type TableCols struct {
+		Indices    *[]interface{}
+		Kinds      *[]interface{}
 		ExePathGrp *[]interface{}
 		ArgsGrp    *[]interface{}
 		DelayGrp   *[]interface{}
-		Enabled    *[]interface{}
+		EnabledGrp *[]interface{}
 	}
 
 	cols := &TableCols{}
@@ -43,7 +45,7 @@ func Composite(c echo.Context) error {
 
 	// spew.Dump(cols)
 
-	md.MDTable(cols, "./test.md")
+	md.MDTable(cols, strings.TrimSuffix(c.QueryParam("name"), ".md")+".md")
 
 R:
 	return c.JSON(status, info)

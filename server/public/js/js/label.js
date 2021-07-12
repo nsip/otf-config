@@ -62,6 +62,9 @@ const Labels = {
     // weight
     failwhenerr: ["Panic If Error", "if error happens, should service abort?"],
 
+    // hub
+    tablename: ["Composite Table Name", "composite table name (.md file)"],
+
     //////////////////////////////////////////////////////////////
 
     sel_natsstreaming: ["NatsStreaming", "Select NatsStreaming Config"],

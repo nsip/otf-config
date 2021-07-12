@@ -41,9 +41,9 @@ let form_level = `
       <input v-model.trim="input[i].***" type="text" :placeholder="***">            
       -->
         
-      <input v-if="i==0" type="button" value="new" :disabled="disable_btn" @click="btn_new(selproj)">
-      <input v-if="i>0" type="button" value="delete" :disabled="disable_btn" @click="btn_delete(selproj, i)">
-      <input v-if="i>0" type="button" value="update" :disabled="disable_btn" @click="btn_update(selproj, i)">
+      <input v-if="i==0" type="button" value="new" @click="btn_new(selproj)">
+      <input v-if="i>0" type="button" value="delete" @click="btn_delete(selproj, i)">
+      <input v-if="i>0" type="button" value="update" @click="btn_update(selproj, i)">
       
     </form>
 </div>
