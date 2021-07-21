@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"path/filepath"
 	"strings"
+	"time"
 
 	md "github.com/digisan/data-drawing/markdown"
 	"github.com/digisan/gotk/filedir"
@@ -13,10 +14,31 @@ import (
 )
 
 func Dispense(c echo.Context) error {
-	log4get("dispensing...")
+
+	proj := c.QueryParam("project")
+	log4post("dispensing...%s", proj)
+
+	time.Sleep(40 * time.Millisecond) // give time for config.toml updating
+
 	cfg = config.GetConfig("../config.toml", "./config.toml")
-	cfg.Dispense()
-	return c.JSON(http.StatusOK, "Dispensed")
+	cfg.Dispense(proj)
+
+	return c.JSON(http.StatusOK, proj+" Dispensed")
+}
+
+func Withdraw(c echo.Context) error {
+
+	proj := c.QueryParam("project")
+	log4post("withdrawing...%s", proj)
+
+	cfg.Withdraw(proj)
+
+	time.Sleep(40 * time.Millisecond) // give time for config.toml updating
+
+	cfg = config.GetConfig("../config.toml", "./config.toml")
+	cfg.Dispense(proj)
+
+	return c.JSON(http.StatusOK, proj+" Withdrew")
 }
 
 func Composite(c echo.Context) error {

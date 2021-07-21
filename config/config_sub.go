@@ -2,11 +2,12 @@ package config
 
 import (
 	"fmt"
+	"os"
 	"path/filepath"
 	"reflect"
 	"strings"
 
-	"github.com/digisan/gotk/filedir"
+	fd "github.com/digisan/gotk/filedir"
 	"github.com/digisan/gotk/io"
 	jt "github.com/digisan/json-tool"
 	"github.com/digisan/logkit"
@@ -26,11 +27,11 @@ func isEmpty(field string) bool {
 }
 
 func fileMissing(field string) bool {
-	return !filedir.FileExists(field)
+	return !fd.FileExists(field)
 }
 
 func dirMissing(field string) bool {
-	return !filedir.DirExists(field)
+	return !fd.DirExists(field)
 }
 
 // for element
@@ -38,6 +39,7 @@ type IEle interface {
 	GetName() string
 	Validate() error
 	Dispense() error
+	Withdraw() error
 }
 
 // for Group
@@ -49,6 +51,7 @@ type IGrp interface {
 	Delete(name string)
 	Validate() error
 	Dispense() error
+	Withdraw() error
 }
 
 ///////////////////////////////////////////////
@@ -78,8 +81,17 @@ func (cfg *NatsStreaming) Validate() error {
 func (cfg *NatsStreaming) Dispense() error {
 	cf, err := jt.MarshalRemove(cfg, nil, "name", "path")
 	record("%v", err)
-	io.MustWriteFile(dir(cfg.Path)+"/"+cfg.Name+".json", cf)
+	cfgfile := filepath.Join(dir(cfg.Path), cfg.Name+".json")
+	io.MustWriteFile(cfgfile, cf)
 	return err
+}
+
+func (cfg *NatsStreaming) Withdraw() error {
+	cfgfile := filepath.Join(dir(cfg.Path), cfg.Name+".json")
+	if fd.FileExists(cfgfile) {
+		return os.Remove(cfgfile)
+	}
+	return nil
 }
 
 type NatsStreamingGrp []NatsStreaming
@@ -141,6 +153,15 @@ func (grp *NatsStreamingGrp) Dispense() error {
 	return nil
 }
 
+func (grp *NatsStreamingGrp) Withdraw() error {
+	for _, g := range *grp {
+		if err := g.Withdraw(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 ////////////////////////////////
 
 type Nias3 struct {
@@ -168,8 +189,17 @@ func (cfg *Nias3) Validate() error {
 func (cfg *Nias3) Dispense() error {
 	cf, err := jt.MarshalRemove(cfg, nil, "name", "path")
 	record("%v", err)
-	io.MustWriteFile(dir(cfg.Path)+"/"+cfg.Name+".json", cf)
+	cfgfile := filepath.Join(dir(cfg.Path), cfg.Name+".json")
+	io.MustWriteFile(cfgfile, cf)
 	return err
+}
+
+func (cfg *Nias3) Withdraw() error {
+	cfgfile := filepath.Join(dir(cfg.Path), cfg.Name+".json")
+	if fd.FileExists(cfgfile) {
+		return os.Remove(cfgfile)
+	}
+	return nil
 }
 
 type Nias3Grp []Nias3
@@ -231,6 +261,15 @@ func (grp *Nias3Grp) Dispense() error {
 	return nil
 }
 
+func (grp *Nias3Grp) Withdraw() error {
+	for _, g := range *grp {
+		if err := g.Withdraw(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 ////////////////////////////////
 
 type Benthos struct {
@@ -258,8 +297,17 @@ func (cfg *Benthos) Validate() error {
 func (cfg *Benthos) Dispense() error {
 	cf, err := jt.MarshalRemove(cfg, nil, "name", "path")
 	record("%v", err)
-	io.MustWriteFile(dir(cfg.Path)+"/"+cfg.Name+".json", cf)
+	cfgfile := filepath.Join(dir(cfg.Path), cfg.Name+".json")
+	io.MustWriteFile(cfgfile, cf)
 	return err
+}
+
+func (cfg *Benthos) Withdraw() error {
+	cfgfile := filepath.Join(dir(cfg.Path), cfg.Name+".json")
+	if fd.FileExists(cfgfile) {
+		return os.Remove(cfgfile)
+	}
+	return nil
 }
 
 type BenthosGrp []Benthos
@@ -321,6 +369,15 @@ func (grp *BenthosGrp) Dispense() error {
 	return nil
 }
 
+func (grp *BenthosGrp) Withdraw() error {
+	for _, g := range *grp {
+		if err := g.Withdraw(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 ////////////////////////////////
 
 type Reader struct {
@@ -366,8 +423,17 @@ func (cfg *Reader) Validate() error {
 func (cfg *Reader) Dispense() error {
 	cf, err := jt.MarshalRemove(cfg, nil, "name", "path")
 	record("%v", err)
-	io.MustWriteFile(dir(cfg.Path)+"/"+cfg.Name+".json", cf)
+	cfgfile := filepath.Join(dir(cfg.Path), cfg.Name+".json")
+	io.MustWriteFile(cfgfile, cf)
 	return err
+}
+
+func (cfg *Reader) Withdraw() error {
+	cfgfile := filepath.Join(dir(cfg.Path), cfg.Name+".json")
+	if fd.FileExists(cfgfile) {
+		return os.Remove(cfgfile)
+	}
+	return nil
 }
 
 type ReaderGrp []Reader
@@ -429,6 +495,15 @@ func (grp *ReaderGrp) Dispense() error {
 	return nil
 }
 
+func (grp *ReaderGrp) Withdraw() error {
+	for _, g := range *grp {
+		if err := g.Withdraw(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 ////////////////////////////////
 
 type Align struct {
@@ -465,8 +540,17 @@ func (cfg *Align) Validate() error {
 func (cfg *Align) Dispense() error {
 	cf, err := jt.MarshalRemove(cfg, nil, "name", "path")
 	record("%v", err)
-	io.MustWriteFile(dir(cfg.Path)+"/"+cfg.Name+".json", cf)
+	cfgfile := filepath.Join(dir(cfg.Path), cfg.Name+".json")
+	io.MustWriteFile(cfgfile, cf)
 	return err
+}
+
+func (cfg *Align) Withdraw() error {
+	cfgfile := filepath.Join(dir(cfg.Path), cfg.Name+".json")
+	if fd.FileExists(cfgfile) {
+		return os.Remove(cfgfile)
+	}
+	return nil
 }
 
 type AlignGrp []Align
@@ -528,6 +612,15 @@ func (grp *AlignGrp) Dispense() error {
 	return nil
 }
 
+func (grp *AlignGrp) Withdraw() error {
+	for _, g := range *grp {
+		if err := g.Withdraw(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 ////////////////////////////////
 
 type TxtClassifier struct {
@@ -556,8 +649,17 @@ func (cfg *TxtClassifier) Validate() error {
 func (cfg *TxtClassifier) Dispense() error {
 	cf, err := jt.MarshalRemove(cfg, nil, "name", "path")
 	record("%v", err)
-	io.MustWriteFile(dir(cfg.Path)+"/"+cfg.Name+".json", cf)
+	cfgfile := filepath.Join(dir(cfg.Path), cfg.Name+".json")
+	io.MustWriteFile(cfgfile, cf)
 	return err
+}
+
+func (cfg *TxtClassifier) Withdraw() error {
+	cfgfile := filepath.Join(dir(cfg.Path), cfg.Name+".json")
+	if fd.FileExists(cfgfile) {
+		return os.Remove(cfgfile)
+	}
+	return nil
 }
 
 type TxtClassifierGrp []TxtClassifier
@@ -619,6 +721,15 @@ func (grp *TxtClassifierGrp) Dispense() error {
 	return nil
 }
 
+func (grp *TxtClassifierGrp) Withdraw() error {
+	for _, g := range *grp {
+		if err := g.Withdraw(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 ////////////////////////////////
 
 type Level struct {
@@ -653,8 +764,17 @@ func (cfg *Level) Validate() error {
 func (cfg *Level) Dispense() error {
 	cf, err := jt.MarshalRemove(cfg, nil, "name", "path")
 	record("%v", err)
-	io.MustWriteFile(dir(cfg.Path)+"/"+cfg.Name+".json", cf)
+	cfgfile := filepath.Join(dir(cfg.Path), cfg.Name+".json")
+	io.MustWriteFile(cfgfile, cf)
 	return err
+}
+
+func (cfg *Level) Withdraw() error {
+	cfgfile := filepath.Join(dir(cfg.Path), cfg.Name+".json")
+	if fd.FileExists(cfgfile) {
+		return os.Remove(cfgfile)
+	}
+	return nil
 }
 
 type LevelGrp []Level
@@ -716,6 +836,15 @@ func (grp *LevelGrp) Dispense() error {
 	return nil
 }
 
+func (grp *LevelGrp) Withdraw() error {
+	for _, g := range *grp {
+		if err := g.Withdraw(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 ////////////////////////////////
 
 type Weight struct {
@@ -756,8 +885,17 @@ func (cfg *Weight) Validate() error {
 func (cfg *Weight) Dispense() error {
 	cf, err := jt.MarshalRemove(cfg, nil, "name", "path")
 	record("%v", err)
-	io.MustWriteFile(dir(cfg.Path)+"/"+cfg.Name+".json", cf)
+	cfgfile := filepath.Join(dir(cfg.Path), cfg.Name+".json")
+	io.MustWriteFile(cfgfile, cf)
 	return err
+}
+
+func (cfg *Weight) Withdraw() error {
+	cfgfile := filepath.Join(dir(cfg.Path), cfg.Name+".json")
+	if fd.FileExists(cfgfile) {
+		return os.Remove(cfgfile)
+	}
+	return nil
 }
 
 type WeightGrp []Weight
@@ -819,6 +957,15 @@ func (grp *WeightGrp) Dispense() error {
 	return nil
 }
 
+func (grp *WeightGrp) Withdraw() error {
+	for _, g := range *grp {
+		if err := g.Withdraw(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 ////////////////////////////////
 
 type Hub struct {
@@ -845,8 +992,17 @@ func (cfg *Hub) Validate() error {
 func (cfg *Hub) Dispense() error {
 	cf, err := jt.MarshalRemove(cfg, nil, "name", "path")
 	record("%v", err)
-	io.MustWriteFile(dir(cfg.Path)+"/"+cfg.Name+".json", cf)
+	cfgfile := filepath.Join(dir(cfg.Path), cfg.Name+".json")
+	io.MustWriteFile(cfgfile, cf)
 	return err
+}
+
+func (cfg *Hub) Withdraw() error {
+	cfgfile := filepath.Join(dir(cfg.Path), cfg.Name+".json")
+	if fd.FileExists(cfgfile) {
+		return os.Remove(cfgfile)
+	}
+	return nil
 }
 
 type HubGrp []Hub
@@ -902,6 +1058,15 @@ func (grp *HubGrp) Validate() error {
 func (grp *HubGrp) Dispense() error {
 	for _, g := range *grp {
 		if err := g.Dispense(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func (grp *HubGrp) Withdraw() error {
+	for _, g := range *grp {
+		if err := g.Withdraw(); err != nil {
 			return err
 		}
 	}

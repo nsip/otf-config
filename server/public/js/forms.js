@@ -1,12 +1,14 @@
 import { getEmitter } from "./js/mitt.js";
-import { get_allitem, get_cfg, post_cfg, put_cfg, delete_cfg, post_table } from "./js/fetch.js";
+import { get_allitem, get_cfg, post_cfg, put_cfg, delete_cfg, post_table, post_dispense, post_withdraw } from "./js/fetch.js";
 import { getForm } from "./form/all.js";
 import { getLabels } from "./js/label.js";
 import { get_init_input } from "./js/input.js";
 
-const emitter = getEmitter();
-
+const setAll = (obj, val) => Object.keys(obj).forEach(k => obj[k] = val);
+const setNull = obj => setAll(obj, null);
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+const emitter = getEmitter();
 
 function inflate_form(input, data) {
   // console.log(data);
@@ -20,8 +22,12 @@ function clr_all_forms(input, proj) {
   }
 }
 
-function clr_new_form(input, proj) {
-  input.value[0] = get_init_input(proj);
+function clr_new_form(input) {
+  for (let key in input.value[0]) {
+    if (input.value[0].hasOwnProperty(key)) {
+      input.value[0][key] = "";
+    }
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -134,7 +140,7 @@ export default {
     let title = Vue.ref("OTF project (select from left)");
 
     // init an empty one for the first new form
-    let input = Vue.ref([]);
+    const input = Vue.ref([]);
 
     // in one page, which form can be seen
     let vf = Vue.ref([true]);
@@ -154,7 +160,7 @@ export default {
 
       // clear input form if change to another project config
       if (e != selproj.value) {
-        clr_new_form(input, e);
+        clr_new_form(input);
       }
 
       // select project
@@ -166,15 +172,16 @@ export default {
       // fetch all selected config
       (async () => {
 
+        await sleep(40);
         refresh_all_data();
-        await sleep(20);
+        await sleep(40);
 
         // clear all existing input
         clr_all_forms(input, e);
 
         (async (data) => {
           for (let i = 0; i < data.length; i++) {
-            await sleep(10);
+            await sleep(20);
             const b = await get_cfg(e, data[i]);
             inflate_form(input, b);
           }
@@ -203,24 +210,27 @@ export default {
     // new button
     function btn_new(selproj) {
       console.log(`new ${selproj}`);
-      post_cfg(selproj, input.value[0]); // send input new form to back-end
-      clr_new_form(input, selproj); // clear new form
-      emitter.emit("selected", selproj); // refresh current form
+      post_cfg(selproj, input.value[0]);           // send input new form to back-end
+      emitter.emit("selected", selproj);           // refresh current form
+      post_dispense(selproj);                      // dispense new part as json to its position ***
+      clr_new_form(input);                         // clear new form after dispensing
     }
 
     // update button
     function btn_update(selproj, i) {
       console.log(`update ${selproj} on ${i} form`);
-      // console.log(input.value[i])
-      put_cfg(selproj, input.value[i]);
+      //  console.log(input.value[i])
+      put_cfg(selproj, input.value[i]);            // update input selected form to back-end
+      post_dispense(selproj);                      // dispense updated part as json to its position ***
     }
 
     // delete button
     function btn_delete(selproj, i) {
       console.log(`delete ${selproj} on ${i} form`);
       // console.log(input.value[i])
-      delete_cfg(selproj, input.value[i].name);
-      emitter.emit("selected", selproj); // refresh current form
+      delete_cfg(selproj, input.value[i].name);    // delete selected form to back-end  
+      emitter.emit("selected", selproj);           // refresh current form
+      post_withdraw(selproj);                      // withdraw selected json config in its position ***
     }
 
     // --------------------------------------------------------- //

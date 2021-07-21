@@ -20,7 +20,7 @@ func TestConfig(t *testing.T) {
 func TestGetConfig(t *testing.T) {
 	cfg := GetConfig("../config.toml")
 	spew.Dump(cfg)
-	cfg.Dispense()
+	cfg.Dispense("Hub")
 }
 
 func TestSave(t *testing.T) {

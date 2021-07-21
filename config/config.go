@@ -34,53 +34,27 @@ type Config struct {
 	Hubs           HubGrp
 }
 
+func (cfg *Config) getSubMap() map[string]IGrp {
+	return map[string]IGrp{
+		"NatsStreaming": &cfg.NatsStreamings,
+		"Nias3":         &cfg.Nias3s,
+		"Benthos":       &cfg.Benthoses,
+		"Reader":        &cfg.Readers,
+		"Align":         &cfg.Aligns,
+		"TxtClassifier": &cfg.TxtClassifiers,
+		"Level":         &cfg.Levels,
+		"Weight":        &cfg.Weights,
+		"Hub":           &cfg.Hubs,
+	}
+}
+
 func (cfg *Config) Validate() (err error) {
-
-	// natsstreaming
-	if err = cfg.NatsStreamings.Validate(); err != nil {
-		return
+	m := cfg.getSubMap()
+	for _, sub := range m {
+		if err = sub.Validate(); err != nil {
+			return
+		}
 	}
-
-	// nias3
-	if err = cfg.Nias3s.Validate(); err != nil {
-		return
-	}
-
-	// benthos
-	if err = cfg.Benthoses.Validate(); err != nil {
-		return
-	}
-
-	// reader
-	if err = cfg.Readers.Validate(); err != nil {
-		return
-	}
-
-	// align
-	if err = cfg.Aligns.Validate(); err != nil {
-		return
-	}
-
-	// text classifier
-	if err = cfg.TxtClassifiers.Validate(); err != nil {
-		return
-	}
-
-	// level
-	if err = cfg.Levels.Validate(); err != nil {
-		return
-	}
-
-	// weight
-	if err = cfg.Weights.Validate(); err != nil {
-		return
-	}
-
-	// hub
-	if err = cfg.Hubs.Validate(); err != nil {
-		return
-	}
-
 	return
 }
 
@@ -177,14 +151,12 @@ func (cfg *Config) SaveToml() (err error) {
 	return err
 }
 
-func (cfg *Config) Dispense() {
-	cfg.NatsStreamings.Dispense()
-	cfg.Nias3s.Dispense()
-	cfg.Benthoses.Dispense()
-	cfg.Readers.Dispense()
-	cfg.Aligns.Dispense()
-	cfg.TxtClassifiers.Dispense()
-	cfg.Levels.Dispense()
-	cfg.Weights.Dispense()
-	cfg.Hubs.Dispense()
+func (cfg *Config) Dispense(proj string) {
+	m := cfg.getSubMap()
+	m[proj].Dispense()
+}
+
+func (cfg *Config) Withdraw(proj string) {
+	m := cfg.getSubMap()
+	m[proj].Withdraw()
 }

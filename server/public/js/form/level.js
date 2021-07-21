@@ -1,7 +1,7 @@
 let form_level = `
 <div v-if="mPV.get('Level').value" v-for="(cn, i) in input">    
 
-    <button v-if="i==0" type="button" class="collapsible" @click="collapse(i)">New Config</button> 
+    <button v-if="i==0" type="button" class="collapsible" @click="collapse(i)">create a new config</button> 
     <button v-if="i>0" type="button" class="collapsible" @click="collapse(i)">{{input[i].name}}</button>   
 
     <form class="cfgform" v-if="vf[i]">

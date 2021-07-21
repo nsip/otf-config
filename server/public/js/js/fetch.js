@@ -22,10 +22,6 @@ function fetch_get(path) {
     return rest;
 }
 
-export function get_dispense() {
-    return fetch_get("dispense")
-}
-
 export function get_allgrp() {
     return fetch_get("allgrp")
 }
@@ -78,6 +74,14 @@ function fetch_post(path, data) {
         .catch(error => console.error('Error:', error));
 
     return rest;
+}
+
+export function post_dispense(project) {
+    return fetch_post(`dispense?project=${project}`)
+}
+
+export function post_withdraw(project) {
+    return fetch_post(`withdraw?project=${project}`)
 }
 
 export function post_cfg(project, data) {
