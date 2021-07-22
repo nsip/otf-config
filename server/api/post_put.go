@@ -3,6 +3,7 @@ package api
 import (
 	"net/http"
 	"sync"
+	"time"
 
 	"github.com/labstack/echo/v4"
 	"github.com/nsip/otf-config/config"
@@ -76,6 +77,10 @@ func Factory4NewUpdate(NewUpdate, proj string) func(c echo.Context) error {
 		}
 
 		info += " @ " + newcfg.GetName()
+
+		// Dispense
+		time.Sleep(20 * time.Millisecond) // give time for config.toml updating
+		cfg.Dispense(proj)
 
 	R:
 		return c.JSON(status, info)

@@ -3,6 +3,7 @@ package api
 import (
 	"net/http"
 	"sync"
+	"time"
 
 	"github.com/labstack/echo/v4"
 	"github.com/nsip/otf-config/config"
@@ -65,11 +66,21 @@ func Factory4GetDel(GetDel, proj string) func(c echo.Context) error {
 			return c.JSON(http.StatusOK, mGrp[proj].Get(name))
 		case "Delete", "DELETE", "delete", "Del", "del":
 			// log4del("In Delete")
+
+			// Withdraw 1)
+			mGrp[proj].Withdraw()
+			time.Sleep(20 * time.Millisecond) // give 20 Millisecond for withdrawing
+
 			mGrp[proj].Delete(name)
 			if err := cfg.SaveToml(); err != nil {
 				info := errors.Wrap(err, "SaveToml Error - Delete Failed"+name).Error()
 				return c.JSON(http.StatusInternalServerError, info)
 			}
+
+			// Withdraw 2)
+			time.Sleep(20 * time.Millisecond) // give 20 Millisecond for toml updating
+			cfg.Dispense(proj)
+
 			return c.JSON(http.StatusOK, name+" deleted")
 		default:
 			panic("Invalid 'GetDel' value")

@@ -35,8 +35,6 @@ func hostPage() func() {
 
 		e.GET("/allgrp", api.AllCfgGrp)
 		e.GET("/allitems", api.AllCfgItems)
-		e.POST("/dispense", api.Dispense)
-		e.POST("/withdraw", api.Withdraw)
 		e.POST("/composite", api.Composite)
 
 		grp := e.Group("/otf-config")

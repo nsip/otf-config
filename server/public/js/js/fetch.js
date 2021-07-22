@@ -76,14 +76,6 @@ function fetch_post(path, data) {
     return rest;
 }
 
-export function post_dispense(project) {
-    return fetch_post(`dispense?project=${project}`)
-}
-
-export function post_withdraw(project) {
-    return fetch_post(`withdraw?project=${project}`)
-}
-
 export function post_cfg(project, data) {
     switch (project) {
         case "NatsStreaming":

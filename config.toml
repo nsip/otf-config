@@ -9,24 +9,6 @@ PageFolder = "public"
   Args = "test args 11"
   Delay = "3,10"
 
-[[NatsStreamings]]
-  Name = "1"
-  Path = "~/Desktop/OTF/nats-streaming-server-v0.22.0-linux-amd64/nats-streaming-server"
-  Args = ""
-  Delay = ""
-
-[[NatsStreamings]]
-  Name = "2"
-  Path = "~/Desktop/OTF/nats-streaming-server-v0.22.0-linux-amd64/nats-streaming-server"
-  Args = ""
-  Delay = ""
-
-[[NatsStreamings]]
-  Name = "3"
-  Path = "~/Desktop/OTF/nats-streaming-server-v0.22.0-linux-amd64/nats-streaming-server"
-  Args = ""
-  Delay = ""
-
 [[Nias3s]]
   Name = "n3_config"
   Path = "~/Desktop/OTF/n3-web/server/n3w/n3w"

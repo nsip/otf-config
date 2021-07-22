@@ -2,7 +2,6 @@ package config
 
 import (
 	"fmt"
-	"os"
 	"path/filepath"
 	"reflect"
 	"strings"
@@ -89,7 +88,7 @@ func (cfg *NatsStreaming) Dispense() error {
 func (cfg *NatsStreaming) Withdraw() error {
 	cfgfile := filepath.Join(dir(cfg.Path), cfg.Name+".json")
 	if fd.FileExists(cfgfile) {
-		return os.Remove(cfgfile)
+		return fd.Remove(cfgfile)
 	}
 	return nil
 }
@@ -197,7 +196,7 @@ func (cfg *Nias3) Dispense() error {
 func (cfg *Nias3) Withdraw() error {
 	cfgfile := filepath.Join(dir(cfg.Path), cfg.Name+".json")
 	if fd.FileExists(cfgfile) {
-		return os.Remove(cfgfile)
+		return fd.Remove(cfgfile)
 	}
 	return nil
 }
@@ -305,7 +304,7 @@ func (cfg *Benthos) Dispense() error {
 func (cfg *Benthos) Withdraw() error {
 	cfgfile := filepath.Join(dir(cfg.Path), cfg.Name+".json")
 	if fd.FileExists(cfgfile) {
-		return os.Remove(cfgfile)
+		return fd.Remove(cfgfile)
 	}
 	return nil
 }
@@ -431,7 +430,7 @@ func (cfg *Reader) Dispense() error {
 func (cfg *Reader) Withdraw() error {
 	cfgfile := filepath.Join(dir(cfg.Path), cfg.Name+".json")
 	if fd.FileExists(cfgfile) {
-		return os.Remove(cfgfile)
+		return fd.Remove(cfgfile)
 	}
 	return nil
 }
@@ -548,7 +547,7 @@ func (cfg *Align) Dispense() error {
 func (cfg *Align) Withdraw() error {
 	cfgfile := filepath.Join(dir(cfg.Path), cfg.Name+".json")
 	if fd.FileExists(cfgfile) {
-		return os.Remove(cfgfile)
+		return fd.Remove(cfgfile)
 	}
 	return nil
 }
@@ -657,7 +656,7 @@ func (cfg *TxtClassifier) Dispense() error {
 func (cfg *TxtClassifier) Withdraw() error {
 	cfgfile := filepath.Join(dir(cfg.Path), cfg.Name+".json")
 	if fd.FileExists(cfgfile) {
-		return os.Remove(cfgfile)
+		return fd.Remove(cfgfile)
 	}
 	return nil
 }
@@ -772,7 +771,7 @@ func (cfg *Level) Dispense() error {
 func (cfg *Level) Withdraw() error {
 	cfgfile := filepath.Join(dir(cfg.Path), cfg.Name+".json")
 	if fd.FileExists(cfgfile) {
-		return os.Remove(cfgfile)
+		return fd.Remove(cfgfile)
 	}
 	return nil
 }
@@ -893,7 +892,7 @@ func (cfg *Weight) Dispense() error {
 func (cfg *Weight) Withdraw() error {
 	cfgfile := filepath.Join(dir(cfg.Path), cfg.Name+".json")
 	if fd.FileExists(cfgfile) {
-		return os.Remove(cfgfile)
+		return fd.Remove(cfgfile)
 	}
 	return nil
 }
@@ -1000,7 +999,7 @@ func (cfg *Hub) Dispense() error {
 func (cfg *Hub) Withdraw() error {
 	cfgfile := filepath.Join(dir(cfg.Path), cfg.Name+".json")
 	if fd.FileExists(cfgfile) {
-		return os.Remove(cfgfile)
+		return fd.Remove(cfgfile)
 	}
 	return nil
 }

@@ -1,5 +1,5 @@
 import { getEmitter } from "./js/mitt.js";
-import { get_allitem, get_cfg, post_cfg, put_cfg, delete_cfg, post_table, post_dispense, post_withdraw } from "./js/fetch.js";
+import { get_allitem, get_cfg, post_cfg, put_cfg, delete_cfg, post_table } from "./js/fetch.js";
 import { getForm } from "./form/all.js";
 import { getLabels } from "./js/label.js";
 import { get_init_input } from "./js/input.js";
@@ -17,9 +17,6 @@ function inflate_form(input, data) {
 
 function clr_all_forms(input, proj) {
   input.value = [get_init_input(proj)];
-  if (proj === "Hub") {
-    input.value = [];
-  }
 }
 
 function clr_new_form(input) {
@@ -212,7 +209,6 @@ export default {
       console.log(`new ${selproj}`);
       post_cfg(selproj, input.value[0]);           // send input new form to back-end
       emitter.emit("selected", selproj);           // refresh current form
-      post_dispense(selproj);                      // dispense new part as json to its position ***
       clr_new_form(input);                         // clear new form after dispensing
     }
 
@@ -221,7 +217,6 @@ export default {
       console.log(`update ${selproj} on ${i} form`);
       //  console.log(input.value[i])
       put_cfg(selproj, input.value[i]);            // update input selected form to back-end
-      post_dispense(selproj);                      // dispense updated part as json to its position ***
     }
 
     // delete button
@@ -230,7 +225,6 @@ export default {
       // console.log(input.value[i])
       delete_cfg(selproj, input.value[i].name);    // delete selected form to back-end  
       emitter.emit("selected", selproj);           // refresh current form
-      post_withdraw(selproj);                      // withdraw selected json config in its position ***
     }
 
     // --------------------------------------------------------- //
