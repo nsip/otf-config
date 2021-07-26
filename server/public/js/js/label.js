@@ -71,7 +71,7 @@ const Labels = {
     sel_nias3: ["Nias3", "Select Nias3 Config"],
     sel_benthos_align: ["Benthos for Align", "Select Benthos Config for Align Map Flow"],
     sel_benthos_level: ["Benthos for Level", "Select Benthos Config for Level Map Flow"],
-    sel_benthos: ["Benthos", "Select Benthos Config for Data Flow"],
+    sel_benthos: ["Benthos for Data", "Select Benthos Config for Data Flow"],
     sel_reader: ["Reader", "Select Reader Config"],
     sel_reader_align_map: ["Reader for Align Map", "Select Reader Config for Align Map"],
     sel_reader_level_map: ["Reader for Level Map", "Select Reader Config for Level Map"],

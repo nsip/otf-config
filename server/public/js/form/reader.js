@@ -19,7 +19,7 @@ let form_reader = `
         <input v-model.trim="input[i].delay" type="text" :placeholder="label.delay[1]"> 
 
         <label class="lb">{{label.svrname[0]}}:</label>
-        <input v-model.trim="input[i].svrname" type="text" :placeholder="label.svrname[1]">           
+        <input v-model.trim="input[i].svrname" type="text" :placeholder="label.svrname[1]">
 
         <label class="lb">{{label.svrid[0]}}:</label>
         <input v-model.trim="input[i].svrid" type="text" :placeholder="label.svrid[1]">  

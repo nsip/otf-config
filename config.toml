@@ -280,4 +280,4 @@ PageFolder = "public"
 [[Hubs]]
   Name = "hub_config"
   Path = "~/Desktop/OTF/otf-hub/hub/hub"
-  ComTbl = "88888"
+  ComTbl = "services"

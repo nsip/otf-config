@@ -1,7 +1,7 @@
 
 // Only ONE Hub Form
 let form_hub = `
-<div v-if="mPV.get('Hub').value">    
+<div v-if="mPV.get('Hub').value" v-for="(cn, i) in input">    
 
     <form class="cfgform">
 

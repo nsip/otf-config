@@ -5,6 +5,7 @@ const HOST_PORT = `http://127.0.0.1:1555/`
 function fetch_get(path) {
 
     let url = HOST_PORT + path;
+    // console.log(url);
 
     const rest = fetch(url)
         .then(resp => resp.json())

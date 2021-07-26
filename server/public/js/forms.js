@@ -10,8 +10,11 @@ const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 const emitter = getEmitter();
 
+function inflate_one_form(input, data) {
+  input.value[0] = data;
+}
+
 function inflate_form(input, data) {
-  // console.log(data);
   input.value.push(data);
 }
 
@@ -180,7 +183,11 @@ export default {
           for (let i = 0; i < data.length; i++) {
             await sleep(20);
             const b = await get_cfg(e, data[i]);
-            inflate_form(input, b);
+            if (e == "Hub") {
+              inflate_one_form(input, b); // Hub page does NOT provide NEW blank form
+            } else {
+              inflate_form(input, b); // Other pages provide NEW blank form and other existing forms
+            }
           }
         })(all_data[e]);
 
