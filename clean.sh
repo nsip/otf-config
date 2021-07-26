@@ -2,7 +2,7 @@
 
 set -e
 
-rm ./server/*.md
+rm -f ./server/*.md
 
 for f in $(find ./ -name '*.log' -or -name '*.doc'); do rm $f; done
 

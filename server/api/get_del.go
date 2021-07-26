@@ -39,7 +39,7 @@ func AllCfgItems(c echo.Context) error {
 	return c.JSON(http.StatusOK, m)
 }
 
-func Factory4GetDel(GetDel, proj string) func(c echo.Context) error {
+func Factory4GetDel(GetDel string) func(c echo.Context) error {
 
 	mtx := &sync.Mutex{}
 
@@ -59,21 +59,25 @@ func Factory4GetDel(GetDel, proj string) func(c echo.Context) error {
 			"Hub":           &cfg.Hubs,
 		}
 
-		name := c.QueryParam(cfgNameQuery)
+		proj := c.QueryParam(pNameProject)
+		cname := c.QueryParam(pNameCfgName)
 
 		switch GetDel {
 		case "Get", "GET", "get":
-			return c.JSON(http.StatusOK, mGrp[proj].Get(name))
+			// log4del("In GET")
+
+			return c.JSON(http.StatusOK, mGrp[proj].Get(cname))
+
 		case "Delete", "DELETE", "delete", "Del", "del":
-			// log4del("In Delete")
+			// log4del("In DELETE")
 
 			// Withdraw 1)
 			mGrp[proj].Withdraw()
 			time.Sleep(20 * time.Millisecond) // give 20 Millisecond for withdrawing
 
-			mGrp[proj].Delete(name)
+			mGrp[proj].Delete(cname)
 			if err := cfg.SaveToml(); err != nil {
-				info := errors.Wrap(err, "SaveToml Error - Delete Failed"+name).Error()
+				info := errors.Wrap(err, "SaveToml Error - Delete Failed"+cname).Error()
 				return c.JSON(http.StatusInternalServerError, info)
 			}
 
@@ -81,7 +85,7 @@ func Factory4GetDel(GetDel, proj string) func(c echo.Context) error {
 			time.Sleep(20 * time.Millisecond) // give 20 Millisecond for toml updating
 			cfg.Dispense(proj)
 
-			return c.JSON(http.StatusOK, name+" deleted")
+			return c.JSON(http.StatusOK, cname+" deleted")
 		default:
 			panic("Invalid 'GetDel' value")
 		}

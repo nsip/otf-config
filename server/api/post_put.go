@@ -10,7 +10,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-func Factory4NewUpdate(NewUpdate, proj string) func(c echo.Context) error {
+func Factory4NewUpdate(NewUpdate string) func(c echo.Context) error {
 
 	mtx := &sync.Mutex{}
 
@@ -43,6 +43,7 @@ func Factory4NewUpdate(NewUpdate, proj string) func(c echo.Context) error {
 		}
 
 		var (
+			proj    = c.QueryParam("project")
 			failmsg = "Add/Update Config Failed "
 			status  = http.StatusOK
 			info    = "OTF Config Added/Updated "

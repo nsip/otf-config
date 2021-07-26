@@ -14,7 +14,8 @@ var (
 	log4del  = lk.Fac4GrpIdxLogF("DELETE", 0, lk.INFO, true)
 
 	cfg          = config.GetConfig("../config.toml", "./config.toml")
-	cfgNameQuery = "cfgName"
+	pNameProject = "project" // refer to fetch.js 'get_cfg' ...
+	pNameCfgName = "cfgName" // refer to fetch.js 'get_cfg' ...
 )
 
 func WantedFieldsByType(a interface{}, prefix string) (fields []string) {
