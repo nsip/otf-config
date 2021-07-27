@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"net/http"
 	"path/filepath"
 	"strings"
@@ -63,6 +64,7 @@ func Composite(c echo.Context) error {
 	}
 
 	md.MDTable(cols, destTbl)
+	info = fmt.Sprintf("%s, services list table has been dispatched to %s", info, destTbl)
 
 R:
 	return c.JSON(status, info)

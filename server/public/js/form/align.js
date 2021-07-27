@@ -28,19 +28,19 @@ let form_align = `
       <input v-model.trim="input[i].port" type="text" :placeholder="label.port[1]"> 
 
       <label class="lb">{{label.niashost[0]}}:</label>
-      <input v-model.trim="input[i].niashost" type="text" :placeholder="label.niashost[1]"> 
+      <input v-model.trim="input[i].niasHost" type="text" :placeholder="label.niashost[1]"> 
 
       <label class="lb">{{label.niasport[0]}}:</label>
-      <input v-model.trim="input[i].niasport" type="text" :placeholder="label.niasport[1]"> 
+      <input v-model.trim="input[i].niasPort" type="text" :placeholder="label.niasport[1]"> 
 
       <label class="lb">{{label.niastoken[0]}}:</label>
-      <input v-model.trim="input[i].niastoken" type="text" :placeholder="label.niastoken[1]"> 
+      <input v-model.trim="input[i].niasToken" type="text" :placeholder="label.niastoken[1]"> 
 
       <label class="lb">{{label.tchost[0]}}:</label>
-      <input v-model.trim="input[i].tchost" type="text" :placeholder="label.tchost[1]"> 
+      <input v-model.trim="input[i].tcHost" type="text" :placeholder="label.tchost[1]"> 
 
       <label class="lb">{{label.tcport[0]}}:</label>
-      <input v-model.trim="input[i].tcport" type="text" :placeholder="label.tcport[1]"> 
+      <input v-model.trim="input[i].tcPort" type="text" :placeholder="label.tcport[1]"> 
 
       <!--
       <label class="lb">***:</label>

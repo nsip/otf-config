@@ -1,5 +1,6 @@
 
-// defined name from log http fetch result 
+// *** defined name from log http fetch result ***
+// fields for VUE v-bind
 
 const _NatsStreaming = {
     args: "",

@@ -91,21 +91,21 @@ function get_dropcontent(proj) {
 ////////////////////////////////////////////////////////////////////////////////////
 
 const TableCols = {
-  Indices: ["No", "M"],
-  Kinds: ["Service", "L"],
-  ExePathGrp: ["Executable Path", "L"],
-  ArgsGrp: ["Arguments", "L"],
-  DelayGrp: ["Delay", "M"],
-  EnabledGrp: ["Enabled", "M"],
+  Indices: ["NO", "M"],
+  Kinds: ["SERVICE", "L"],
+  ExePathGrp: ["EXECUTABLE PATH", "L"],
+  ArgsGrp: ["ARGUMENTS", "L"],
+  DelayGrp: ["DELAY", "M"],
+  EnabledGrp: ["ENABLED", "M"],
 }
 
 function clear_table() {
-  TableCols.Indices = ["No", "M"];
-  TableCols.Kinds = ["Service", "L"];
-  TableCols.ExePathGrp = ["Executable Path", "L"];
-  TableCols.ArgsGrp = ["Arguments", "L"];
-  TableCols.DelayGrp = ["Delay", "M"];
-  TableCols.EnabledGrp = ["Enabled", "M"];
+  TableCols.Indices = ["NO", "M"];
+  TableCols.Kinds = ["SERVICE", "L"];
+  TableCols.ExePathGrp = ["EXECUTABLE PATH", "L"];
+  TableCols.ArgsGrp = ["ARGUMENTS", "L"];
+  TableCols.DelayGrp = ["DELAY", "M"];
+  TableCols.EnabledGrp = ["ENABLED", "M"];
 }
 
 let idx = 0;
@@ -183,10 +183,12 @@ export default {
           for (let i = 0; i < data.length; i++) {
             await sleep(20);
             const b = await get_cfg(e, data[i]);
-            if (e == "Hub") {
-              inflate_one_form(input, b); // Hub page does NOT provide NEW blank form
-            } else {
-              inflate_form(input, b); // Other pages provide NEW blank form and other existing forms
+            switch (e) {
+              case "Hub":
+                inflate_one_form(input, b); // Hub page does NOT provide NEW blank form
+                break;
+              default:
+                inflate_form(input, b); // Other pages provide NEW blank form and other existing forms
             }
           }
         })(all_data[e]);
@@ -318,7 +320,8 @@ export default {
       (
         async () => {
           await sleep(200);
-          post_table(input.value[0].table, input.value[0].path, TableCols);
+          let rst = await post_table(input.value[0].table, input.value[0].path, TableCols);
+          alert(rst);
         }
       )();
     }

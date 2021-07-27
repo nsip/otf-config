@@ -28,13 +28,13 @@ let form_level = `
       <input v-model.trim="input[i].port" type="text" :placeholder="label.port[1]"> 
 
       <label class="lb">{{label.niashost[0]}}:</label>
-      <input v-model.trim="input[i].niashost" type="text" :placeholder="label.niashost[1]"> 
+      <input v-model.trim="input[i].niasHost" type="text" :placeholder="label.niashost[1]"> 
 
       <label class="lb">{{label.niasport[0]}}:</label>
-      <input v-model.trim="input[i].niasport" type="text" :placeholder="label.niasport[1]"> 
+      <input v-model.trim="input[i].niasPort" type="text" :placeholder="label.niasport[1]"> 
 
       <label class="lb">{{label.niastoken[0]}}:</label>
-      <input v-model.trim="input[i].niastoken" type="text" :placeholder="label.niastoken[1]"> 
+      <input v-model.trim="input[i].niasToken" type="text" :placeholder="label.niastoken[1]"> 
 
       <!--
       <label class="lb">***:</label>
