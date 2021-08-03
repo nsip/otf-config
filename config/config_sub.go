@@ -78,7 +78,7 @@ func (cfg *NatsStreaming) Validate() error {
 }
 
 func (cfg *NatsStreaming) Dispense() error {
-	cf, err := jt.MarshalRemove(cfg, nil, "name", "path")
+	cf, err := jt.MarshalRemove(cfg, map[string]string{"svrname": "name", "svrid": "id"}, "name", "path", "args", "delay")
 	record("%v", err)
 	cfgfile := filepath.Join(dir(cfg.Path), cfg.Name+".json")
 	io.MustWriteFile(cfgfile, cf)
@@ -186,7 +186,7 @@ func (cfg *Nias3) Validate() error {
 }
 
 func (cfg *Nias3) Dispense() error {
-	cf, err := jt.MarshalRemove(cfg, nil, "name", "path")
+	cf, err := jt.MarshalRemove(cfg, map[string]string{"svrname": "name", "svrid": "id"}, "name", "path", "args", "delay")
 	record("%v", err)
 	cfgfile := filepath.Join(dir(cfg.Path), cfg.Name+".json")
 	io.MustWriteFile(cfgfile, cf)
@@ -294,7 +294,7 @@ func (cfg *Benthos) Validate() error {
 }
 
 func (cfg *Benthos) Dispense() error {
-	cf, err := jt.MarshalRemove(cfg, nil, "name", "path")
+	cf, err := jt.MarshalRemove(cfg, map[string]string{"svrname": "name", "svrid": "id"}, "name", "path", "args", "delay")
 	record("%v", err)
 	cfgfile := filepath.Join(dir(cfg.Path), cfg.Name+".json")
 	io.MustWriteFile(cfgfile, cf)
@@ -420,7 +420,7 @@ func (cfg *Reader) Validate() error {
 }
 
 func (cfg *Reader) Dispense() error {
-	cf, err := jt.MarshalRemove(cfg, nil, "name", "path")
+	cf, err := jt.MarshalRemove(cfg, map[string]string{"svrname": "name", "svrid": "id"}, "name", "path", "args", "delay")
 	record("%v", err)
 	cfgfile := filepath.Join(dir(cfg.Path), cfg.Name+".json")
 	io.MustWriteFile(cfgfile, cf)
@@ -537,7 +537,7 @@ func (cfg *Align) Validate() error {
 }
 
 func (cfg *Align) Dispense() error {
-	cf, err := jt.MarshalRemove(cfg, nil, "name", "path")
+	cf, err := jt.MarshalRemove(cfg, map[string]string{"svrname": "name", "svrid": "id"}, "name", "path", "args", "delay")
 	record("%v", err)
 	cfgfile := filepath.Join(dir(cfg.Path), cfg.Name+".json")
 	io.MustWriteFile(cfgfile, cf)
@@ -646,7 +646,7 @@ func (cfg *TxtClassifier) Validate() error {
 }
 
 func (cfg *TxtClassifier) Dispense() error {
-	cf, err := jt.MarshalRemove(cfg, nil, "name", "path")
+	cf, err := jt.MarshalRemove(cfg, map[string]string{"svrname": "name", "svrid": "id"}, "name", "path", "args", "delay")
 	record("%v", err)
 	cfgfile := filepath.Join(dir(cfg.Path), cfg.Name+".json")
 	io.MustWriteFile(cfgfile, cf)
@@ -761,7 +761,7 @@ func (cfg *Level) Validate() error {
 }
 
 func (cfg *Level) Dispense() error {
-	cf, err := jt.MarshalRemove(cfg, nil, "name", "path")
+	cf, err := jt.MarshalRemove(cfg, map[string]string{"svrname": "name", "svrid": "id"}, "name", "path", "args", "delay")
 	record("%v", err)
 	cfgfile := filepath.Join(dir(cfg.Path), cfg.Name+".json")
 	io.MustWriteFile(cfgfile, cf)
@@ -882,7 +882,7 @@ func (cfg *Weight) Validate() error {
 }
 
 func (cfg *Weight) Dispense() error {
-	cf, err := jt.MarshalRemove(cfg, nil, "name", "path")
+	cf, err := jt.MarshalRemove(cfg, map[string]string{"svrname": "name", "svrid": "id"}, "name", "path", "args", "delay")
 	record("%v", err)
 	cfgfile := filepath.Join(dir(cfg.Path), cfg.Name+".json")
 	io.MustWriteFile(cfgfile, cf)
@@ -989,7 +989,7 @@ func (cfg *Hub) Validate() error {
 }
 
 func (cfg *Hub) Dispense() error {
-	cf, err := jt.MarshalRemove(cfg, nil, "name", "path")
+	cf, err := jt.MarshalRemove(cfg, map[string]string{"svrname": "name", "svrid": "id"}, "name", "path", "args", "delay")
 	record("%v", err)
 	cfgfile := filepath.Join(dir(cfg.Path), cfg.Name+".json")
 	io.MustWriteFile(cfgfile, cf)
