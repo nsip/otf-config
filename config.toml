@@ -256,25 +256,32 @@ PageFolder = "public"
   SvrID = ""
   Host = ""
   Port = 1327
-  NiasHost = ""
+  NiasHost = "127.0.0.1"
   NiasPort = 1323
   NiasToken = ""
 
 [[Weights]]
   Name = "weight_config"
   Path = "~/Desktop/OTF/otf-weighting/otf-weighting"
-  Args = ""
+  Args = "test"
   Delay = "2"
   FailWhenErr = false
+  InType = "json"
+  MustInArray = false
+  In = "./in"
+  InTemp = "./temp"
+  Out = "./out"
+  OutType = "json"
   [Weights.Service]
-    SvrName = ""
-    SvrID = ""
+    SvrName = "test"
+    SvrID = "testid"
     Port = 1329
     API = "/weight"
   [Weights.Weighting]
     StudentIDPath = "otf.id.studentID"
-    DomainPath = "meta.capability"
-    TimePath = "meta.readTimestampUTC"
+    ProgressionLevelPath = "otf.progressionLevel"
+    TimePath0 = "original.test.date_administered"
+    TimePath1 = "meta.readTimestampUTC"
     ScorePath = "otf.level.calculatedScore.scaledScore"
 
 [[Hubs]]

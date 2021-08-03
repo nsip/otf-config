@@ -2,10 +2,12 @@ package config
 
 import (
 	"fmt"
+	"os"
 	"path/filepath"
 	"reflect"
 	"strings"
 
+	"github.com/BurntSushi/toml"
 	fd "github.com/digisan/gotk/filedir"
 	"github.com/digisan/gotk/io"
 	jt "github.com/digisan/json-tool"
@@ -53,7 +55,7 @@ type IGrp interface {
 	Withdraw() error
 }
 
-///////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 type NatsStreaming struct {
 	Name  string `json:"name"`
@@ -161,7 +163,7 @@ func (grp *NatsStreamingGrp) Withdraw() error {
 	return nil
 }
 
-////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 type Nias3 struct {
 	Name  string `json:"name"`
@@ -269,7 +271,7 @@ func (grp *Nias3Grp) Withdraw() error {
 	return nil
 }
 
-////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 type Benthos struct {
 	Name  string `json:"name"`
@@ -377,7 +379,7 @@ func (grp *BenthosGrp) Withdraw() error {
 	return nil
 }
 
-////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 type Reader struct {
 	Name          string `json:"name"`
@@ -503,7 +505,7 @@ func (grp *ReaderGrp) Withdraw() error {
 	return nil
 }
 
-////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 type Align struct {
 	Name      string `json:"name"`
@@ -620,7 +622,7 @@ func (grp *AlignGrp) Withdraw() error {
 	return nil
 }
 
-////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 type TxtClassifier struct {
 	Name  string `json:"name"`
@@ -729,7 +731,7 @@ func (grp *TxtClassifierGrp) Withdraw() error {
 	return nil
 }
 
-////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 type Level struct {
 	Name      string `json:"name"`
@@ -844,7 +846,7 @@ func (grp *LevelGrp) Withdraw() error {
 	return nil
 }
 
-////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 type Weight struct {
 	Name        string `json:"name"`
@@ -852,18 +854,25 @@ type Weight struct {
 	Args        string `json:"args"`
 	Delay       string `json:"delay"`
 	FailWhenErr bool   `json:"failWhenErr"`
+	InType      string `json:"type"`
+	MustInArray bool   `json:"mustInArray"`
+	In          string `json:"in"`
+	InTemp      string `json:"inTemp"`
+	Out         string `json:"out"`
+	OutType     string `json:"outType"`
 	Service     struct {
 		SvrName string `json:"svrname"`
 		SvrID   string `json:"svrid"`
 		Port    int    `json:"port"`
 		API     string `json:"api"`
-	}
+	} `json:"service"`
 	Weighting struct {
-		StudentIDPath string `json:"studentIDPath"`
-		DomainPath    string `json:"domainPath"`
-		TimePath      string `json:"timePath"`
-		ScorePath     string `json:"scorePath"`
-	}
+		StudentIDPath        string `json:"studentIDPath"`
+		ProgressionLevelPath string `json:"progressionLevelPath"`
+		TimePath0            string `json:"timePath0"`
+		TimePath1            string `json:"timePath1"`
+		ScorePath            string `json:"scorePath"`
+	} `json:"weighting"`
 }
 
 func (cfg *Weight) GetName() string {
@@ -882,11 +891,26 @@ func (cfg *Weight) Validate() error {
 }
 
 func (cfg *Weight) Dispense() error {
-	cf, err := jt.MarshalRemove(cfg, map[string]string{"svrname": "name", "svrid": "id"}, "name", "path", "args", "delay")
+
+	// dispense TOML config
+	cfgfile := filepath.Join(dir(cfg.Path), cfg.Name+".toml")
+	cfgfile, _ = fd.AbsPath(cfgfile, false)
+	f, err := os.Create(cfgfile)
 	record("%v", err)
-	cfgfile := filepath.Join(dir(cfg.Path), cfg.Name+".json")
-	io.MustWriteFile(cfgfile, cf)
+	err = toml.NewEncoder(f).Encode(cfg)
+	record("%v", err)
+	err = f.Close()
+	record("%v", err)
 	return err
+
+	///
+
+	// dispense JSON config
+	// cf, err := jt.MarshalRemove(cfg, map[string]string{"svrname": "name", "svrid": "id"}, "name", "path", "args", "delay")
+	// record("%v", err)
+	// cfgfile := filepath.Join(dir(cfg.Path), cfg.Name+".json")
+	// io.MustWriteFile(cfgfile, cf)
+	// return err
 }
 
 func (cfg *Weight) Withdraw() error {
@@ -965,7 +989,7 @@ func (grp *WeightGrp) Withdraw() error {
 	return nil
 }
 
-////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 type Hub struct {
 	Name   string `json:"name"`

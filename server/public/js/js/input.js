@@ -87,11 +87,30 @@ const _Level = {
 }
 
 const _Weight = {
+    name: "",
+    path: "",
     args: "",
     delay: "",
     failWhenErr: false,
-    name: "",
-    path: "",
+    type: "",
+    mustInArray: false,
+    in: "",
+    inTemp: "",
+    out: "",
+    outType: "",
+    service: {
+        svrname: "",
+        svrid: "",
+        port: 0,
+        api: "",
+    },
+    weighting: {
+        studentIDPath: "",
+        progressionLevelPath: "",
+        timePath0: "",
+        timePath1: "",
+        scorePath: "",
+    }
 }
 
 const _Hub = {

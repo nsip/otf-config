@@ -61,6 +61,14 @@ const Labels = {
 
     // weight
     failwhenerr: ["Panic If Error", "if error happens, should service abort?"],
+    in: ["Folder for inbound data", "Audit folder for inbound data as files"],
+    out: ["Weighted result folder", "Folder for weighted result"],
+    api: ["weighting api", "weighting api url"],
+    wt_studentIDPath: ["Student ID Path", "Student ID Path for JSON in Request Body"],
+    wt_progressionLevelPath: ["Progression Level Path", "Progression Level Path for JSON in Request Body"],
+    wt_timePath0: ["Time Path 1", "Time Path 1 for JSON in Request Body"],
+    wt_timePath1: ["Time Path 2", "Time Path 2 for JSON in Request Body"],
+    wt_scorePath: ["Score Path", "Score Path for JSON in Request Body"],
 
     // hub
     tablename: ["Composite Table Name", "composite table name (.md file)"],

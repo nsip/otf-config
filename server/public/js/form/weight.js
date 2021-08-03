@@ -18,14 +18,38 @@ let form_weight = `
       <label class="lb">{{label.delay[0]}}:</label>
       <input v-model.trim="input[i].delay" type="text" :placeholder="label.delay[1]"> 
       
+      <label class="lb">{{label.in[0]}}:</label>
+      <input v-model.trim="input[i].in" type="text" :placeholder="label.in[1]"> 
+
+      <label class="lb">{{label.out[0]}}:</label>
+      <input v-model.trim="input[i].out" type="text" :placeholder="label.out[1]"> 
+
       <label class="lb">{{label.svrname[0]}}:</label>
-      <input v-model.trim="input[i].svrname" type="text" :placeholder="label.svrname[1]">
+      <input v-model.trim="input[i].service.svrname" type="text" :placeholder="label.svrname[1]">
 
       <label class="lb">{{label.svrid[0]}}:</label>
-      <input v-model.trim="input[i].svrid" type="text" :placeholder="label.svrid[1]"> 
+      <input v-model.trim="input[i].service.svrid" type="text" :placeholder="label.svrid[1]"> 
             
       <label class="lb">{{label.port[0]}}:</label>
-      <input v-model.trim="input[i].port" type="text" :placeholder="label.port[1]"> 
+      <input v-model.trim="input[i].service.port" type="text" :placeholder="label.port[1]"> 
+
+      <label class="lb">{{label.api[0]}}:</label>
+      <input v-model.trim="input[i].service.api" type="text" :placeholder="label.api[1]"> 
+
+      <label class="lb">{{label.wt_studentIDPath[0]}}:</label>
+      <input v-model.trim="input[i].weighting.studentIDPath" type="text" :placeholder="label.wt_studentIDPath[1]"> 
+
+      <label class="lb">{{label.wt_progressionLevelPath[0]}}:</label>
+      <input v-model.trim="input[i].weighting.progressionLevelPath" type="text" :placeholder="label.wt_progressionLevelPath[1]"> 
+
+      <label class="lb">{{label.wt_timePath0[0]}}:</label>
+      <input v-model.trim="input[i].weighting.timePath0" type="text" :placeholder="label.wt_timePath0[1]"> 
+
+      <label class="lb">{{label.wt_timePath1[0]}}:</label>
+      <input v-model.trim="input[i].weighting.timePath1" type="text" :placeholder="label.wt_timePath1[1]"> 
+
+      <label class="lb">{{label.wt_scorePath[0]}}:</label>
+      <input v-model.trim="input[i].weighting.scorePath" type="text" :placeholder="label.wt_scorePath[1]"> 
 
       <!--
       <label class="lb">***:</label>
